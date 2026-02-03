@@ -1,0 +1,252 @@
+.create-portal-container {
+    max-width: 1000px;
+    margin: 40px auto;
+    padding: 0 20px;
+}
+
+.portal-header {
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
+.portal-header h2 {
+    font-size: 2rem;
+    color: var(--secondary);
+    font-family: var(--font-heading);
+    margin-bottom: 0.5rem;
+}
+
+.portal-header p {
+    color: #686b78;
+}
+
+.portal-content {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 40px;
+}
+
+.portal-form {
+    background: white;
+    padding: 30px;
+    border-radius: 12px;
+    border: 1px solid #e8e8e8;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.03);
+}
+
+.form-section {
+    margin-bottom: 2rem;
+}
+
+.form-section h3 {
+    font-size: 1.1rem;
+    color: #3d4152;
+    margin-bottom: 1.2rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.input-group {
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    font-size: 0.9rem;
+    color: #555;
+}
+
+.input-group input,
+.input-group textarea {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid #ddd;
+    border-radius: 6px;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: border-color 0.2s;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+    border-color: var(--primary);
+    outline: none;
+}
+
+/* Image Upload */
+.image-upload-zone {
+    width: 100%;
+}
+
+.image-upload-zone input[type="file"] {
+    display: none;
+}
+
+.upload-label {
+    display: block;
+    width: 100%;
+    border: 2px dashed #ddd;
+    border-radius: 8px;
+    padding: 20px;
+    text-align: center;
+    cursor: pointer;
+    background: #fdfdfd;
+    transition: background 0.2s;
+}
+
+.upload-label:hover {
+    background: #f8f8f8;
+    border-color: #ccc;
+}
+
+.upload-placeholder {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    color: #888;
+}
+
+.upload-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+}
+
+.img-preview-full {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 6px;
+}
+
+/* Actions */
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+    margin-top: 30px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.btn-cancel {
+    background: white;
+    border: 1px solid #ddd;
+    padding: 10px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    color: #555;
+    cursor: pointer;
+}
+
+.btn-submit {
+    background: var(--primary);
+    color: white;
+    border: none;
+    padding: 10px 30px;
+    border-radius: 6px;
+    font-weight: 600;
+    cursor: pointer;
+    box-shadow: 0 4px 10px rgba(252, 128, 25, 0.3);
+}
+
+.btn-submit:disabled {
+    opacity: 0.7;
+    cursor: not-allowed;
+}
+
+/* Preview Section (Side) */
+.preview-section {
+    position: sticky;
+    top: 100px;
+    height: fit-content;
+}
+
+.preview-section h3 {
+    margin-bottom: 1rem;
+    color: #888;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.preview-card {
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+    border: 1px solid #e8e8e8;
+}
+
+.preview-image-box {
+    width: 100%;
+    height: 180px;
+    background: #f0f0f0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #ccc;
+}
+
+.preview-image-box img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.preview-details {
+    padding: 15px;
+}
+
+.preview-details h4 {
+    margin: 0 0 5px 0;
+    font-size: 1.1rem;
+    color: #333;
+}
+
+.preview-details p {
+    font-size: 0.9rem;
+    color: #777;
+    margin-bottom: 10px;
+}
+
+.preview-badge {
+    display: inline-block;
+    background: #e8f5e9;
+    color: #2e7d32;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    font-weight: 600;
+}
+
+.status-message {
+    margin-top: 1rem;
+    padding: 10px;
+    border-radius: 6px;
+    text-align: center;
+    width: 100%;
+}
+
+.status-message.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+.status-message.error {
+    background: #ffebee;
+    color: #c62828;
+}
+
+/* Mobile */
+@media (max-width: 768px) {
+    .portal-content {
+        grid-template-columns: 1fr;
+    }
+
+    .preview-section {
+        display: none;
+        /* Hide preview on mobile */
+    }
+}

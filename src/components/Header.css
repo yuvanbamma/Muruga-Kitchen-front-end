@@ -1,0 +1,168 @@
+.site-header {
+    height: 80px;
+    background-color: #fff;
+    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
+    /* Subtle shadow like Zomato */
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    display: flex;
+    align-items: center;
+    width: 100%;
+}
+
+.header-container {
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    padding: 0 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    /* Allow wrapping on small screens */
+    gap: 10px;
+}
+
+/* Logo */
+.logo-section {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    flex-shrink: 0;
+}
+
+.logo-icon {
+    font-size: 2rem;
+}
+
+.logo-text {
+    font-size: 1.5rem;
+    /* Reduced from 1.8rem for longer name */
+    font-weight: 800;
+    font-family: var(--font-heading);
+    color: var(--secondary);
+    letter-spacing: -0.5px;
+    white-space: nowrap;
+    /* Prevent wrapping */
+}
+
+/* Search Bar (Zomato Style) */
+.search-bar-container {
+    display: flex;
+    align-items: center;
+    background-color: #fff;
+    border: 1px solid #e8e8e8;
+    border-radius: 8px;
+    /* Rounded pill */
+    padding: 0 10px;
+    height: 50px;
+    width: 50%;
+    /* Occupy prominent space */
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+    transition: all 0.2s;
+}
+
+.search-bar-container:focus-within {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    border-color: #ddd;
+}
+
+.location-pill {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    padding: 0 10px;
+    color: #686b78;
+    cursor: pointer;
+    white-space: nowrap;
+}
+
+.location-icon {
+    color: var(--primary);
+    font-size: 1.2rem;
+}
+
+.location-text {
+    font-weight: 500;
+}
+
+.search-divider {
+    width: 1px;
+    height: 20px;
+    background-color: #cfcfcf;
+    margin: 0 10px;
+}
+
+.search-input-box {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-grow: 1;
+}
+
+.search-icon {
+    color: #828282;
+    font-size: 1.1rem;
+}
+
+.search-input {
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 0.95rem;
+    font-family: var(--font-body);
+}
+
+/* Nav */
+.header-nav {
+    flex-shrink: 0;
+}
+
+.nav-list {
+    display: flex;
+    list-style: none;
+    gap: 2rem;
+    align-items: center;
+}
+
+.nav-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    color: #3d4152;
+    /* Swiggy text color */
+    font-weight: 500;
+    transition: color 0.2s;
+    font-size: 1rem;
+}
+
+.nav-item:hover,
+.nav-item.active {
+    color: var(--primary);
+}
+
+.nav-icon {
+    font-size: 1.2rem;
+    margin-bottom: 2px;
+    display: none;
+    /* Hide icons on desktop usually, show on mobile? keep minimal */
+}
+
+/* Tablet/Mobile Responsive */
+@media (max-width: 900px) {
+    .search-bar-container {
+        display: none;
+        /* Hide search on smaller screens for now */
+    }
+
+    .nav-text {
+        display: none;
+    }
+
+    .nav-icon {
+        display: block;
+    }
+}
