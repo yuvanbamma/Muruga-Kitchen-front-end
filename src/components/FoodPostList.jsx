@@ -16,7 +16,7 @@ const FoodPostList = ({ onPostClick }) => {
             setLoading(true);
             try {
                 // Determine if we need to search or just list (removed dummy search logic for now)
-                const response = await fetch(`/api/food-posts?page=${page}&size=${pageSize}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts?page=${page}&size=${pageSize}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch posts');
                 }

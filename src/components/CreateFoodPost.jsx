@@ -36,7 +36,7 @@ const CreateFoodPost = () => {
         }
 
         try {
-            const response = await fetch('/api/food-posts', {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts`, {
                 method: 'POST',
                 body: formData,
             });

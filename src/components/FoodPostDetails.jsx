@@ -12,7 +12,7 @@ const FoodPostDetails = ({ postId, onBack }) => {
         const fetchPostDetails = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`/api/food-posts/${postId}`);
+                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts/${postId}`);
                 if (!response.ok) {
                     throw new Error('Failed to fetch post details');
                 }
