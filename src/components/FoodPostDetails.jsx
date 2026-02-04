@@ -61,7 +61,7 @@ const FoodPostDetails = ({ postId, onBack }) => {
                 <div className="details-content">
                     <div className="hero-banner">
                         <img
-                            src={post.imageUrl || 'https://placehold.co/800x400?text=Food+Delight'}
+                            src={post.imageUrl ? (post.imageUrl.startsWith('http') ? post.imageUrl : `${import.meta.env.VITE_API_URL}${post.imageUrl}`) : 'https://placehold.co/800x400?text=Food+Delight'}
                             alt={post.name}
                             className="hero-img"
                             onError={(e) => {

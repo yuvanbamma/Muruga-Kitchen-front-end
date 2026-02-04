@@ -89,7 +89,7 @@ const FoodPostList = ({ onPostClick }) => {
                                     <div className="card-media">
                                         {post.imageUrl ? (
                                             <img
-                                                src={post.imageUrl}
+                                                src={post.imageUrl.startsWith('http') ? post.imageUrl : `${import.meta.env.VITE_API_URL}${post.imageUrl}`}
                                                 alt={post.name}
                                                 className="card-img"
                                                 onError={(e) => {
