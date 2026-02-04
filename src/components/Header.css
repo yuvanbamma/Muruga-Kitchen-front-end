@@ -1,8 +1,10 @@
+/* Header.css - Premium Refinement */
+
 .site-header {
     height: 80px;
-    background-color: #fff;
-    box-shadow: 0 4px 12px 0 rgba(0, 0, 0, 0.05);
-    /* Subtle shadow like Zomato */
+    background: var(--bg-glass);
+    backdrop-filter: blur(12px);
+    border-bottom: 1px solid var(--border-light);
     position: sticky;
     top: 0;
     z-index: 1000;
@@ -15,154 +17,177 @@
     max-width: 1200px;
     margin: 0 auto;
     width: 100%;
-    padding: 0 20px;
+    padding: 0 24px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    flex-wrap: wrap;
-    /* Allow wrapping on small screens */
-    gap: 10px;
 }
 
-/* Logo */
 .logo-section {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 12px;
     cursor: pointer;
-    flex-shrink: 0;
 }
 
 .logo-icon {
-    font-size: 2rem;
+    font-size: 1.8rem;
 }
 
 .logo-text {
     font-size: 1.5rem;
-    /* Reduced from 1.8rem for longer name */
     font-weight: 800;
-    font-family: var(--font-heading);
     color: var(--secondary);
-    letter-spacing: -0.5px;
-    white-space: nowrap;
-    /* Prevent wrapping */
+    letter-spacing: -1px;
 }
 
-/* Search Bar (Zomato Style) */
+/* Slimmer Search */
 .search-bar-container {
     display: flex;
     align-items: center;
-    background-color: #fff;
-    border: 1px solid #e8e8e8;
-    border-radius: 8px;
-    /* Rounded pill */
-    padding: 0 10px;
-    height: 50px;
-    width: 50%;
-    /* Occupy prominent space */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
-    transition: all 0.2s;
+    background: #F1F5F9;
+    border: 1px solid transparent;
+    border-radius: 50px;
+    height: 44px;
+    width: 40%;
+    padding: 0 16px;
+    transition: all 0.3s;
 }
 
 .search-bar-container:focus-within {
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-    border-color: #ddd;
+    background: white;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 4px rgba(66, 125, 157, 0.1);
 }
 
 .location-pill {
     display: flex;
     align-items: center;
-    gap: 5px;
-    padding: 0 10px;
-    color: #686b78;
-    cursor: pointer;
+    gap: 8px;
+    color: var(--text-muted);
+    font-size: 0.9rem;
+    font-weight: 600;
     white-space: nowrap;
-}
-
-.location-icon {
-    color: var(--primary);
-    font-size: 1.2rem;
-}
-
-.location-text {
-    font-weight: 500;
 }
 
 .search-divider {
     width: 1px;
-    height: 20px;
-    background-color: #cfcfcf;
-    margin: 0 10px;
+    height: 16px;
+    background: #CBD5E1;
+    margin: 0 16px;
 }
 
 .search-input-box {
     display: flex;
     align-items: center;
     gap: 10px;
-    flex-grow: 1;
-}
-
-.search-icon {
-    color: #828282;
-    font-size: 1.1rem;
+    flex: 1;
 }
 
 .search-input {
+    background: transparent;
     border: none;
     outline: none;
     width: 100%;
-    font-size: 0.95rem;
-    font-family: var(--font-body);
+    font-size: 0.9rem;
+    color: var(--text-main);
 }
 
-/* Nav */
-.header-nav {
-    flex-shrink: 0;
+/* Explore Menu */
+.explore-trigger {
+    position: relative;
 }
 
-.nav-list {
+.explore-pill {
     display: flex;
-    list-style: none;
-    gap: 2rem;
     align-items: center;
+    gap: 10px;
+    padding: 8px 20px;
+    background: var(--secondary);
+    color: white;
+    border-radius: 50px;
+    font-weight: 600;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
 }
 
-.nav-item {
+.explore-pill:hover {
+    transform: scale(1.05);
+    background: var(--primary-dark);
+}
+
+.compact-dropdown {
+    position: absolute;
+    top: calc(100% + 12px);
+    right: 0;
+    width: 200px;
+    background: white;
+    border-radius: 16px;
+    padding: 8px;
+    box-shadow: var(--shadow-hover);
+    border: 1px solid var(--border-light);
+    z-index: 1001;
+}
+
+.compact-item {
     display: flex;
-    flex-direction: column;
     align-items: center;
-    cursor: pointer;
-    color: #3d4152;
-    /* Swiggy text color */
+    gap: 12px;
+    padding: 12px 16px;
+    border-radius: 10px;
+    color: var(--text-main);
     font-weight: 500;
-    transition: color 0.2s;
-    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.2s;
 }
 
-.nav-item:hover,
-.nav-item.active {
+.compact-item:hover {
+    background: #F8FAFC;
     color: var(--primary);
 }
 
-.nav-icon {
-    font-size: 1.2rem;
-    margin-bottom: 2px;
-    display: none;
-    /* Hide icons on desktop usually, show on mobile? keep minimal */
+.compact-item.active {
+    background: rgba(66, 125, 157, 0.08);
+    color: var(--primary);
 }
 
-/* Tablet/Mobile Responsive */
-@media (max-width: 900px) {
+.compact-divider {
+    height: 1px;
+    background: var(--border-light);
+    margin: 8px 0;
+}
+
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: 1000;
+}
+
+/* Animations */
+.slide-up {
+    animation: slideUpFade 0.3s ease-out;
+}
+
+@keyframes slideUpFade {
+    from {
+        transform: translateY(10px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+@media (max-width: 768px) {
     .search-bar-container {
         display: none;
-        /* Hide search on smaller screens for now */
     }
 
-    .nav-text {
-        display: none;
-    }
-
-    .nav-icon {
-        display: block;
+    .logo-text {
+        font-size: 1.2rem;
     }
 }

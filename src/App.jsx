@@ -25,7 +25,7 @@ function App() {
       <Header currentView={view} setView={setView} />
 
       <main className="content">
-        {view === 'dashboard' && <Dashboard />}
+        {view === 'dashboard' && <Dashboard setView={setView} />}
         {view === 'list' && <FoodPostList onPostClick={handlePostClick} />}
         {view === 'create' && <CreateFoodPost />}
         {view === 'details' && (

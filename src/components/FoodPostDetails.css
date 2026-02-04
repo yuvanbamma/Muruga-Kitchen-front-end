@@ -172,6 +172,70 @@
     font-size: 14px;
 }
 
+/* Management Actions Detail */
+.management-actions-detail {
+    margin-top: 24px;
+    padding-top: 20px;
+    border-top: 1px solid #f0f0f0;
+}
+
+.mgmt-label {
+    font-size: 12px;
+    font-weight: 600;
+    color: #93959f;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+}
+
+.mgmt-buttons {
+    display: flex;
+    gap: 12px;
+}
+
+.mgmt-btn {
+    flex: 1;
+    padding: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.details-page.loading {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    font-weight: 500;
+    color: var(--primary);
+}
+
+.mgmt-btn.edit {
+    border: 1px solid var(--primary);
+    color: var(--primary);
+    background: white;
+}
+
+.mgmt-btn.edit:hover {
+    background: var(--primary);
+    color: white;
+    box-shadow: 0 4px 12px rgba(66, 125, 157, 0.2);
+}
+
+.mgmt-btn.delete {
+    border: 1px solid #E53E3E;
+    color: #E53E3E;
+    background: white;
+}
+
+.mgmt-btn.delete:hover {
+    background: #E53E3E;
+    color: white;
+    box-shadow: 0 4px 12px rgba(229, 62, 62, 0.2);
+}
+
 /* Responsive */
 @media (min-width: 768px) {
     .details-main-grid {

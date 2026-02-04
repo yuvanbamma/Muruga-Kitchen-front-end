@@ -80,7 +80,7 @@ const CreateFoodPost = () => {
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="e.g. Hyderabadi Chicken Biryani"
                                 required
-                                className="swiggy-input"
+                                className="premium-input"
                             />
                         </div>
 
@@ -92,7 +92,7 @@ const CreateFoodPost = () => {
                                 placeholder="Describe ingredients, taste profile, etc..."
                                 rows="4"
                                 required
-                                className="swiggy-input"
+                                className="premium-input"
                             />
                         </div>
 
@@ -104,7 +104,7 @@ const CreateFoodPost = () => {
                                 onChange={(e) => setQuantity(e.target.value)}
                                 placeholder="e.g. 50"
                                 required
-                                className="swiggy-input"
+                                className="premium-input"
                             />
                         </div>
                     </div>

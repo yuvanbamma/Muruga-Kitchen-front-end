@@ -1,39 +1,53 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap');
+/* Premium Design System - Muruga Kitchen */
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700&display=swap');
 
 :root {
-  --primary: #fc8019;
-  /* Swiggy Orange */
-  --secondary: #3d4152;
-  /* Dark Text */
-  --light-text: #686b78;
-  /* Muted Text */
-  --bg-color: #ffffff;
-  /* White Background */
-  --bg-gray: #f2f5f7;
-  /* Light Gray Background (for sections) */
-  --accent: #60b246;
-  /* Rating Green */
-  --border-color: #e9e9eb;
-  /* Light Border */
-  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.04);
-  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
-  /* Card Hover */
-  --font-heading: 'Poppins', sans-serif;
-  --font-body: 'Inter', sans-serif;
+  /* Core Palette */
+  --primary: #427D9D;
+  /* Vibrant Teal */
+  --primary-dark: #164863;
+  --secondary: #2D3250;
+  /* Deep Indigo */
+  --accent: #9ED2BE;
+  /* Soft Mint */
+
+  /* Neutral Colors */
+  --text-main: #1A202C;
+  --text-muted: #718096;
+  --bg-main: #FDFDFD;
+  --bg-glass: rgba(255, 255, 255, 0.85);
+  --border-light: #E2E8F0;
+
+  /* Effects */
+  --shadow-premium: 0 20px 25px -5px rgba(0, 0, 0, 0.05), 0 10px 10px -5px rgba(0, 0, 0, 0.02);
+  --shadow-hover: 0 25px 50px -12px rgba(0, 0, 0, 0.12);
+  --radius-pro: 12px;
+
+  /* Typography */
+  --font-heading: 'Outfit', sans-serif;
+  --font-body: 'Plus Jakarta Sans', sans-serif;
 }
 
 * {
-  box-sizing: border-box;
   margin: 0;
   padding: 0;
-  -webkit-font-smoothing: antialiased;
+  box-sizing: border-box;
 }
 
 body {
   font-family: var(--font-body);
-  color: var(--secondary);
-  background-color: var(--bg-color);
-  line-height: 1.5;
+  color: var(--text-main);
+  background-color: var(--bg-main);
+  line-height: 1.6;
+}
+
+h1,
+h2,
+h3,
+h4,
+.brand-font {
+  font-family: var(--font-heading);
+  letter-spacing: -0.02em;
 }
 
 a {
@@ -42,15 +56,15 @@ a {
 }
 
 button {
-  font-family: inherit;
   cursor: pointer;
   border: none;
-  outline: none;
+  font-family: var(--font-body);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-/* Common Utilities */
-.container {
-  max-width: 1200px;
+/* Global Navigation Utility (if needed later) */
+.container-pro {
+  max-width: 1280px;
   margin: 0 auto;
-  padding: 0 16px;
+  padding: 0 24px;
 }

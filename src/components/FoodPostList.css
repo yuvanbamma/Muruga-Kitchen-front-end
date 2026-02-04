@@ -34,26 +34,29 @@
 .filter-chip {
     padding: 8px 16px;
     border-radius: 20px;
-    border: 1px solid #e2e2e7;
+    border: 1px solid var(--border-light);
     background: white;
-    color: var(--secondary);
+    color: var(--text-muted);
     font-size: 14px;
     font-weight: 500;
     white-space: nowrap;
-    transition: all 0.2s;
+    transition: all 0.3s;
     cursor: pointer;
 }
 
 .filter-chip:hover {
-    background-color: #f0f0f5;
-    border-color: #d4d5d9;
+    background-color: #F8FAFC;
+    border-color: var(--primary);
+    color: var(--primary);
 }
 
 .filter-chip.active {
-    background-color: var(--secondary);
+    background-color: var(--primary);
     color: white;
-    border-color: var(--secondary);
+    border-color: var(--primary);
+    box-shadow: 0 4px 12px rgba(66, 125, 157, 0.2);
 }
+
 
 /* List Content */
 .list-content-area {
@@ -80,17 +83,18 @@
 /* Card Design */
 .food-card-pro {
     background: white;
-    border-radius: 16px;
+    border-radius: var(--radius-pro);
     overflow: hidden;
-    transition: transform 0.2s ease-in-out, box-shadow 0.2s;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
     cursor: pointer;
-    border: 1px solid transparent;
+    border: 1px solid var(--border-light);
+    box-shadow: var(--shadow-premium);
 }
 
 .food-card-pro:hover {
-    transform: scale(0.98);
-    box-shadow: var(--shadow-md);
-    border-color: var(--border-color);
+    transform: translateY(-8px);
+    box-shadow: var(--shadow-hover);
+    border-color: var(--primary);
 }
 
 /* Card Image */
@@ -99,7 +103,56 @@
     width: 100%;
     padding-top: 66.66%;
     /* 3:2 Aspect Ratio */
-    background-color: #f0f0f0;
+    background-color: #f7fafc;
+    overflow: hidden;
+}
+
+.card-media:hover .card-management-tools {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.card-management-tools {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    display: flex;
+    gap: 10px;
+    opacity: 0;
+    transform: translateY(-10px);
+    transition: all 0.3s ease;
+    z-index: 20;
+}
+
+.tool-btn {
+    width: 40px;
+    height: 40px;
+    border-radius: 12px;
+    border: none;
+    background: var(--bg-glass);
+    backdrop-filter: blur(8px);
+    color: var(--secondary);
+    font-size: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s;
+}
+
+.tool-btn:hover {
+    transform: scale(1.1) rotate(5deg);
+}
+
+.tool-btn.edit:hover {
+    background: var(--primary);
+    color: white;
+}
+
+.tool-btn.delete:hover {
+    background: #E53E3E;
+    color: white;
 }
 
 .card-img {

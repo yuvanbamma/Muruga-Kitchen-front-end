@@ -1,5 +1,6 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import './FoodPostList.css';
+import EditFoodModal from './EditFoodModal';
 
 const FoodPostList = ({ onPostClick }) => {
     const [posts, setPosts] = useState([]);
@@ -9,32 +10,66 @@ const FoodPostList = ({ onPostClick }) => {
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
 
+    // Management State
+    const [editingPost, setEditingPost] = useState(null);
+
     const pageSize = 12; // Grid view needs more items
 
-    useEffect(() => {
-        const fetchPosts = async () => {
-            setLoading(true);
-            try {
-                // Determine if we need to search or just list (removed dummy search logic for now)
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts?page=${page}&size=${pageSize}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch posts');
-                }
-                const data = await response.json();
-                setPosts(data.content);
-                setTotalPages(data.totalPages);
-                setLast(data.last);
-                setError(null);
-            } catch (err) {
-                setError(err.message);
-                console.error("Error fetching posts:", err);
-            } finally {
-                setLoading(false);
+    const fetchPosts = useCallback(async () => {
+        setLoading(true);
+        try {
+            const apiUrl = `${import.meta.env.VITE_API_URL}/api/food-posts?page=${page}&size=${pageSize}`;
+            const response = await fetch(apiUrl);
+            if (!response.ok) {
+                throw new Error(`Failed to fetch posts: ${response.status}`);
             }
-        };
-
-        fetchPosts();
+            const data = await response.json();
+            setPosts(data.content);
+            setTotalPages(data.totalPages);
+            setLast(data.last);
+            setError(null);
+        } catch (err) {
+            setError(err.message);
+            console.error("Fetch Error:", err);
+        } finally {
+            setLoading(false);
+        }
     }, [page]);
+
+    useEffect(() => {
+        fetchPosts();
+    }, [fetchPosts]);
+
+    const handleDelete = async (e, id) => {
+        e.stopPropagation();
+        if (!window.confirm("Are you sure you want to delete this delicious dish?")) return;
+
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts?id=${id}`, {
+                method: 'DELETE',
+            });
+
+            if (response.ok) {
+                // Also trigger re-fetch for safety, or keep local filter
+                fetchPosts();
+            } else {
+                alert("Failed to delete. Please try again.");
+            }
+        } catch (err) {
+            console.error("Delete error:", err);
+            alert("Network error while deleting.");
+        }
+    };
+
+    const handleEditClick = (e, post) => {
+        e.stopPropagation();
+        setEditingPost(post);
+    };
+
+    const handleUpdateComplete = (updatedPost) => {
+        // Automatically re-fetch to ensure sync with backend
+        fetchPosts();
+    };
 
     // Skeleton Loader Component
     const SkeletonCard = () => (
@@ -76,14 +111,7 @@ const FoodPostList = ({ onPostClick }) => {
                                 <div
                                     key={postId || Math.random()}
                                     className="food-card-pro"
-                                    onClick={() => {
-                                        console.log("Clicked post:", post);
-                                        if (postId) {
-                                            onPostClick && onPostClick(postId);
-                                        } else {
-                                            console.warn("Post ID missing, cannot open details:", post);
-                                        }
-                                    }}
+                                    onClick={() => postId && onPostClick(postId)}
                                 >
                                     <div className="card-media">
                                         {post.imageUrl ? (
@@ -93,16 +121,19 @@ const FoodPostList = ({ onPostClick }) => {
                                                 className="card-img"
                                                 onError={(e) => {
                                                     e.target.onerror = null;
-                                                    e.target.style.display = 'none'; // Hide broken image
-                                                    e.target.nextSibling.style.display = 'block'; // Show placeholder if we had one, but strict replacement better
-                                                    // Revert to placeholder src
                                                     e.target.src = 'https://placehold.co/300x200?text=Delicious';
-                                                    e.target.style.display = 'block';
                                                 }}
                                             />
                                         ) : (
                                             <div className="no-image-placeholder">🍽️</div>
                                         )}
+
+                                        {/* Management Overlay */}
+                                        <div className="card-management-tools">
+                                            <button className="tool-btn edit" onClick={(e) => handleEditClick(e, post)} title="Edit Dish">✎</button>
+                                            <button className="tool-btn delete" onClick={(e) => handleDelete(e, postId)} title="Delete Dish">🗑</button>
+                                        </div>
+
                                         <div className="promoted-badge">Promoted</div>
                                         <div className="time-badge">35 mins</div>
                                     </div>
@@ -140,11 +171,11 @@ const FoodPostList = ({ onPostClick }) => {
                     </div>
                 )}
 
-                {/* Pagination */}
+                {/* Pagination (Simplified for now) */}
                 <div className="pagination-pro">
                     <button
                         onClick={() => setPage(p => Math.max(0, p - 1))}
-                        disabled={page === 0 || loading}
+                        disabled={page === 0}
                         className="page-btn-pro"
                     >
                         ← Previous
@@ -152,13 +183,22 @@ const FoodPostList = ({ onPostClick }) => {
                     <span className="page-info-pro">Page {page + 1}</span>
                     <button
                         onClick={() => setPage(p => p + 1)}
-                        disabled={last || loading}
+                        disabled={last}
                         className="page-btn-pro"
                     >
                         Next →
                     </button>
                 </div>
             </div>
+
+            {/* Edit Modal */}
+            {editingPost && (
+                <EditFoodModal
+                    post={editingPost}
+                    onSave={handleUpdateComplete}
+                    onClose={() => setEditingPost(null)}
+                />
+            )}
         </div>
     );
 };

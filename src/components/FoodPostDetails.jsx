@@ -1,49 +1,58 @@
 import { useState, useEffect } from 'react';
 import './FoodPostDetails.css';
+import EditFoodModal from './EditFoodModal';
 
 const FoodPostDetails = ({ postId, onBack }) => {
     const [post, setPost] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
+    const [isEditing, setIsEditing] = useState(false);
 
     useEffect(() => {
         if (!postId) return;
-
         const fetchPostDetails = async () => {
             setLoading(true);
             try {
                 const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts/${postId}`);
-                if (!response.ok) {
-                    throw new Error('Failed to fetch post details');
-                }
+                if (!response.ok) throw new Error('Failed to fetch details');
                 const data = await response.json();
                 setPost(data);
                 setError(null);
             } catch (err) {
                 setError(err.message);
+                console.error("Details error:", err);
             } finally {
                 setLoading(false);
             }
         };
-
         fetchPostDetails();
     }, [postId]);
 
-    if (loading) return (
-        <div className="details-loader">
-            <div className="spinner"></div>
-            <p>Loading deliciousness...</p>
-        </div>
-    );
+    const handleDelete = async () => {
+        if (!window.confirm("Are you sure you want to delete this item?")) return;
 
-    if (error) return (
-        <div className="details-error">
-            <h2>Oops!</h2>
-            <p>{error}</p>
-            <button onClick={onBack} className="back-link">Go Back</button>
-        </div>
-    );
+        try {
+            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts?id=${postId}`, {
+                method: 'DELETE',
+            });
+            if (response.ok) {
+                onBack(); // Auto-refresh by going back to the list
+            } else {
+                alert("Failed to delete item.");
+            }
+        } catch (err) {
+            console.error("Delete error:", err);
+            alert("Network error while deleting.");
+        }
+    };
 
+    const handleUpdateComplete = (updatedPost) => {
+        setPost(updatedPost);
+        setIsEditing(false);
+    };
+
+    if (loading) return <div className="details-page loading">Loading refined flavors...</div>;
+    if (error) return <div className="details-page error">Error: {error}</div>;
     if (!post) return null;
 
     return (
@@ -115,10 +124,28 @@ const FoodPostDetails = ({ postId, onBack }) => {
                             <button className="primary-btn-lg">Request Item</button>
                             <button className="secondary-btn-lg">Contact</button>
                         </div>
+
+                        {/* Management Actions */}
+                        <div className="management-actions-detail">
+                            <p className="mgmt-label">Owner Tools</p>
+                            <div className="mgmt-buttons">
+                                <button className="mgmt-btn edit" onClick={() => setIsEditing(true)}>Edit Dish</button>
+                                <button className="mgmt-btn delete" onClick={handleDelete}>Delete Dish</button>
+                            </div>
+                        </div>
+
                         <p className="safety-note">Safe & Hygienic | No Contact Delivery</p>
                     </div>
                 </div>
             </div>
+
+            {isEditing && (
+                <EditFoodModal
+                    post={post}
+                    onSave={handleUpdateComplete}
+                    onClose={() => setIsEditing(false)}
+                />
+            )}
         </div>
     );
 };
