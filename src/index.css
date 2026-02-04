@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Poppins:wght@500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Poppins:wght@500;600;700;800&display=swap');
 
 :root {
   --primary: #fc8019;
@@ -6,10 +6,18 @@
   --secondary: #3d4152;
   /* Dark Text */
   --light-text: #686b78;
-  /* Subtitle Text */
+  /* Muted Text */
   --bg-color: #ffffff;
+  /* White Background */
+  --bg-gray: #f2f5f7;
+  /* Light Gray Background (for sections) */
   --accent: #60b246;
-  /* Green/Success */
+  /* Rating Green */
+  --border-color: #e9e9eb;
+  /* Light Border */
+  --shadow-sm: 0 1px 4px rgba(0, 0, 0, 0.04);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.08);
+  /* Card Hover */
   --font-heading: 'Poppins', sans-serif;
   --font-body: 'Inter', sans-serif;
 }
@@ -18,6 +26,7 @@
   box-sizing: border-box;
   margin: 0;
   padding: 0;
+  -webkit-font-smoothing: antialiased;
 }
 
 body {
@@ -25,10 +34,6 @@ body {
   color: var(--secondary);
   background-color: var(--bg-color);
   line-height: 1.5;
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
 }
 
 a {
@@ -38,4 +43,14 @@ a {
 
 button {
   font-family: inherit;
+  cursor: pointer;
+  border: none;
+  outline: none;
+}
+
+/* Common Utilities */
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 16px;
 }

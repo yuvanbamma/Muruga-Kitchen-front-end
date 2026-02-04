@@ -80,6 +80,7 @@ const CreateFoodPost = () => {
                                 onChange={(e) => setName(e.target.value)}
                                 placeholder="e.g. Hyderabadi Chicken Biryani"
                                 required
+                                className="swiggy-input"
                             />
                         </div>
 
@@ -91,6 +92,7 @@ const CreateFoodPost = () => {
                                 placeholder="Describe ingredients, taste profile, etc..."
                                 rows="4"
                                 required
+                                className="swiggy-input"
                             />
                         </div>
 
@@ -102,6 +104,7 @@ const CreateFoodPost = () => {
                                 onChange={(e) => setQuantity(e.target.value)}
                                 placeholder="e.g. 50"
                                 required
+                                className="swiggy-input"
                             />
                         </div>
                     </div>
@@ -131,8 +134,8 @@ const CreateFoodPost = () => {
                     </div>
 
                     <div className="form-actions">
-                        <button type="button" className="btn-cancel">Cancel</button>
-                        <button type="submit" className="btn-submit" disabled={loading}>
+                        <button type="button" className="secondary-btn-lg" style={{ width: 'auto', padding: '12px 24px' }}>Cancel</button>
+                        <button type="submit" className="primary-btn-lg" disabled={loading}>
                             {loading ? 'Publishing...' : 'Publish Item'}
                         </button>
                     </div>
@@ -147,14 +150,29 @@ const CreateFoodPost = () => {
                 {/* Preview Card (Visual feedback) */}
                 <div className="preview-section">
                     <h3>Preview</h3>
-                    <div className="preview-card">
-                        <div className="preview-image-box">
-                            {previewUrl ? <img src={previewUrl} alt="Preview" /> : <span>No Image</span>}
+                    <div className="food-card-pro" style={{ pointerEvents: 'none' }}>
+                        <div className="card-media">
+                            {previewUrl ? (
+                                <img src={previewUrl} alt="Preview" className="card-img" />
+                            ) : (
+                                <div className="no-image-placeholder" style={{ height: '100%', background: '#eee' }}></div>
+                            )}
+                            <div className="promoted-badge">Promoted</div>
+                            <div className="time-badge">35 mins</div>
                         </div>
-                        <div className="preview-details">
-                            <h4>{name || 'Item Name'}</h4>
-                            <p>{description || 'Description will appear here...'}</p>
-                            <div className="preview-badge">Qty: {quantity || '0'}</div>
+                        <div className="card-details">
+                            <div className="card-header-row">
+                                <h3 className="dish-name">{name || 'Item Name'}</h3>
+                                <div className="rating-badge">4.2 ★</div>
+                            </div>
+                            <div className="card-meta-row">
+                                <span className="cuisine-tag">{description ? description.substring(0, 20) : 'Description...'}</span>
+                                <span className="price-estimate">₹{(quantity || 1) * 150} for two</span>
+                            </div>
+                            <div className="card-divider"></div>
+                            <div className="card-footer-row">
+                                <span className="trend-text">120+ orders placed recently</span>
+                            </div>
                         </div>
                     </div>
                 </div>

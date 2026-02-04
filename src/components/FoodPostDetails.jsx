@@ -50,15 +50,29 @@ const FoodPostDetails = ({ postId, onBack }) => {
         <div className="details-page">
             {/* Breadcrumb / Back */}
             <div className="breadcrumb-bar">
-                <span onClick={onBack} className="back-link">← Back to Feed</span>
+                <span onClick={onBack} className="back-link">Home</span>
                 <span className="separator">/</span>
                 <span className="current-crumb">{post.name}</span>
             </div>
 
             <div className="details-main-grid">
 
-                {/* Left Column: Visuals & Info */}
+                {/* Left Column: Hero & Info */}
                 <div className="details-content">
+                    <div className="info-header">
+                        <h1>{post.name}</h1>
+                        <p className="cuisine-type">{post.description ? 'Indian • Traditional • Homemade' : 'Fast Food'}</p>
+                        <div className="meta-stats">
+                            <span className="rating-pill">
+                                <span className="star">★</span> 4.5
+                            </span>
+                            <span className="meta-dot">•</span>
+                            <span>35 mins</span>
+                            <span className="meta-dot">•</span>
+                            <span>₹{(post.quantity || 1) * 150} for two</span>
+                        </div>
+                    </div>
+
                     <div className="hero-banner">
                         <img
                             src={post.imageUrl ? (post.imageUrl.startsWith('http') ? post.imageUrl : `${import.meta.env.VITE_API_URL}${post.imageUrl}`) : 'https://placehold.co/800x400?text=Food+Delight'}
@@ -69,25 +83,6 @@ const FoodPostDetails = ({ postId, onBack }) => {
                                 e.target.src = 'https://placehold.co/800x400?text=Food+Delight';
                             }}
                         />
-                        <div className="hero-badges">
-                            {post.quantity > 0 ? (
-                                <span className="status-badge available">Available Now</span>
-                            ) : (
-                                <span className="status-badge sold-out">Sold Out</span>
-                            )}
-                        </div>
-                    </div>
-
-                    <div className="info-header">
-                        <h1>{post.name}</h1>
-                        <p className="cuisine-type">{post.description ? 'Indian • Traditional' : 'Fast Food'}</p>
-                        <div className="meta-stats">
-                            <span className="rating-pill">★ 4.5 (50+)</span>
-                            <span className="meta-dot">•</span>
-                            <span>35 mins delivery</span>
-                            <span className="meta-dot">•</span>
-                            <span>Freshly Prepared</span>
-                        </div>
                     </div>
 
                     <div className="description-box">
@@ -105,41 +100,22 @@ const FoodPostDetails = ({ postId, onBack }) => {
                                 <p>"Absolutely loved the taste! Highly recommended."</p>
                             </div>
                         </div>
-                        <div className="review-card">
-                            <div className="reviewer-avatar">R</div>
-                            <div className="review-text">
-                                <strong>Rahul K.</strong>
-                                <p>"Authentic flavor, just like home made."</p>
-                            </div>
-                        </div>
                     </div>
                 </div>
 
-                {/* Right Column: Order Cart (Sticky) */}
+                {/* Right Column: Order Action */}
                 <div className="order-sidebar">
                     <div className="order-card">
                         <div className="price-row">
-                            <h2>Order</h2>
+                            <h2>Total</h2>
                             <span className="final-price">Free / Donation</span>
-                        </div>
-
-                        <div className="order-info-list">
-                            <div className="order-line">
-                                <span>Quantity Available</span>
-                                <strong>{post.quantity} packs</strong>
-                            </div>
-                            <div className="order-line">
-                                <span>Delivery Fee</span>
-                                <strong>₹40</strong>
-                            </div>
                         </div>
 
                         <div className="action-buttons">
                             <button className="primary-btn-lg">Request Item</button>
-                            <button className="secondary-btn-lg">Contact Donor</button>
+                            <button className="secondary-btn-lg">Contact</button>
                         </div>
-
-                        <p className="safety-note">🛡️ 100% Safe & Hygienic</p>
+                        <p className="safety-note">Safe & Hygienic | No Contact Delivery</p>
                     </div>
                 </div>
             </div>

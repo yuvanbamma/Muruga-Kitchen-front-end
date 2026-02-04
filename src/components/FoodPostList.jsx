@@ -81,8 +81,7 @@ const FoodPostList = ({ onPostClick }) => {
                                         if (postId) {
                                             onPostClick && onPostClick(postId);
                                         } else {
-                                            console.error("Critical Error: Could not find an ID in post object:", post);
-                                            alert("Error: Cannot open details because Post ID is missing. Check console.");
+                                            console.warn("Post ID missing, cannot open details:", post);
                                         }
                                     }}
                                 >
@@ -94,7 +93,11 @@ const FoodPostList = ({ onPostClick }) => {
                                                 className="card-img"
                                                 onError={(e) => {
                                                     e.target.onerror = null;
+                                                    e.target.style.display = 'none'; // Hide broken image
+                                                    e.target.nextSibling.style.display = 'block'; // Show placeholder if we had one, but strict replacement better
+                                                    // Revert to placeholder src
                                                     e.target.src = 'https://placehold.co/300x200?text=Delicious';
+                                                    e.target.style.display = 'block';
                                                 }}
                                             />
                                         ) : (
