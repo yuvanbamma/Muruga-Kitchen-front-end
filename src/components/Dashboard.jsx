@@ -1,5 +1,7 @@
 import React from 'react';
 import './Dashboard.css';
+import CookingAnimation from './CookingAnimation';
+import { KitchenAssets } from '../constants/KitchenAssets';
 
 const Dashboard = ({ setView }) => {
     return (
@@ -10,12 +12,10 @@ const Dashboard = ({ setView }) => {
                     <div className="food-track">
                         <span>🍎</span><span>🍔</span><span>🍕</span><span>🌮</span><span>🍣</span><span>🍜</span><span>🍩</span><span>🍦</span><span>🥑</span><span>🍤</span>
                         <span>🥐</span><span>🥓</span><span>🥩</span><span>🌭</span><span>🍟</span><span>🍪</span><span>🍫</span><span>🥞</span><span>🥡</span><span>🍱</span>
-                        <span>🍎</span><span>🍔</span><span>🍕</span><span>🌮</span><span>🍣</span><span>🍜</span><span>🍩</span><span>🍦</span><span>🥑</span><span>🍤</span>
                     </div>
                     <div className="food-track reverse">
                         <span>🍉</span><span>🥨</span><span>🍗</span><span>🍚</span><span>🥣</span><span>🥗</span><span>🥪</span><span>🥫</span><span>🎂</span><span>🍰</span>
                         <span>🧁</span><span>🥧</span><span>🍮</span><span>🍭</span><span>🍬</span><span>🍿</span><span>🥟</span><span>🥠</span><span>🍢</span><span>🍡</span>
-                        <span>🍉</span><span>🥨</span><span>🍗</span><span>🍚</span><span>🥣</span><span>🥗</span><span>🥪</span><span>🥫</span><span>🎂</span><span>🍰</span>
                     </div>
                 </div>
 
@@ -56,14 +56,10 @@ const Dashboard = ({ setView }) => {
                 </div>
             </section>
 
-            {/* Inspirational Strip */}
-            <section className="inspiration-banner">
-                <div className="inspiration-content">
-                    <p className="quote-text">“Cooking is an art, but all art requires knowing something about the craft.”</p>
-                </div>
-            </section>
+            {/* Interactive Cooking Odyssey [Scroll Animation] */}
+            <CookingAnimation />
 
-            {/* Food Categories (Inspiration) */}
+            {/* Inspiration for your first order (RESTORED) */}
             <section className="categories-section">
                 <div className="section-header">
                     <h2>Inspiration for your first order</h2>
@@ -73,11 +69,13 @@ const Dashboard = ({ setView }) => {
                 <div className="categories-grid">
                     {[
                         { name: 'Biryani', emoji: '🍛' },
+                        { name: 'Ice Cream', emoji: '🍦' },
                         { name: 'Pizza', emoji: '🍕' },
                         { name: 'Burger', emoji: '🍔' },
                         { name: 'Chinese', emoji: '🍜' },
                         { name: 'Desserts', emoji: '🍰' },
-                        { name: 'Healthy', emoji: '🥗' }
+                        { name: 'Healthy', emoji: '🥗' },
+                        { name: 'Rolls', emoji: '🌯' }
                     ].map((item, index) => (
                         <div key={index} className="category-card">
                             <div className="category-img-box">
@@ -86,6 +84,59 @@ const Dashboard = ({ setView }) => {
                             <h4>{item.name}</h4>
                         </div>
                     ))}
+                </div>
+            </section>
+
+            {/* NEW: The Golden Path Roadmap (Hand-Drawn Style) */}
+            <section className="golden-roadmap-section">
+                <div className="section-header">
+                    <h2>Muruga's Vision Quest</h2>
+                    <p>A hand-drawn journey of love, serving those who need it most.</p>
+                </div>
+
+                <div className="drawing-container">
+                    {/* SVG Dotted Line Connecting Milestones */}
+                    <svg className="roadmap-svg" viewBox="0 0 800 600" fill="none">
+                        <path
+                            d="M100,500 C150,450 250,550 300,400 C350,250 450,350 500,200 C550,50 700,150 750,50"
+                            stroke="#427D9D"
+                            strokeWidth="4"
+                            strokeDasharray="10 10"
+                            className="path-animation"
+                        />
+                    </svg>
+
+                    <div className="milestone-rock" style={{ bottom: '5%', left: '10%' }}>
+                        <div className="rock-icon">🏗️</div>
+                        <div className="rock-text">
+                            <h4>Startup</h4>
+                            <p>Building the foundation of taste.</p>
+                        </div>
+                    </div>
+
+                    <div className="milestone-rock" style={{ bottom: '35%', left: '35%' }}>
+                        <div className="rock-icon">🤝</div>
+                        <div className="rock-text">
+                            <h4>Partnerships</h4>
+                            <p>Bridging food to places of need.</p>
+                        </div>
+                    </div>
+
+                    <div className="milestone-rock" style={{ bottom: '65%', left: '60%' }}>
+                        <div className="rock-icon">🏘️</div>
+                        <div className="rock-text">
+                            <h4>Orphanages</h4>
+                            <p>Daily meals for children.</p>
+                        </div>
+                    </div>
+
+                    <div className="milestone-rock pulse" style={{ top: '5%', right: '5%' }}>
+                        <div className="rock-icon">❤️</div>
+                        <div className="rock-text">
+                            <h4>Zero Hunger</h4>
+                            <p>Our final mission of love.</p>
+                        </div>
+                    </div>
                 </div>
             </section>
 
@@ -100,6 +151,12 @@ const Dashboard = ({ setView }) => {
                     </div>
                 </div>
             </section>
+
+            {/* NEW: Floating Washing Station Micro-interaction */}
+            <div className="washing-station-trigger" title="Hygienic Preparation">
+                <div className="wash-icon">🚰</div>
+                <div className="water-splash"></div>
+            </div>
 
             {/* Professional Footer */}
             <footer className="footer-main">
