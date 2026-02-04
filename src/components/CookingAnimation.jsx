@@ -1,125 +1,109 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useState } from 'react';
 import './CookingAnimation.css';
 import { KitchenAssets } from '../constants/KitchenAssets';
 
 const CookingAnimation = () => {
-    const sectionRef = useRef(null);
-    const [scrollProgress, setScrollProgress] = useState(0);
-    const requestRef = useRef();
+    // Initial positions for the items
+    const [positions, setPositions] = useState({
+        jar: { x: 0, y: 0, r: -3, scale: 1 },
+        pan: { x: 0, y: 100, r: 0, scale: 1 },
+        chef: { x: 0, y: 200, r: 0, scale: 1 },
+        boiling: { x: 0, y: 0, r: 0, scale: 1 }
+    });
 
-    // Smoother scroll progress tracking (rAF)
-    const updateProgress = () => {
-        if (!sectionRef.current) return;
-        const rect = sectionRef.current.getBoundingClientRect();
-        const viewportHeight = window.innerHeight;
+    const [scattered, setScattered] = useState({
+        jar: false,
+        pan: false,
+        chef: false,
+        boiling: false
+    });
 
-        // Calculate progress within local bounds
-        const start = rect.top - viewportHeight;
-        const totalHeight = rect.height + viewportHeight;
-        let progress = Math.min(1, Math.max(0, -start / totalHeight));
+    const scatterItem = (item) => {
+        // Generate random position in the landscape
+        const randomX = (Math.random() - 0.5) * (window.innerWidth * 0.8);
+        const randomY = (Math.random() - 0.5) * (window.innerHeight * 0.6);
+        const randomRotate = (Math.random() - 0.5) * 90;
+        const randomScale = 0.5 + Math.random() * 0.5;
 
-        setScrollProgress(progress);
-        requestRef.current = requestAnimationFrame(updateProgress);
+        setPositions(prev => ({
+            ...prev,
+            [item]: { x: randomX, y: randomY, r: randomRotate, scale: randomScale }
+        }));
+
+        setScattered(prev => ({
+            ...prev,
+            [item]: !prev[item]
+        }));
     };
 
-    useEffect(() => {
-        requestRef.current = requestAnimationFrame(updateProgress);
-        return () => cancelAnimationFrame(requestRef.current);
-    }, []);
-
-    // Optimized range calculator
-    const range = (p, s, e, rs, re) => {
-        if (p < s) return rs;
-        if (p > e) return re;
-        return rs + (re - rs) * ((p - s) / (e - s));
+    const resetGallery = () => {
+        setPositions({
+            jar: { x: 0, y: 0, r: -3, scale: 1 },
+            pan: { x: 0, y: 0, r: 0, scale: 1 },
+            chef: { x: 0, y: 150, r: 0, scale: 1 },
+            boiling: { x: 0, y: 0, r: 0, scale: 1 }
+        });
+        setScattered({
+            jar: false,
+            pan: false,
+            chef: false,
+            boiling: false
+        });
     };
-
-    // Scroll Ranges for 400vh (Fast & Snappy)
-    // 0.0 - 0.3: Jar Visible & Ingredients Falling
-    // 0.25 - 0.6: Pan Appears
-    // 0.55 - 0.85: Boiling Final Dish
-    // 0.85 - 1.0: Chef Mascot
-
-    const jarOpacity = range(scrollProgress, 0, 0.2, 0, 1) * range(scrollProgress, 0.3, 0.4, 1, 0);
-    const ingredientY = range(scrollProgress, 0.05, 0.45, -500, 600); // Falling from way above
-
-    const panOpacity = range(scrollProgress, 0.35, 0.5, 0, 1) * range(scrollProgress, 0.6, 0.7, 1, 0);
-    const panScale = range(scrollProgress, 0.35, 0.6, 0.8, 1.2);
-
-    const boilingOpacity = range(scrollProgress, 0.65, 0.8, 0, 1) * range(scrollProgress, 0.85, 0.95, 1, 0);
-    const chefOpacity = range(scrollProgress, 0.88, 0.98, 0, 1);
 
     return (
-        <section className="gold-medal-journey-scroll" ref={sectionRef}>
-            <div className="immersive-container">
+        <section className="scatter-gallery-section">
+            <div className="gallery-header">
+                <h2>Click to Scatter the Magic</h2>
+                <p>Play with Muruga's kitchen tools! Click any item to throw it around.</p>
+                <button className="reset-gallery-btn" onClick={resetGallery}>Reset Gallery</button>
+            </div>
 
-                {/* Stage 1: The Glass Jar & Falling Ingredients */}
-                <div className="scenic-layer" style={{ opacity: jarOpacity }}>
-                    <div className="scenic-content">
-                        <img src={KitchenAssets.images.jar} alt="Jar" className="pro-asset jar-img" />
-                        <h2 className="scenic-title">Purity Starts Here</h2>
-                    </div>
+            <div className="scatter-container">
+                {/* JAR */}
+                <div
+                    className={`scatter-item ${scattered.jar ? 'is-scattered' : ''}`}
+                    style={{ transform: `translate3d(${positions.jar.x}px, ${positions.jar.y}px, 0) rotate(${positions.jar.r}deg) scale(${positions.jar.scale})` }}
+                    onClick={() => scatterItem('jar')}
+                >
+                    <img src={KitchenAssets.images.jar} alt="Jar" className="gallery-asset" />
+                    {!scattered.jar && <span className="click-hint">Click Me ✨</span>}
                 </div>
 
-                <div className="scenic-layer" style={{ pointerEvents: 'none' }}>
-                    <div className="scenic-content">
-                        <div className="drifting-spices">
-                            {KitchenAssets.ingredients.map((ing, idx) => (
-                                <span
-                                    key={idx}
-                                    className="spice"
-                                    style={{
-                                        transform: `translate3d(${Math.sin(idx * 1.5) * 150}px, ${ingredientY * (1 + idx * 0.08)}px, 0) rotate(${ingredientY * 0.5}deg)`,
-                                        opacity: range(scrollProgress, 0.1, 0.5, 1, 0)
-                                    }}
-                                >
-                                    {ing.char}
-                                </span>
-                            ))}
-                        </div>
-                    </div>
+                {/* PAN */}
+                <div
+                    className={`scatter-item ${scattered.pan ? 'is-scattered' : ''}`}
+                    style={{ transform: `translate3d(${positions.pan.x}px, ${positions.pan.y}px, 0) rotate(${positions.pan.r}deg) scale(${positions.pan.scale})` }}
+                    onClick={() => scatterItem('pan')}
+                >
+                    <div className="pan-glow-effect"></div>
+                    <img src={KitchenAssets.images.pan} alt="Pan" className="gallery-asset" />
+                    {!scattered.pan && <span className="click-hint">Sizzle 🔥</span>}
                 </div>
 
-                {/* Stage 2: The Sizzling Pan (NO FLAME) */}
-                <div className="scenic-layer" style={{
-                    opacity: panOpacity,
-                    transform: `scale3d(${panScale}, ${panScale}, 1) translate3d(0, ${range(scrollProgress, 0.35, 0.6, 50, -50)}px, 0)`
-                }}>
-                    <div className="scenic-content">
-                        <div className="pan-glow-static" style={{ opacity: panOpacity * 0.5 }}></div>
-                        <img src={KitchenAssets.images.pan} alt="Pan" className="pro-asset pan-img" />
-                        <h2 className="scenic-title" style={{ top: '80%', color: '#ffd43b' }}>Crafted with Heart</h2>
-                    </div>
+                {/* BOILING */}
+                <div
+                    className={`scatter-item ${scattered.boiling ? 'is-scattered' : ''}`}
+                    style={{ transform: `translate3d(${positions.boiling.x}px, ${positions.boiling.y}px, 0) rotate(${positions.boiling.r}deg) scale(${positions.boiling.scale})` }}
+                    onClick={() => scatterItem('boiling')}
+                >
+                    <img src={KitchenAssets.images.boiling} alt="Boiling" className="gallery-asset circular" />
+                    {!scattered.boiling && <span className="click-hint">Cook 🍲</span>}
                 </div>
 
-                {/* Stage 3: The Boiling Final Dish */}
-                <div className="scenic-layer" style={{ opacity: boilingOpacity }}>
-                    <div className="scenic-content full-screen">
-                        <img src={KitchenAssets.images.boiling} alt="Boiling" className="pro-asset boiling-img" />
-                        <div className="love-text-box">
-                            <h3 className="serving-love-title">Serving Love</h3>
-                            <div className="poem-v2">
-                                In Every Sizzle, Every Flame,<br />
-                                Love is the ingredient, Heart is the name.
-                            </div>
-                        </div>
-                    </div>
+                {/* CHEF */}
+                <div
+                    className={`scatter-item ${scattered.chef ? 'is-scattered' : ''}`}
+                    style={{ transform: `translate3d(${positions.chef.x}px, ${positions.chef.y}px, 0) rotate(${positions.chef.r}deg) scale(${positions.chef.scale})` }}
+                    onClick={() => scatterItem('chef')}
+                >
+                    <img src={KitchenAssets.images.chef} alt="Chef" className="gallery-asset" />
+                    {!scattered.chef && <span className="click-hint">Hello! 👋</span>}
                 </div>
+            </div>
 
-                {/* Stage 4: Chef Mascot Finale */}
-                <div className="scenic-layer" style={{ opacity: chefOpacity }}>
-                    <div className="scenic-content">
-                        <img src={KitchenAssets.images.chef} alt="Chef" className="pro-asset chef-img" />
-                        <div className="finale-badge">
-                            <h3>Kitchen Master</h3>
-                            <p>Hand-crafted Experience</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div className="scroll-odyssey-hint">
-                    <span className="indicator">↓</span> SCROLL TO CONTROL THE MAGIC
-                </div>
+            <div className="gallery-footer-text">
+                <p>In Every Sizzle, Every Flame, Love is the ingredient, Heart is the name.</p>
             </div>
         </section>
     );

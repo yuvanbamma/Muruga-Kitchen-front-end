@@ -1,99 +1,156 @@
-/* Header.css - Premium Refinement */
+/* ============================================
+   HEADER - THEME-AWARE PROFESSIONAL DESIGN
+   ============================================ */
 
 .site-header {
-    height: 80px;
-    background: var(--bg-glass);
-    backdrop-filter: blur(12px);
-    border-bottom: 1px solid var(--border-light);
     position: sticky;
     top: 0;
     z-index: 1000;
-    display: flex;
-    align-items: center;
-    width: 100%;
+    background: var(--bg-glass);
+    backdrop-filter: var(--backdrop-blur);
+    -webkit-backdrop-filter: var(--backdrop-blur);
+    border-bottom: 1px solid var(--border-light);
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
 }
 
 .header-container {
-    max-width: 1200px;
-    margin: 0 auto;
     width: 100%;
-    padding: 0 24px;
+    margin: 0;
+    padding: 16px 20px;
     display: flex;
     align-items: center;
     justify-content: space-between;
+    gap: 24px;
 }
 
+/* ============================================
+   LOGO SECTION
+   ============================================ */
 .logo-section {
     display: flex;
     align-items: center;
     gap: 12px;
     cursor: pointer;
+    transition: transform var(--transition-fast);
+}
+
+.logo-section:hover {
+    transform: scale(1.02);
 }
 
 .logo-icon {
-    font-size: 1.8rem;
+    font-size: 2rem;
+    animation: bounce 2s infinite;
 }
 
 .logo-text {
+    font-family: var(--font-heading);
     font-size: 1.5rem;
-    font-weight: 800;
-    color: var(--secondary);
-    letter-spacing: -1px;
+    font-weight: 700;
+    color: var(--text-primary);
+    letter-spacing: -0.02em;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
 }
 
-/* Slimmer Search */
+/* ============================================
+   SEARCH BAR
+   ============================================ */
 .search-bar-container {
+    flex: 1;
+    max-width: 600px;
     display: flex;
     align-items: center;
-    background: #F1F5F9;
-    border: 1px solid transparent;
-    border-radius: 50px;
-    height: 44px;
-    width: 40%;
-    padding: 0 16px;
-    transition: all 0.3s;
+    background: var(--bg-elevated);
+    border: 2px solid var(--border-light);
+    border-radius: var(--radius-full);
+    padding: 8px 16px;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
 }
 
 .search-bar-container:focus-within {
-    background: white;
     border-color: var(--primary);
-    box-shadow: 0 0 0 4px rgba(66, 125, 157, 0.1);
+    box-shadow: 0 0 0 4px rgba(66, 125, 157, 0.1), var(--shadow-md);
+    transform: translateY(-2px);
 }
 
 .location-pill {
     display: flex;
     align-items: center;
-    gap: 8px;
-    color: var(--text-muted);
-    font-size: 0.9rem;
+    gap: 6px;
+    padding: 6px 12px;
+    background: var(--bg-tertiary);
+    border-radius: var(--radius-full);
+    cursor: pointer;
+    transition: all var(--transition-fast);
+}
+
+.location-pill:hover {
+    background: var(--primary);
+    color: var(--text-inverse);
+}
+
+.location-icon {
+    font-size: 1rem;
+}
+
+.location-text {
+    font-size: 0.875rem;
     font-weight: 600;
+    color: var(--text-primary);
     white-space: nowrap;
+}
+
+.location-pill:hover .location-text {
+    color: var(--text-inverse);
 }
 
 .search-divider {
     width: 1px;
-    height: 16px;
-    background: #CBD5E1;
-    margin: 0 16px;
+    height: 24px;
+    background: var(--border-light);
+    margin: 0 12px;
 }
 
 .search-input-box {
+    flex: 1;
     display: flex;
     align-items: center;
-    gap: 10px;
-    flex: 1;
+    gap: 8px;
+}
+
+.search-icon {
+    font-size: 1.125rem;
+    color: var(--text-tertiary);
 }
 
 .search-input {
-    background: transparent;
+    flex: 1;
     border: none;
     outline: none;
-    width: 100%;
-    font-size: 0.9rem;
-    color: var(--text-main);
+    background: transparent;
+    font-size: 1rem;
+    color: var(--text-primary);
+    font-family: var(--font-body);
 }
 
-/* Explore Menu */
+.search-input::placeholder {
+    color: var(--text-muted);
+}
+
+/* ============================================
+   HEADER MENU SYSTEM
+   ============================================ */
+.header-menu-system {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
 .explore-trigger {
     position: relative;
 }
@@ -101,53 +158,95 @@
 .explore-pill {
     display: flex;
     align-items: center;
-    gap: 10px;
-    padding: 8px 20px;
-    background: var(--secondary);
-    color: white;
-    border-radius: 50px;
+    gap: 8px;
+    padding: 10px 20px;
+    background: var(--gradient-primary);
+    color: var(--text-inverse);
+    border-radius: var(--radius-full);
     font-weight: 600;
-    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    font-size: 0.95rem;
+    transition: all var(--transition-base);
+    box-shadow: var(--shadow-md);
 }
 
 .explore-pill:hover {
-    transform: scale(1.05);
-    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-xl);
+}
+
+.explore-pill:active {
+    transform: translateY(0);
+}
+
+.hamburger {
+    font-size: 1.125rem;
+}
+
+.explore-label {
+    font-weight: 600;
+}
+
+/* ============================================
+   DROPDOWN MENU
+   ============================================ */
+.menu-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: var(--bg-overlay);
+    z-index: 999;
+    animation: fadeIn 0.2s ease;
 }
 
 .compact-dropdown {
     position: absolute;
     top: calc(100% + 12px);
     right: 0;
-    width: 200px;
-    background: white;
-    border-radius: 16px;
-    padding: 8px;
-    box-shadow: var(--shadow-hover);
+    min-width: 220px;
+    background: var(--bg-elevated);
     border: 1px solid var(--border-light);
-    z-index: 1001;
+    border-radius: var(--radius-md);
+    box-shadow: var(--shadow-xl);
+    overflow: hidden;
+    z-index: 1000;
+    animation: slideInDown 0.3s ease;
 }
 
 .compact-item {
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 12px 16px;
-    border-radius: 10px;
-    color: var(--text-main);
+    padding: 14px 20px;
+    color: var(--text-primary);
+    font-size: 0.95rem;
     font-weight: 500;
     cursor: pointer;
-    transition: all 0.2s;
+    transition: all var(--transition-fast);
+    border-left: 3px solid transparent;
 }
 
 .compact-item:hover {
-    background: #F8FAFC;
-    color: var(--primary);
+    background: var(--bg-tertiary);
+    border-left-color: var(--primary);
+    padding-left: 24px;
 }
 
 .compact-item.active {
-    background: rgba(66, 125, 157, 0.08);
+    background: var(--bg-tertiary);
+    border-left-color: var(--primary);
     color: var(--primary);
+    font-weight: 600;
+}
+
+.compact-item .icon {
+    font-size: 1.25rem;
+    transition: transform var(--transition-fast);
+}
+
+.compact-item:hover .icon {
+    transform: scale(1.2);
 }
 
 .compact-divider {
@@ -156,38 +255,78 @@
     margin: 8px 0;
 }
 
-.menu-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100vw;
-    height: 100vh;
-    z-index: 1000;
-}
-
-/* Animations */
-.slide-up {
-    animation: slideUpFade 0.3s ease-out;
-}
-
-@keyframes slideUpFade {
-    from {
-        transform: translateY(10px);
-        opacity: 0;
+/* ============================================
+   RESPONSIVE DESIGN
+   ============================================ */
+@media (max-width: 968px) {
+    .search-bar-container {
+        max-width: 400px;
     }
 
-    to {
-        transform: translateY(0);
-        opacity: 1;
+    .location-text {
+        display: none;
     }
 }
 
 @media (max-width: 768px) {
+    .header-container {
+        padding: 12px 16px;
+    }
+
     .search-bar-container {
         display: none;
     }
 
     .logo-text {
-        font-size: 1.2rem;
+        font-size: 1.25rem;
     }
+
+    .logo-icon {
+        font-size: 1.75rem;
+    }
+
+    .explore-label {
+        display: none;
+    }
+
+    .explore-pill {
+        padding: 10px 16px;
+    }
+}
+
+@media (max-width: 480px) {
+    .header-container {
+        gap: 12px;
+    }
+
+    .logo-text {
+        font-size: 1.125rem;
+    }
+
+    .header-menu-system {
+        gap: 8px;
+    }
+}
+
+/* ============================================
+   SCROLL EFFECTS
+   ============================================ */
+.site-header.scrolled {
+    box-shadow: var(--shadow-lg);
+    background: var(--bg-elevated);
+}
+
+/* ============================================
+   THEME TRANSITION
+   ============================================ */
+.site-header,
+.header-container,
+.search-bar-container,
+.location-pill,
+.compact-dropdown,
+.compact-item {
+    transition: background-color var(--transition-base),
+        border-color var(--transition-base),
+        color var(--transition-base),
+        box-shadow var(--transition-base);
 }

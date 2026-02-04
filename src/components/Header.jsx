@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import ThemeToggle from './ThemeToggle';
 import './Header.css';
 
 const Header = ({ currentView, setView }) => {
@@ -32,6 +33,7 @@ const Header = ({ currentView, setView }) => {
 
                 {/* Navigation Menu Trigger */}
                 <div className="header-menu-system">
+                    <ThemeToggle />
                     <div className="explore-trigger" onClick={() => setMenuOpen(!menuOpen)}>
                         <button className="explore-pill">
                             <span className="hamburger">☰</span>

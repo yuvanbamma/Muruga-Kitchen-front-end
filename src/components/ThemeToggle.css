@@ -1,0 +1,105 @@
+.theme-toggle {
+    position: relative;
+    background: transparent;
+    border: none;
+    padding: 0;
+    cursor: pointer;
+    outline: none;
+    transition: transform 0.2s ease;
+}
+
+.theme-toggle:hover {
+    transform: scale(1.05);
+}
+
+.theme-toggle:active {
+    transform: scale(0.95);
+}
+
+.theme-toggle-track {
+    width: 60px;
+    height: 32px;
+    background: var(--toggle-bg, rgba(0, 0, 0, 0.1));
+    border-radius: 50px;
+    position: relative;
+    transition: background 0.3s ease;
+    border: 2px solid var(--toggle-border, rgba(0, 0, 0, 0.1));
+}
+
+.theme-toggle:hover .theme-toggle-track {
+    background: var(--toggle-bg-hover, rgba(0, 0, 0, 0.15));
+}
+
+.theme-toggle-thumb {
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(135deg, #ffd700, #ffed4e);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+}
+
+.theme-toggle-thumb.dark {
+    transform: translateX(28px);
+    background: linear-gradient(135deg, #1e3a8a, #3b82f6);
+}
+
+.theme-icon {
+    font-size: 14px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: iconPop 0.3s ease;
+}
+
+@keyframes iconPop {
+    0% {
+        transform: scale(0) rotate(-180deg);
+        opacity: 0;
+    }
+
+    50% {
+        transform: scale(1.2) rotate(0deg);
+    }
+
+    100% {
+        transform: scale(1) rotate(0deg);
+        opacity: 1;
+    }
+}
+
+/* Theme-specific colors */
+[data-theme="light"] .theme-toggle-track {
+    --toggle-bg: rgba(66, 125, 157, 0.15);
+    --toggle-border: rgba(66, 125, 157, 0.3);
+    --toggle-bg-hover: rgba(66, 125, 157, 0.25);
+}
+
+[data-theme="dark"] .theme-toggle-track {
+    --toggle-bg: rgba(255, 255, 255, 0.1);
+    --toggle-border: rgba(255, 255, 255, 0.2);
+    --toggle-bg-hover: rgba(255, 255, 255, 0.15);
+}
+
+/* Accessibility */
+.theme-toggle:focus-visible {
+    outline: 2px solid var(--primary);
+    outline-offset: 4px;
+    border-radius: 50px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+
+    .theme-toggle-thumb,
+    .theme-icon {
+        animation: none;
+        transition: none;
+    }
+}
