@@ -1,0 +1,175 @@
+.signup-portal {
+    display: flex;
+    min-height: 100vh;
+    width: 100%;
+    background: var(--bg-primary);
+}
+
+.signup-visual-section {
+    flex: 0.8;
+    background: url('https://images.unsplash.com/photo-1488521787991-ed7bbaae773c?auto=format&fit=crop&q=80&w=2070') center/cover no-repeat;
+    position: relative;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.signup-visual-section::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(circle at 30% 70%, rgba(255, 255, 255, 0.1) 0%, transparent 70%);
+}
+
+.signup-overlay {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(135deg, rgba(22, 72, 99, 0.85) 0%, rgba(15, 23, 42, 0.95) 100%);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 60px;
+    color: white;
+}
+
+.signup-overlay h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    margin-bottom: 24px;
+}
+
+.signup-overlay p {
+    font-size: 1.3rem;
+    color: rgba(255, 255, 255, 0.8);
+    max-width: 400px;
+    line-height: 1.6;
+}
+
+.signup-form-section {
+    flex: 1.2;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 60px;
+    background: var(--bg-primary);
+}
+
+.signup-card {
+    width: 100%;
+    max-width: 700px;
+    padding: 48px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-2xl);
+    border: 1px solid var(--border-light);
+    animation: slideInUp 0.6s ease-out;
+}
+
+.signup-header {
+    text-align: center;
+    margin-bottom: 32px;
+}
+
+.signup-header h2 {
+    font-size: 2.2rem;
+    color: var(--text-primary);
+    margin-bottom: 8px;
+}
+
+/* Role Selector */
+.role-selector {
+    display: flex;
+    gap: 16px;
+    margin-bottom: 32px;
+    background: var(--bg-tertiary);
+    padding: 8px;
+    border-radius: var(--radius-full);
+}
+
+.role-btn {
+    flex: 1;
+    padding: 12px;
+    border-radius: var(--radius-full);
+    font-weight: 700;
+    font-size: 0.95rem;
+    background: transparent;
+    color: var(--text-tertiary);
+    transition: all var(--transition-base);
+}
+
+.role-btn.active {
+    background: var(--gradient-primary);
+    color: white;
+    box-shadow: var(--shadow-md);
+}
+
+/* Form Layout */
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+    margin-bottom: 8px;
+}
+
+.geo-mockup {
+    margin: 20px 0;
+    padding: 20px;
+    background: var(--bg-secondary);
+    border-radius: var(--radius-md);
+    border: 2px dashed var(--border-light);
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+
+.geo-icon {
+    font-size: 2rem;
+}
+
+.geo-text strong {
+    display: block;
+    color: var(--primary);
+    margin-bottom: 4px;
+}
+
+.geo-text p {
+    font-size: 0.9rem;
+    color: var(--text-tertiary);
+    margin: 0;
+}
+
+/* Success State */
+.signup-portal.success {
+    justify-content: center;
+    align-items: center;
+}
+
+.success-card {
+    text-align: center;
+    padding: 60px;
+    max-width: 500px;
+    background: var(--bg-elevated);
+    border-radius: var(--radius-xl);
+    box-shadow: var(--shadow-2xl);
+    border: 2px solid var(--success);
+}
+
+.success-icon {
+    font-size: 4rem;
+    margin-bottom: 24px;
+}
+
+@media (max-width: 768px) {
+    .signup-visual-section {
+        display: none;
+    }
+
+    .signup-form-section {
+        padding: 24px;
+    }
+
+    .form-row {
+        grid-template-columns: 1fr;
+    }
+}

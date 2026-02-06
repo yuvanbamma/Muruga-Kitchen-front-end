@@ -16,7 +16,8 @@
 
 .header-container {
     width: 100%;
-    margin: 0;
+    max-width: 1200px;
+    margin: 0 auto;
     padding: 16px 20px;
     display: flex;
     align-items: center;
@@ -148,7 +149,49 @@
 .header-menu-system {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 20px;
+}
+
+.auth-triggers-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.login-minimal-btn {
+    background: transparent;
+    color: var(--text-secondary);
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: var(--radius-md);
+}
+
+.login-minimal-btn:hover {
+    color: var(--primary);
+    background: var(--bg-tertiary);
+}
+
+.signup-header-btn {
+    background: var(--gradient-primary);
+    color: white;
+    font-weight: 700;
+    padding: 10px 24px;
+    border-radius: var(--radius-full);
+    box-shadow: var(--shadow-md);
+}
+
+.signup-header-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-glow), var(--shadow-lg);
+}
+
+.logout-item {
+    color: var(--error) !important;
+}
+
+.logout-item:hover {
+    background: rgba(239, 68, 68, 0.1) !important;
+    border-left-color: var(--error) !important;
 }
 
 .explore-trigger {

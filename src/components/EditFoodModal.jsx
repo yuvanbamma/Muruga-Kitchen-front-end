@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import api from '../utils/api';
 import './EditFoodModal.css';
 
 const EditFoodModal = ({ post, onSave, onClose }) => {
@@ -27,26 +28,14 @@ const EditFoodModal = ({ post, onSave, onClose }) => {
 
         // Prepare the request body
         // User asked to send only changing fields, but including the ID
+        const postId = post.id || post.uuid || post.foodPostId;
         const updatePayload = {
-            id: post.id || post.uuid || post.foodPostId,
+            id: postId,
             ...formData
         };
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts/${updatePayload.id}`, {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(updatePayload),
-            });
-
-            if (!response.ok) {
-                const errData = await response.json().catch(() => ({}));
-                throw new Error(errData.message || `Update failed: ${response.status}`);
-            }
-
-            const updatedPost = await response.json();
+            const updatedPost = await api.put(`/food-posts/${postId}`, updatePayload);
             onSave(updatedPost);
             onClose();
         } catch (err) {

@@ -20,7 +20,7 @@
     justify-content: center;
     text-align: center;
     color: var(--text-inverse);
-    background: radial-gradient(circle at 70% 30%, var(--primary-dark) 0%, var(--primary) 100%);
+    background: linear-gradient(135deg, var(--primary) 0%, var(--primary-dark) 100%);
     background-color: var(--bg-primary);
     overflow: hidden;
     transition: background var(--transition-base);
@@ -138,11 +138,36 @@
 
 .section-container {
     width: 100%;
-    margin: 0;
+    max-width: 1200px;
+    margin: 0 auto;
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
     gap: 48px;
-    padding: 0;
+    padding: 0 40px;
+}
+
+.poem-text {
+    font-style: italic;
+    font-family: var(--font-heading);
+    color: var(--primary);
+    line-height: 1.4;
+    font-size: 1.1rem;
+}
+
+.icons-section {
+    padding: 100px 0;
+    background: var(--bg-primary);
+}
+
+.icon-bio-card {
+    border-top: 4px solid var(--primary);
+}
+
+.bio-text {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-secondary);
+    margin-top: 12px;
 }
 
 .feature-card {
@@ -324,21 +349,97 @@
 }
 
 /* ============================================
-   GOLDEN ROADMAP SECTION
+   MISSION & IMPACT SECTIONS
+   ============================================ */
+.mission-highlight {
+    padding: 100px 40px;
+    background: var(--bg-primary);
+    text-align: center;
+}
+
+.mission-content h2 {
+    font-size: 3rem;
+    margin-bottom: 24px;
+    background: var(--gradient-primary);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.mission-content p {
+    font-size: 1.25rem;
+    color: var(--text-secondary);
+    max-width: 900px;
+    margin: 0 auto;
+    line-height: 1.8;
+}
+
+.impact-section {
+    padding: 100px 0;
+    background: var(--bg-secondary);
+}
+
+.impact-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 40px;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 40px;
+}
+
+.impact-card {
+    background: var(--bg-elevated);
+    padding: 60px 40px;
+    border-radius: var(--radius-xl);
+    text-align: center;
+    box-shadow: var(--shadow-lg);
+    border: 1px solid var(--border-light);
+    transition: transform var(--transition-base);
+}
+
+.impact-card:hover {
+    transform: translateY(-8px);
+}
+
+.impact-num {
+    display: block;
+    font-size: 3.5rem;
+    font-weight: 800;
+    color: var(--primary);
+    margin-bottom: 12px;
+}
+
+.impact-label {
+    font-size: 1.125rem;
+    font-weight: 600;
+    color: var(--text-tertiary);
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+/* ============================================
+   GOLDEN ROADMAP SECTION (RESTORED)
+   ============================================ */
+/* ============================================
+   GOLDEN ROADMAP SECTION (RESTORED)
    ============================================ */
 .golden-roadmap-section {
     width: 100%;
-    margin: 180px 0;
-    padding: 0;
+    margin: 120px 0;
+    padding: 0 20px;
     text-align: center;
 }
 
 .drawing-container {
     position: relative;
     width: 100%;
+    height: 600px;
+    max-width: 1000px;
+    margin: 60px auto 0;
     height: 700px;
-    margin-top: 100px;
-    background: radial-gradient(circle at center, rgba(66, 125, 157, 0.08) 0%, transparent 70%);
+    margin-top: 80px;
+    background: radial-gradient(circle at center, rgba(66, 125, 157, 0.04) 0%, transparent 70%);
     border-radius: var(--radius-xl);
 }
 
@@ -372,205 +473,135 @@
     align-items: center;
     width: 250px;
     transition: all var(--transition-base);
-    animation: fadeInUp 0.8s ease-out backwards;
-}
-
-.milestone-rock:nth-child(2) {
-    animation-delay: 0.2s;
-}
-
-.milestone-rock:nth-child(3) {
-    animation-delay: 0.4s;
-}
-
-.milestone-rock:nth-child(4) {
-    animation-delay: 0.6s;
-}
-
-.milestone-rock:nth-child(5) {
-    animation-delay: 0.8s;
 }
 
 .rock-icon {
-    width: 80px;
-    height: 80px;
+    width: 70px;
+    height: 70px;
     background: var(--bg-elevated);
     border: 3px solid var(--primary);
     border-radius: var(--radius-md);
     display: flex;
     align-items: center;
     justify-content: center;
-    font-size: 2.5rem;
-    box-shadow: 0 10px 0 var(--primary-dark), var(--shadow-lg);
-    margin-bottom: 20px;
+    font-size: 2.25rem;
+    box-shadow: 0 8px 0 var(--primary-dark), var(--shadow-lg);
+    margin-bottom: 16px;
     transform: rotate(-3deg);
     transition: all var(--transition-base);
 }
 
 .milestone-rock:hover {
-    transform: scale(1.1) translateY(-10px);
+    transform: scale(1.08) translateY(-8px);
 }
 
 .milestone-rock:hover .rock-icon {
     transform: rotate(0deg) scale(1.1);
-    box-shadow: 0 15px 0 var(--primary-dark), var(--shadow-glow), var(--shadow-xl);
+    box-shadow: 0 12px 0 var(--primary-dark), var(--shadow-glow), var(--shadow-xl);
 }
 
 .rock-text h4 {
     color: var(--text-primary);
-    font-size: 1.25rem;
-    margin-bottom: 8px;
+    font-size: 1.15rem;
+    margin-bottom: 6px;
     font-weight: 700;
 }
 
 .rock-text p {
-    font-size: 1rem;
+    font-size: 0.95rem;
     color: var(--text-tertiary);
-    line-height: 1.6;
-}
-
-.pulse {
-    animation: rockPulse 2s infinite;
-}
-
-@keyframes rockPulse {
-
-    0%,
-    100% {
-        transform: scale(1);
-    }
-
-    50% {
-        transform: scale(1.05);
-    }
+    line-height: 1.5;
 }
 
 /* ============================================
    APP BANNER
    ============================================ */
 .app-banner {
-    padding: 150px 60px;
-    background: var(--gradient-hero);
-    color: white;
+    padding: 180px 40px;
+    background: linear-gradient(135deg, #F8FAFC 0%, #FFFFFF 100%);
+    color: var(--text-primary);
     text-align: center;
-    border-radius: 0;
-    /* Fully bleed for banner */
-    margin: 120px 0;
     position: relative;
     overflow: hidden;
-    box-shadow: var(--shadow-2xl);
+}
+
+[data-theme="dark"] .app-banner {
+    background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
+    color: white;
 }
 
 .app-banner::before {
     content: '';
     position: absolute;
     inset: 0;
-    background: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?auto=format&fit=crop&q=80&w=2070');
+    background: url('https://images.unsplash.com/photo-1543353071-873f17a7a088?auto=format&fit=crop&q=80&w=2000');
     background-size: cover;
     background-position: center;
-    opacity: 0.15;
+    opacity: 0.04;
     z-index: 0;
+}
+
+[data-theme="dark"] .app-banner::before {
+    opacity: 0.12;
 }
 
 .banner-content {
     position: relative;
     z-index: 1;
+    max-width: 900px;
+    margin: 0 auto;
 }
 
 .banner-content h2 {
     font-size: 3.5rem;
-    margin-bottom: 20px;
-    color: white;
+    margin-bottom: 24px;
+    color: inherit;
+    letter-spacing: -0.04em;
 }
 
 .banner-content p {
-    font-size: 1.25rem;
-    color: rgba(255, 255, 255, 0.9);
-    max-width: 800px;
-    margin: 0 auto 48px;
+    font-size: 1.4rem;
+    margin-bottom: 48px;
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+[data-theme="dark"] .banner-content p {
+    color: rgba(255, 255, 255, 0.85);
 }
 
 .store-buttons {
     display: flex;
     justify-content: center;
-    gap: 20px;
+    gap: 32px;
     flex-wrap: wrap;
 }
 
 .store-btn {
-    padding: 14px 32px;
+    padding: 18px 48px;
     border-radius: var(--radius-md);
-    border: 2px solid rgba(255, 255, 255, 0.4);
-    background: rgba(255, 255, 255, 0.15);
-    backdrop-filter: var(--backdrop-blur);
-    color: white;
-    font-weight: 600;
-    font-size: 1rem;
+    border: 2px solid var(--border-medium);
+    background: var(--bg-elevated);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1.1rem;
     transition: all var(--transition-base);
+    box-shadow: var(--shadow-sm);
+}
+
+[data-theme="dark"] .store-btn {
+    border-color: rgba(255, 255, 255, 0.2);
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+    backdrop-filter: var(--backdrop-blur);
 }
 
 .store-btn:hover {
-    background: rgba(255, 255, 255, 0.25);
-    border-color: rgba(255, 255, 255, 0.6);
+    background: var(--primary);
+    color: var(--text-inverse);
+    border-color: var(--primary);
     transform: translateY(-4px);
-    box-shadow: var(--shadow-xl);
-}
-
-/* ============================================
-   WASHING STATION MICRO-INTERACTION
-   ============================================ */
-.washing-station-trigger {
-    position: fixed;
-    bottom: 30px;
-    right: 30px;
-    width: 70px;
-    height: 70px;
-    background: var(--bg-elevated);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2rem;
-    box-shadow: var(--shadow-xl);
-    cursor: pointer;
-    z-index: 999;
-    border: 3px solid var(--primary);
-    transition: all var(--transition-bounce);
-}
-
-.washing-station-trigger:hover {
-    transform: scale(1.15) rotate(15deg);
-    box-shadow: var(--shadow-glow), var(--shadow-2xl);
-}
-
-.washing-station-trigger:hover .water-splash {
-    opacity: 1;
-    transform: scale(1);
-    animation: splashWater 1s infinite;
-}
-
-.water-splash {
-    position: absolute;
-    width: 100px;
-    height: 100px;
-    background: radial-gradient(circle, rgba(66, 125, 157, 0.4) 0%, transparent 70%);
-    border-radius: 50%;
-    opacity: 0;
-    transform: scale(0.5);
-    transition: all var(--transition-base);
-    pointer-events: none;
-}
-
-@keyframes splashWater {
-    0% {
-        transform: scale(0.5);
-        opacity: 0.8;
-    }
-
-    100% {
-        transform: scale(1.5);
-        opacity: 0;
-    }
+    box-shadow: var(--shadow-glow), var(--shadow-xl);
 }
 
 /* ============================================
@@ -578,16 +609,8 @@
    ============================================ */
 .footer-main {
     background: var(--bg-secondary);
-    padding: 80px 0 40px;
-    margin-top: 100px;
+    padding: 80px 40px 40px;
     border-top: 1px solid var(--border-light);
-    transition: background var(--transition-base);
-}
-
-.footer-container {
-    width: 100%;
-    margin: 0;
-    padding: 0;
 }
 
 .footer-row {
@@ -598,18 +621,12 @@
     margin-bottom: 40px;
 }
 
-.footer-col {
-    flex: 1;
-    min-width: 200px;
-}
-
 .footer-col h4 {
     font-size: 1.125rem;
     font-weight: 700;
     margin-bottom: 24px;
     color: var(--text-primary);
     text-transform: uppercase;
-    letter-spacing: 0.5px;
 }
 
 .footer-col ul {
@@ -622,7 +639,6 @@
     font-size: 0.95rem;
     cursor: pointer;
     transition: all var(--transition-fast);
-    padding-left: 0;
 }
 
 .footer-col ul li:hover {
@@ -650,11 +666,6 @@
     text-align: center;
 }
 
-.brand-col {
-    flex: 1.5;
-    min-width: 250px;
-}
-
 /* ============================================
    RESPONSIVE DESIGN
    ============================================ */
@@ -663,52 +674,44 @@
         font-size: 3.5rem;
     }
 
-    .section-container {
-        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-        gap: 30px;
+    .impact-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 24px;
     }
 
-    .categories-grid {
-        grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
-        gap: 24px;
+    .drawing-container {
+        height: 800px;
     }
 }
 
 @media (max-width: 768px) {
     .hero-title {
-        font-size: 2.5rem;
+        font-size: 3rem;
     }
 
     .hero-subtitle {
-        font-size: 1.125rem;
+        font-size: 1.15rem;
     }
 
-    .hero-actions {
-        flex-direction: column;
-        align-items: center;
+    .section-header h2 {
+        font-size: 2.25rem;
     }
 
-    .cta-button {
-        width: 100%;
-        max-width: 300px;
+    .mission-content h2 {
+        font-size: 2.5rem;
     }
 
-    .features-section {
-        padding: 60px 0;
-    }
-
-    .section-container {
+    .impact-grid {
         grid-template-columns: 1fr;
-        gap: 24px;
     }
 
     .drawing-container {
         height: auto;
-        min-height: 800px;
         display: flex;
         flex-direction: column;
         gap: 40px;
-        padding: 40px 20px;
+        padding: 40px 0;
+        background: none;
     }
 
     .roadmap-svg {
@@ -718,75 +721,44 @@
     .milestone-rock {
         position: static;
         width: 100%;
-        max-width: 300px;
         margin: 0 auto;
     }
 
     .app-banner {
         padding: 80px 20px;
-        margin: 60px 16px;
     }
 
     .banner-content h2 {
-        font-size: 2rem;
+        font-size: 2.25rem;
     }
 
-    .footer-row {
-        gap: 40px;
-    }
-
-    .footer-col {
-        min-width: 150px;
-    }
-}
-
-@media (max-width: 480px) {
-    .hero-section {
-        min-height: 500px;
-    }
-
-    .hero-title {
-        font-size: 2rem;
-    }
-
-    .hero-subtitle {
-        font-size: 1rem;
-    }
-
-    .food-track {
-        font-size: 4rem;
-        gap: 4rem;
-    }
-
-    .categories-grid {
-        gap: 20px;
-        padding: 10px;
-    }
-
-    .category-card {
-        width: 120px;
-    }
-
-    .category-img-box {
-        width: 100px;
-        height: 100px;
-    }
-
-    .cat-emoji {
-        font-size: 3rem;
-    }
-
-    .washing-station-trigger {
-        width: 60px;
-        height: 60px;
-        bottom: 20px;
-        right: 20px;
-        font-size: 1.75rem;
+    .banner-content p {
+        font-size: 1.1rem;
     }
 
     .footer-row {
         flex-direction: column;
-        gap: 30px;
+        gap: 40px;
+    }
+}
+
+@media (max-width: 480px) {
+    .hero-title {
+        font-size: 2.5rem;
+    }
+
+    .hero-actions {
+        flex-direction: column;
+        width: 100%;
+        padding: 0 20px;
+    }
+
+    .cta-button {
+        width: 100%;
+    }
+
+    .banner-content h2 {
+        font-size: 1.875rem;
     }
 }
 
@@ -795,10 +767,6 @@
    ============================================ */
 [data-theme="dark"] .hero-section {
     background: radial-gradient(circle at top right, #1E293B, #0F172A);
-}
-
-[data-theme="dark"] .app-banner {
-    background: linear-gradient(135deg, #1E293B 0%, #0F172A 100%);
 }
 
 [data-theme="dark"] .feature-card {

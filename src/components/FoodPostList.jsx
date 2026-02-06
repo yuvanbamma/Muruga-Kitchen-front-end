@@ -1,8 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
+import { useNavigate } from 'react-router-dom';
+import api from '../utils/api';
 import './FoodPostList.css';
 import EditFoodModal from './EditFoodModal';
 
-const FoodPostList = ({ onPostClick }) => {
+const FoodPostList = () => {
+    const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(0);
     const [totalPages, setTotalPages] = useState(0);
@@ -18,12 +21,8 @@ const FoodPostList = ({ onPostClick }) => {
     const fetchPosts = useCallback(async () => {
         setLoading(true);
         try {
-            const apiUrl = `${import.meta.env.VITE_API_URL}/api/food-posts?page=${page}&size=${pageSize}`;
-            const response = await fetch(apiUrl);
-            if (!response.ok) {
-                throw new Error(`Failed to fetch posts: ${response.status}`);
-            }
-            const data = await response.json();
+            // Restored to GET method as verified by Postman
+            const data = await api.get(`/food-posts/getFoodPostList?page=${page}&size=${pageSize}`);
             setPosts(data.content);
             setTotalPages(data.totalPages);
             setLast(data.last);
@@ -45,19 +44,11 @@ const FoodPostList = ({ onPostClick }) => {
         if (!window.confirm("Are you sure you want to delete this delicious dish?")) return;
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts?id=${id}`, {
-                method: 'DELETE',
-            });
-
-            if (response.ok) {
-                // Also trigger re-fetch for safety, or keep local filter
-                fetchPosts();
-            } else {
-                alert("Failed to delete. Please try again.");
-            }
+            await api.delete(`/food-posts?id=${id}`);
+            fetchPosts();
         } catch (err) {
             console.error("Delete error:", err);
-            alert("Network error while deleting.");
+            alert(err.message || "Failed to delete. Please try again.");
         }
     };
 
@@ -111,7 +102,7 @@ const FoodPostList = ({ onPostClick }) => {
                                 <div
                                     key={postId || Math.random()}
                                     className="food-card-pro"
-                                    onClick={() => postId && onPostClick(postId)}
+                                    onClick={() => postId && navigate(`/post/${postId}`)}
                                 >
                                     <div className="card-media">
                                         {post.imageUrl ? (

@@ -1,7 +1,10 @@
 import { useState } from 'react';
+import { useAuth } from '../context/AuthContext';
+import api from '../utils/api';
 import './CreateFoodPost.css';
 
-const CreateFoodPost = () => {
+const CreateFoodPost = ({ setView }) => {
+    const { isDonor, isAuthenticated } = useAuth();
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [quantity, setQuantity] = useState('');
@@ -9,6 +12,19 @@ const CreateFoodPost = () => {
     const [previewUrl, setPreviewUrl] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
+
+    if (!isAuthenticated || !isDonor) {
+        return (
+            <div className="create-portal-container unauthorized">
+                <div className="portal-header">
+                    <h2>Unauthorized Access</h2>
+                    <p>Only registered <strong>Food Donors</strong> can create new listings. Please sign in with a donor account.</p>
+                    <button className="primary-btn-lg" onClick={() => setView('login')}>Sign In as Donor</button>
+                    <button className="secondary-btn-lg" onClick={() => setView('dashboard')}>Back to Home</button>
+                </div>
+            </div>
+        );
+    }
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -36,24 +52,15 @@ const CreateFoodPost = () => {
         }
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts`, {
-                method: 'POST',
-                body: formData,
-            });
-
-            if (response.ok) {
-                setMessage('Food item successfully published!');
-                setName('');
-                setDescription('');
-                setQuantity('');
-                setImage(null);
-                setPreviewUrl('');
-            } else {
-                setMessage('Failed to create post. Please try again.');
-            }
+            await api.multipartRequest('/food-posts', formData);
+            setMessage('Food item successfully published!');
+            setName('');
+            setDescription('');
+            setQuantity('');
+            setImage(null);
+            setPreviewUrl('');
         } catch (error) {
-            console.error(error);
-            setMessage('Network error. Please check your connection.');
+            setMessage(error.message || 'Failed to create post. Please try again.');
         } finally {
             setLoading(false);
         }

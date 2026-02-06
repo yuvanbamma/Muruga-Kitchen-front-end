@@ -1,9 +1,12 @@
 import React from 'react';
+import { useNavigate, Link } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 import './Dashboard.css';
-import CookingAnimation from './CookingAnimation';
-import { KitchenAssets } from '../constants/KitchenAssets';
 
-const Dashboard = ({ setView }) => {
+const Dashboard = () => {
+    const navigate = useNavigate();
+    const { isAuthenticated, isDonor, isDeliveryBoy } = useAuth();
+
     return (
         <div className="home-container">
             {/* Hero Section */}
@@ -13,10 +16,6 @@ const Dashboard = ({ setView }) => {
                         <span>🍎</span><span>🍔</span><span>🍕</span><span>🌮</span><span>🍣</span><span>🍜</span><span>🍩</span><span>🍦</span><span>🥑</span><span>🍤</span>
                         <span>🥐</span><span>🥓</span><span>🥩</span><span>🌭</span><span>🍟</span><span>🍪</span><span>🍫</span><span>🥞</span><span>🥡</span><span>🍱</span>
                     </div>
-                    <div className="food-track reverse">
-                        <span>🍉</span><span>🥨</span><span>🍗</span><span>🍚</span><span>🥣</span><span>🥗</span><span>🥪</span><span>🥫</span><span>🎂</span><span>🍰</span>
-                        <span>🧁</span><span>🥧</span><span>🍮</span><span>🍭</span><span>🍬</span><span>🍿</span><span>🥟</span><span>🥠</span><span>🍢</span><span>🍡</span>
-                    </div>
                 </div>
 
                 <div className="hero-content">
@@ -24,13 +23,37 @@ const Dashboard = ({ setView }) => {
                     <h2 className="hero-subtitle slide-up">Fresh home-style food from Muruga Kitchen, delivered to your doorstep.</h2>
 
                     <div className="hero-actions slide-up delay-1">
-                        <button
-                            className="cta-button primary-gradient"
-                            onClick={() => setView('list')}
-                        >
-                            Explore Menu
-                        </button>
-                        <button className="cta-button secondary-glass">Share Love</button>
+                        {isDonor ? (
+                            <button
+                                className="cta-button primary-gradient"
+                                onClick={() => navigate('/create')}
+                            >
+                                Post New Food
+                            </button>
+                        ) : isDeliveryBoy ? (
+                            <button
+                                className="cta-button primary-gradient"
+                                onClick={() => navigate('/menu')}
+                            >
+                                Start Delivering
+                            </button>
+                        ) : (
+                            <button
+                                className="cta-button primary-gradient"
+                                onClick={() => navigate('/menu')}
+                            >
+                                Explore Menu
+                            </button>
+                        )}
+
+                        {!isAuthenticated && (
+                            <button
+                                className="cta-button secondary-glass"
+                                onClick={() => navigate('/signup')}
+                            >
+                                Join as Partner
+                            </button>
+                        )}
                     </div>
                 </div>
             </section>
@@ -53,41 +76,75 @@ const Dashboard = ({ setView }) => {
                         <h3>Priority Delivery</h3>
                         <p>Hot and fresh meals delivered in record time to keep the flavors alive.</p>
                     </div>
+                    <div className="feature-card">
+                        <div className="feature-img-placeholder" style={{ backgroundColor: '#FDF2F8' }}>📜</div>
+                        <h3>Bharathi's Vision</h3>
+                        <p className="poem-text">"If even a single person has no food, we shall destroy this world."</p>
+                    </div>
                 </div>
             </section>
 
-            {/* Interactive Cooking Odyssey [Scroll Animation] */}
-            <CookingAnimation />
+            {/* Professional Vision Section */}
+            <section className="mission-highlight">
+                <div className="mission-content">
+                    <h2>Our Vision</h2>
+                    <p>At Muruga Kitchen, we believe nobody should go hungry. Our platform bridges the gap between generous donors and those in need, powered by our dedicated delivery heroes.</p>
+                </div>
+            </section>
 
-            {/* Inspiration for your first order (RESTORED) */}
-            <section className="categories-section">
+            {/* NEW: Guiding Spirits of Service */}
+            <section className="icons-section">
                 <div className="section-header">
-                    <h2>Inspiration for your first order</h2>
-                    <p>Curated selections to tantalize your taste buds.</p>
+                    <h2>Guiding Spirits of Service</h2>
+                    <p>Inspiration from India's greatest humanitarian legends.</p>
                 </div>
-
-                <div className="categories-grid">
-                    {[
-                        { name: 'Biryani', emoji: '🍛' },
-                        { name: 'Ice Cream', emoji: '🍦' },
-                        { name: 'Pizza', emoji: '🍕' },
-                        { name: 'Burger', emoji: '🍔' },
-                        { name: 'Chinese', emoji: '🍜' },
-                        { name: 'Desserts', emoji: '🍰' },
-                        { name: 'Healthy', emoji: '🥗' },
-                        { name: 'Rolls', emoji: '🌯' }
-                    ].map((item, index) => (
-                        <div key={index} className="category-card">
-                            <div className="category-img-box">
-                                <span className="cat-emoji">{item.emoji}</span>
-                            </div>
-                            <h4>{item.name}</h4>
-                        </div>
-                    ))}
+                <div className="section-container">
+                    <div className="feature-card icon-bio-card">
+                        <div className="feature-img-placeholder" style={{ backgroundColor: '#F0FDF4' }}>🕊️</div>
+                        <h3>Mother Teresa</h3>
+                        <p className="bio-text">The Saint of the Gutters. Lived in Kolkata, founded Missionaries of Charity to serve the poorest of the poor with unconditional love.</p>
+                    </div>
+                    <div className="feature-card icon-bio-card">
+                        <div className="feature-img-placeholder" style={{ backgroundColor: '#FDF2F8' }}>👩‍🏫</div>
+                        <h3>Savitribai Phule</h3>
+                        <p className="bio-text">Mother of Indian Feminism. India's first female teacher who opened doors of education for the marginalized and fought for social justice.</p>
+                    </div>
+                    <div className="feature-card icon-bio-card">
+                        <div className="feature-img-placeholder" style={{ backgroundColor: '#FFF7ED' }}>👵</div>
+                        <h3>Avvaiyar</h3>
+                        <p className="bio-text">Legendary Tamil Sage. A wandering poetess who traveled across villages, promoting kindness, hunger-relief, and ethical living.</p>
+                    </div>
+                    <div className="feature-card icon-bio-card">
+                        <div className="feature-img-placeholder" style={{ backgroundColor: '#EEF2FF' }}>🍲</div>
+                        <h3>Ahilyabai Holkar</h3>
+                        <p className="bio-text">The Philosopher Queen. Ruler of Indore who established numerous free food kitchens (Annachhatras) and shelters across India.</p>
+                    </div>
                 </div>
             </section>
 
-            {/* NEW: The Golden Path Roadmap (Hand-Drawn Style) */}
+            {/* Impact Section */}
+            <section className="impact-section">
+                <div className="section-header">
+                    <h2>Making a Difference</h2>
+                    <p>Track the growth of our mission as we serve the community with pride.</p>
+                </div>
+                <div className="impact-grid">
+                    <div className="impact-card">
+                        <span className="impact-num">10k+</span>
+                        <span className="impact-label">Meals Shared</span>
+                    </div>
+                    <div className="impact-card">
+                        <span className="impact-num">500+</span>
+                        <span className="impact-label">Donors Involved</span>
+                    </div>
+                    <div className="impact-card">
+                        <span className="impact-num">50+</span>
+                        <span className="impact-label">Active Heroes</span>
+                    </div>
+                </div>
+            </section>
+
+            {/* RESTORED: The Golden Path Roadmap (Hand-Drawn Style) */}
             <section className="golden-roadmap-section">
                 <div className="section-header">
                     <h2>Muruga's Vision Quest</h2>
@@ -110,7 +167,7 @@ const Dashboard = ({ setView }) => {
                         <div className="rock-icon">🏗️</div>
                         <div className="rock-text">
                             <h4>Startup</h4>
-                            <p>Building the foundation of taste.</p>
+                            <p>Launching our food donation mission.</p>
                         </div>
                     </div>
 
@@ -122,7 +179,7 @@ const Dashboard = ({ setView }) => {
                         </div>
                     </div>
 
-                    <div className="milestone-rock" style={{ bottom: '65%', left: '60%' }}>
+                    <div className="milestone-rock" style={{ bottom: '55%', left: '55%' }}>
                         <div className="rock-icon">🏘️</div>
                         <div className="rock-text">
                             <h4>Orphanages</h4>
@@ -130,7 +187,7 @@ const Dashboard = ({ setView }) => {
                         </div>
                     </div>
 
-                    <div className="milestone-rock pulse" style={{ top: '5%', right: '5%' }}>
+                    <div className="milestone-rock pulse" style={{ top: '8%', right: '8%' }}>
                         <div className="rock-icon">❤️</div>
                         <div className="rock-text">
                             <h4>Zero Hunger</h4>
@@ -152,44 +209,47 @@ const Dashboard = ({ setView }) => {
                 </div>
             </section>
 
-            {/* NEW: Floating Washing Station Micro-interaction */}
-            <div className="washing-station-trigger" title="Hygienic Preparation">
-                <div className="wash-icon">🚰</div>
-                <div className="water-splash"></div>
-            </div>
-
             {/* Professional Footer */}
             <footer className="footer-main">
                 <div className="footer-container">
                     <div className="footer-row">
                         <div className="footer-col brand-col">
                             <h3 className="footer-brand">Muruga Kitchen</h3>
-                            <p className="copyright">© 2026 Muruga Kitchen Technologies Pvt. Ltd</p>
+                            <p className="footer-tagline">Serving love through every bowl.</p>
+                            <div className="social-links">
+                                <a href="https://instagram.com/murugakitchen" target="_blank" rel="noopener noreferrer">Instagram</a>
+                                <a href="https://twitter.com/murugakitchen" target="_blank" rel="noopener noreferrer">Twitter</a>
+                                <a href="https://facebook.com/murugakitchen" target="_blank" rel="noopener noreferrer">Facebook</a>
+                            </div>
                         </div>
                         <div className="footer-col">
                             <h4>Company</h4>
                             <ul>
-                                <li>About</li>
-                                <li>Team</li>
-                                <li>Careers</li>
+                                <li><a href="https://about.murugakitchen.com" target="_blank" rel="noopener noreferrer">About Us</a></li>
+                                <li><Link to="/">Manifesto</Link></li>
+                                <li><a href="https://careers.murugakitchen.com" target="_blank" rel="noopener noreferrer">Careers</a></li>
+                                <li><a href="https://blog.murugakitchen.com" target="_blank" rel="noopener noreferrer">Kitchen Blog</a></li>
                             </ul>
                         </div>
                         <div className="footer-col">
                             <h4>Contact us</h4>
                             <ul>
-                                <li>Help & Support</li>
-                                <li>Partner with us</li>
-                                <li>Ride with us</li>
+                                <li><a href="https://support.murugakitchen.com" target="_blank" rel="noopener noreferrer">Help & Support</a></li>
+                                <li><Link to="/signup">Partner with us</Link></li>
+                                <li><Link to="/signup">Ride with us</Link></li>
                             </ul>
                         </div>
                         <div className="footer-col">
                             <h4>Legal</h4>
                             <ul>
-                                <li>Terms & Conditions</li>
-                                <li>Cookie Policy</li>
-                                <li>Privacy Policy</li>
+                                <li><a href="https://legal.murugakitchen.com/terms" target="_blank" rel="noopener noreferrer">Terms & Conditions</a></li>
+                                <li><a href="https://legal.murugakitchen.com/privacy" target="_blank" rel="noopener noreferrer">Privacy Policy</a></li>
+                                <li><a href="https://legal.murugakitchen.com/cookies" target="_blank" rel="noopener noreferrer">Cookie Policy</a></li>
                             </ul>
                         </div>
+                    </div>
+                    <div className="footer-bottom">
+                        <p className="copyright">© 2026 Muruga Kitchen Technologies Pvt. Ltd. Grounded in Bangalore.</p>
                     </div>
                 </div>
             </footer>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import api from '../utils/api';
 import './FoodPostDetails.css';
 import EditFoodModal from './EditFoodModal';
 
@@ -13,9 +14,7 @@ const FoodPostDetails = ({ postId, onBack }) => {
         const fetchPostDetails = async () => {
             setLoading(true);
             try {
-                const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts/${postId}`);
-                if (!response.ok) throw new Error('Failed to fetch details');
-                const data = await response.json();
+                const data = await api.get(`/food-posts/${postId}`);
                 setPost(data);
                 setError(null);
             } catch (err) {
@@ -32,17 +31,11 @@ const FoodPostDetails = ({ postId, onBack }) => {
         if (!window.confirm("Are you sure you want to delete this item?")) return;
 
         try {
-            const response = await fetch(`${import.meta.env.VITE_API_URL}/api/food-posts?id=${postId}`, {
-                method: 'DELETE',
-            });
-            if (response.ok) {
-                onBack(); // Auto-refresh by going back to the list
-            } else {
-                alert("Failed to delete item.");
-            }
+            await api.delete(`/food-posts?id=${postId}`);
+            onBack(); // Auto-refresh by going back to the list
         } catch (err) {
             console.error("Delete error:", err);
-            alert("Network error while deleting.");
+            alert(err.message || "Failed to delete item.");
         }
     };
 
