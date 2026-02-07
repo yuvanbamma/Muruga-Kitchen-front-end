@@ -21,8 +21,8 @@ const FoodPostList = () => {
     const fetchPosts = useCallback(async () => {
         setLoading(true);
         try {
-            // Restored to GET method as verified by Postman
-            const data = await api.get(`/food-posts/getFoodPostList?page=${page}&size=${pageSize}`);
+            // Corrected to POST method as clarified by the user
+            const data = await api.post(`/food-posts/getFoodPostList?page=${page}&size=${pageSize}`, {});
             setPosts(data.content);
             setTotalPages(data.totalPages);
             setLast(data.last);
