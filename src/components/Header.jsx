@@ -43,7 +43,7 @@ const Header = () => {
                         <span className="search-icon">🔍</span>
                         <input
                             type="text"
-                            placeholder="Find your craving..."
+                            placeholder="Find surplus food for mission..."
                             className="search-input"
                         />
                     </div>
@@ -53,8 +53,12 @@ const Header = () => {
                 <div className="header-menu-system">
                     {!isAuthenticated && (
                         <div className="auth-triggers-header">
-                            <button className="login-minimal-btn" onClick={() => handleNav('/login')}>Sign In</button>
-                            <Link to="/signup" className="signup-header-btn">Join Mission</Link>
+                            <button className="login-minimal-btn" onClick={() => handleNav('/login')}>
+                                Sign In
+                            </button>
+                            <Link to="/signup" className="signup-header-btn">
+                                Join Mission
+                            </Link>
                         </div>
                     )}
 
@@ -62,8 +66,14 @@ const Header = () => {
 
                     <div className="explore-trigger">
                         <button className="explore-pill" onClick={() => setMenuOpen(!menuOpen)}>
-                            <span className="hamburger">☰</span>
-                            <span className="explore-label">{isAuthenticated ? user.role.replace('_', ' ') : 'Explore'}</span>
+                            <div className="hamburger-icon">
+                                <span></span>
+                                <span></span>
+                                <span></span>
+                            </div>
+                            <span className="explore-label">
+                                {isAuthenticated ? (isDonor ? "Donation Hub" : "Mission Portal") : 'Explore'}
+                            </span>
                         </button>
 
                         {menuOpen && (
@@ -77,10 +87,10 @@ const Header = () => {
                                         <span className="icon">🏠</span> Home
                                     </div>
                                     <div
-                                        className={`compact-item ${isActive('/menu') ? 'active' : ''}`}
-                                        onClick={() => handleNav('/menu')}
+                                        className={`compact-item ${isActive('/donations') ? 'active' : ''}`}
+                                        onClick={() => handleNav('/donations')}
                                     >
-                                        <span className="icon">🥡</span> Order Now
+                                        <span className="icon">🍲</span> Available Food
                                     </div>
 
                                     {isDonor && (
@@ -88,7 +98,7 @@ const Header = () => {
                                             className={`compact-item ${isActive('/create') ? 'active' : ''}`}
                                             onClick={() => handleNav('/create')}
                                         >
-                                            <span className="icon">➕</span> Add Listing
+                                            <span className="icon">🎁</span> Post Surplus
                                         </div>
                                     )}
 

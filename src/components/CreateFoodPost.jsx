@@ -18,8 +18,8 @@ const CreateFoodPost = ({ setView }) => {
             <div className="create-portal-container unauthorized">
                 <div className="portal-header">
                     <h2>Unauthorized Access</h2>
-                    <p>Only registered <strong>Food Donors</strong> can create new listings. Please sign in with a donor account.</p>
-                    <button className="primary-btn-lg" onClick={() => setView('login')}>Sign In as Donor</button>
+                    <p>Only registered <strong>Donation Partners</strong> can share surplus food. Please sign in with a donor account.</p>
+                    <button className="primary-btn-lg" onClick={() => setView('login')}>Sign In as Partner</button>
                     <button className="secondary-btn-lg" onClick={() => setView('dashboard')}>Back to Home</button>
                 </div>
             </div>
@@ -53,7 +53,7 @@ const CreateFoodPost = ({ setView }) => {
 
         try {
             await api.multipartRequest('/food-posts', formData);
-            setMessage('Food item successfully published!');
+            setMessage('Surplus food mission shared successfully!');
             setName('');
             setDescription('');
             setQuantity('');
@@ -69,8 +69,8 @@ const CreateFoodPost = ({ setView }) => {
     return (
         <div className="create-portal-container">
             <div className="portal-header">
-                <h2>Add New Food Item</h2>
-                <p>Fill in the details to list menu items on the platform.</p>
+                <h2>Post Surplus Food</h2>
+                <p>Help us reduce waste. Share untouched food from your event with those in need.</p>
             </div>
 
             <div className="portal-content">
@@ -78,25 +78,25 @@ const CreateFoodPost = ({ setView }) => {
 
                     {/* Item Details */}
                     <div className="form-section">
-                        <h3>Item Details</h3>
+                        <h3>Donation Details</h3>
                         <div className="input-group">
-                            <label>Item Name</label>
+                            <label>Event/Item Name</label>
                             <input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="e.g. Hyderabadi Chicken Biryani"
+                                placeholder="e.g. Wedding Buffet Surplus"
                                 required
                                 className="premium-input"
                             />
                         </div>
 
                         <div className="input-group">
-                            <label>Description</label>
+                            <label>Details & Safety Info</label>
                             <textarea
                                 value={description}
                                 onChange={(e) => setDescription(e.target.value)}
-                                placeholder="Describe ingredients, taste profile, etc..."
+                                placeholder="Describe the food, when it was prepared, and any storage instructions..."
                                 rows="4"
                                 required
                                 className="premium-input"
@@ -104,7 +104,7 @@ const CreateFoodPost = ({ setView }) => {
                         </div>
 
                         <div className="input-group">
-                            <label>Quantity Available</label>
+                            <label>Approx. People it can serve</label>
                             <input
                                 type="number"
                                 value={quantity}
@@ -143,7 +143,7 @@ const CreateFoodPost = ({ setView }) => {
                     <div className="form-actions">
                         <button type="button" className="secondary-btn-lg" style={{ width: 'auto', padding: '12px 24px' }}>Cancel</button>
                         <button type="submit" className="primary-btn-lg" disabled={loading}>
-                            {loading ? 'Publishing...' : 'Publish Item'}
+                            {loading ? 'Sharing Mission...' : 'Share Surplus Food'}
                         </button>
                     </div>
 
@@ -164,21 +164,21 @@ const CreateFoodPost = ({ setView }) => {
                             ) : (
                                 <div className="no-image-placeholder" style={{ height: '100%', background: '#eee' }}></div>
                             )}
-                            <div className="promoted-badge">Promoted</div>
-                            <div className="time-badge">35 mins</div>
+                            <div className="promoted-badge">Surplus</div>
+                            <div className="time-badge">Fresh</div>
                         </div>
                         <div className="card-details">
                             <div className="card-header-row">
-                                <h3 className="dish-name">{name || 'Item Name'}</h3>
-                                <div className="rating-badge">4.2 ★</div>
+                                <h3 className="dish-name">{name || 'Mission Name'}</h3>
+                                <div className="rating-badge">Mission ★</div>
                             </div>
                             <div className="card-meta-row">
-                                <span className="cuisine-tag">{description ? description.substring(0, 20) : 'Description...'}</span>
-                                <span className="price-estimate">₹{(quantity || 1) * 150} for two</span>
+                                <span className="cuisine-tag">{description ? description.substring(0, 20) : 'Mission details...'}</span>
+                                <span className="price-estimate">Serves {quantity || 0} needy</span>
                             </div>
                             <div className="card-divider"></div>
                             <div className="card-footer-row">
-                                <span className="trend-text">120+ orders placed recently</span>
+                                <span className="trend-text">Ready for immediate pickup</span>
                             </div>
                         </div>
                     </div>

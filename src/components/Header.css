@@ -201,32 +201,52 @@
 .explore-pill {
     display: flex;
     align-items: center;
-    gap: 8px;
-    padding: 10px 20px;
+    gap: 12px;
+    padding: 10px 24px;
     background: var(--gradient-primary);
     color: var(--text-inverse);
     border-radius: var(--radius-full);
     font-weight: 600;
-    font-size: 0.95rem;
-    transition: all var(--transition-base);
+    font-size: 0.9rem;
+    transition: all var(--transition-bounce);
     box-shadow: var(--shadow-md);
+    border: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .explore-pill:hover {
-    transform: translateY(-2px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px) scale(1.02);
+    box-shadow: var(--shadow-glow), var(--shadow-xl);
 }
 
-.explore-pill:active {
-    transform: translateY(0);
+.hamburger-icon {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    width: 18px;
 }
 
-.hamburger {
-    font-size: 1.125rem;
+.hamburger-icon span {
+    display: block;
+    height: 2px;
+    width: 100%;
+    background: currentColor;
+    border-radius: 2px;
+    transition: all var(--transition-base);
+}
+
+.explore-pill:hover .hamburger-icon span:nth-child(1) {
+    transform: translateY(1px);
+}
+
+.explore-pill:hover .hamburger-icon span:nth-child(3) {
+    transform: translateY(-1px);
 }
 
 .explore-label {
-    font-weight: 600;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+    text-transform: uppercase;
+    font-size: 0.75rem;
 }
 
 /* ============================================
@@ -254,7 +274,8 @@
     box-shadow: var(--shadow-xl);
     overflow: hidden;
     z-index: 1000;
-    animation: slideInDown 0.3s ease;
+    animation: scaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+    transform-origin: top right;
 }
 
 .compact-item {

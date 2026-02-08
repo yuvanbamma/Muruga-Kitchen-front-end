@@ -66,8 +66,8 @@ const Signup = () => {
             <div className="signup-form-section">
                 <div className="signup-card">
                     <div className="signup-header">
-                        <h2>Create Account</h2>
-                        <p>Join as a donor or delivery partner</p>
+                        <h1>Join the Mission</h1>
+                        <p>Select your role in our surplus food donation network.</p>
                     </div>
 
                     <div className="role-selector">
@@ -75,13 +75,13 @@ const Signup = () => {
                             className={`role-btn ${role === 'FOOD_DONATOR' ? 'active' : ''}`}
                             onClick={() => setRole('FOOD_DONATOR')}
                         >
-                            Food Donor
+                            Donation Partner
                         </button>
                         <button
                             className={`role-btn ${role === 'FOOD_DELIVERY_BOY' ? 'active' : ''}`}
                             onClick={() => setRole('FOOD_DELIVERY_BOY')}
                         >
-                            Delivery Boy
+                            Mission Hero
                         </button>
                     </div>
 
@@ -133,7 +133,7 @@ const Signup = () => {
                                 className={`auth-submit-btn ${isLoading ? 'loading' : ''}`}
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Creating Account...' : `Register as ${role.replace('_', ' ')}`}
+                                {isLoading ? 'Joining Mission...' : `Register as ${role === 'FOOD_DONATOR' ? 'Donation Partner' : 'Mission Hero'}`}
                             </button>
                         </div>
                     </form>

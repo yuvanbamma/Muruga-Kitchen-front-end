@@ -50,37 +50,37 @@ const EditFoodModal = ({ post, onSave, onClose }) => {
         <div className="modal-overlay">
             <div className="modal-container slide-up">
                 <div className="modal-header">
-                    <h2>Edit Dish Details</h2>
+                    <h2>Edit Mission Details</h2>
                     <button className="close-btn" onClick={onClose}>&times;</button>
                 </div>
 
                 <form onSubmit={handleSubmit} className="modal-form">
                     <div className="form-group">
-                        <label>Dish Name</label>
+                        <label>Mission/Event Name</label>
                         <input
                             type="text"
                             name="name"
                             value={formData.name}
                             onChange={handleChange}
                             required
-                            placeholder="e.g. Special Chicken Biryani"
+                            placeholder="e.g. Wedding Surplus Donation"
                         />
                     </div>
 
                     <div className="form-group">
-                        <label>Description</label>
+                        <label>Details & Safety Info</label>
                         <textarea
                             name="description"
                             value={formData.description}
                             onChange={handleChange}
                             required
                             rows="4"
-                            placeholder="Describe your dish..."
+                            placeholder="Describe the food and storage info..."
                         />
                     </div>
 
                     <div className="form-group">
-                        <label>Quantity</label>
+                        <label>People it can serve</label>
                         <input
                             type="number"
                             name="quantity"
@@ -98,7 +98,7 @@ const EditFoodModal = ({ post, onSave, onClose }) => {
                             Cancel
                         </button>
                         <button type="submit" className="btn-save" disabled={loading}>
-                            {loading ? 'Saving Changes...' : 'Update Dish'}
+                            {loading ? 'Updating Mission...' : 'Update Mission'}
                         </button>
                     </div>
                 </form>

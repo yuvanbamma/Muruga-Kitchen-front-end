@@ -41,7 +41,7 @@ const FoodPostList = () => {
 
     const handleDelete = async (e, id) => {
         e.stopPropagation();
-        if (!window.confirm("Are you sure you want to delete this delicious dish?")) return;
+        if (!window.confirm("Are you sure you want to remove this donation mission?")) return;
 
         try {
             await api.delete(`/food-posts?id=${id}`);
@@ -77,16 +77,16 @@ const FoodPostList = () => {
             {/* Sticky Filter Bar */}
             <div className="filter-bar">
                 <div className="filter-max-width">
-                    <button className="filter-chip active">Sort By: Recommended</button>
-                    <button className="filter-chip">Rating 4.0+</button>
-                    <button className="filter-chip">Pure Veg</button>
-                    <button className="filter-chip">Price: Low to High</button>
-                    <button className="filter-chip">Delivery Time</button>
+                    <button className="filter-chip active">Sort By: Nearest</button>
+                    <button className="filter-chip">Vegetarian</button>
+                    <button className="filter-chip">Non-Veg</button>
+                    <button className="filter-chip">Serves 50+</button>
+                    <button className="filter-chip">Ready Now</button>
                 </div>
             </div>
 
             <div className="list-content-area">
-                <h2 className="feed-title">{loading ? 'Hunting for food...' : 'Order food online'}</h2>
+                <h2 className="feed-title">{loading ? 'Searching for donations...' : 'Available for Pick-up'}</h2>
 
                 {error && <div className="error-message-modern">⚠️ {error}</div>}
 
@@ -125,27 +125,27 @@ const FoodPostList = () => {
                                             <button className="tool-btn delete" onClick={(e) => handleDelete(e, postId)} title="Delete Dish">🗑</button>
                                         </div>
 
-                                        <div className="promoted-badge">Promoted</div>
-                                        <div className="time-badge">35 mins</div>
+                                        <div className="promoted-badge">Surplus</div>
+                                        <div className="time-badge">Fresh</div>
                                     </div>
                                     <div className="card-details">
                                         <div className="card-header-row">
                                             <h3 className="dish-name">{post.name}</h3>
-                                            <div className="rating-badge">
-                                                4.2 <span className="star">★</span>
+                                            <div className="rating-badge mission">
+                                                Mission
                                             </div>
                                         </div>
 
                                         <div className="card-meta-row">
-                                            <span className="cuisine-tag">{post.description ? post.description.substring(0, 25) + '...' : 'Indian • Fast Food'}</span>
-                                            <span className="price-estimate">₹{(post.quantity || 1) * 150} for two</span>
+                                            <span className="cuisine-tag">{post.description ? post.description.substring(0, 30) + '...' : 'Available for needy...'}</span>
+                                            <span className="price-estimate">Serves {post.quantity || 0} People</span>
                                         </div>
 
                                         <div className="card-divider"></div>
 
                                         <div className="card-footer-row">
-                                            <span className="trend-icon">📈</span>
-                                            <span className="trend-text">120+ orders placed recently</span>
+                                            <span className="trend-icon">📍</span>
+                                            <span className="trend-text">Ready for Pickup</span>
                                         </div>
                                     </div>
                                 </div>
@@ -156,9 +156,9 @@ const FoodPostList = () => {
 
                 {!loading && posts.length === 0 && (
                     <div className="empty-state">
-                        <div className="empty-icon">🍳</div>
-                        <h3>No dishes found</h3>
-                        <p>Try resetting filters or check back later.</p>
+                        <div className="empty-icon">🙏</div>
+                        <h3>No active missions</h3>
+                        <p>All surplus food has been picked up! Check back later.</p>
                     </div>
                 )}
 

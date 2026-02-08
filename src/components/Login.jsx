@@ -40,8 +40,8 @@ const Login = () => {
             <div className="login-form-section">
                 <div className="login-card">
                     <div className="login-header">
-                        <h2>Sign In</h2>
-                        <p>Access your professional kitchen dashboard.</p>
+                        <h2>Mission Sign In</h2>
+                        <p>Welcome back, humanity hero!</p>
                     </div>
 
                     {error && (
