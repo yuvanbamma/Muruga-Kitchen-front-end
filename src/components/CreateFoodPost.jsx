@@ -4,23 +4,24 @@ import api from '../utils/api';
 import './CreateFoodPost.css';
 
 const CreateFoodPost = ({ setView }) => {
-    const { isDonor, isAuthenticated } = useAuth();
+    const { isOrphanage, isAuthenticated } = useAuth();
     const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [quantity, setQuantity] = useState('');
+    const [requirement, setRequirement] = useState('');
+    const [quantityRequired, setQuantityRequired] = useState('');
+    const [expireTime, setExpireTime] = useState('');
     const [image, setImage] = useState(null);
     const [previewUrl, setPreviewUrl] = useState('');
     const [message, setMessage] = useState('');
     const [loading, setLoading] = useState(false);
 
-    if (!isAuthenticated || !isDonor) {
+    if (!isAuthenticated || !isOrphanage) {
         return (
             <div className="create-portal-container unauthorized">
                 <div className="portal-header">
                     <h2>Unauthorized Access</h2>
-                    <p>Only registered <strong>Donation Partners</strong> can share surplus food. Please sign in with a donor account.</p>
-                    <button className="primary-btn-lg" onClick={() => setView('login')}>Sign In as Partner</button>
-                    <button className="secondary-btn-lg" onClick={() => setView('dashboard')}>Back to Home</button>
+                    <p>Only <strong>Authorized Orphanages</strong> can post food requirements. Please sign in with an orphanage account.</p>
+                    <button className="primary-btn-lg" onClick={() => setView('login')}>Sign In as Orphanage</button>
+                    <button className="secondary-btn-lg" onClick={() => navigate('/')}>Back to Home</button>
                 </div>
             </div>
         );
@@ -41,8 +42,10 @@ const CreateFoodPost = ({ setView }) => {
 
         const foodPostData = {
             name: name,
-            description: description,
-            quantity: parseInt(quantity, 10)
+            requirement: requirement,
+            quantityRequired: parseInt(quantityRequired, 10),
+            expireTime: expireTime ? new Date(expireTime).toISOString() : null,
+            collectedQuantity: 0 // New requirements start at 0
         };
 
         const formData = new FormData();
@@ -53,10 +56,11 @@ const CreateFoodPost = ({ setView }) => {
 
         try {
             await api.multipartRequest('/food-posts', formData);
-            setMessage('Surplus food mission shared successfully!');
+            setMessage('Requirement posted successfully! Wait for Mission Heroes to connect.');
             setName('');
-            setDescription('');
-            setQuantity('');
+            setRequirement('');
+            setQuantityRequired('');
+            setExpireTime('');
             setImage(null);
             setPreviewUrl('');
         } catch (error) {
@@ -69,8 +73,8 @@ const CreateFoodPost = ({ setView }) => {
     return (
         <div className="create-portal-container">
             <div className="portal-header">
-                <h2>Post Surplus Food</h2>
-                <p>Help us reduce waste. Share untouched food from your event with those in need.</p>
+                <h2>Post Food Requirement</h2>
+                <p>Let the world know your needs. Mission Heroes are ready to serve your children.</p>
             </div>
 
             <div className="portal-content">
@@ -78,41 +82,53 @@ const CreateFoodPost = ({ setView }) => {
 
                     {/* Item Details */}
                     <div className="form-section">
-                        <h3>Donation Details</h3>
+                        <h3>Requirement Details</h3>
                         <div className="input-group">
-                            <label>Event/Item Name</label>
+                            <label>Title (e.g. Sunday Lunch Support)</label>
                             <input
                                 type="text"
                                 value={name}
                                 onChange={(e) => setName(e.target.value)}
-                                placeholder="e.g. Wedding Buffet Surplus"
+                                placeholder="e.g. Need food for 50 kids"
                                 required
                                 className="premium-input"
                             />
                         </div>
 
                         <div className="input-group">
-                            <label>Details & Safety Info</label>
+                            <label>Specific Needs & Details</label>
                             <textarea
-                                value={description}
-                                onChange={(e) => setDescription(e.target.value)}
-                                placeholder="Describe the food, when it was prepared, and any storage instructions..."
+                                value={requirement}
+                                onChange={(e) => setRequirement(e.target.value)}
+                                placeholder="Describe the specific food needed, dietary restrictions, or occasion..."
                                 rows="4"
                                 required
                                 className="premium-input"
                             />
                         </div>
 
-                        <div className="input-group">
-                            <label>Approx. People it can serve</label>
-                            <input
-                                type="number"
-                                value={quantity}
-                                onChange={(e) => setQuantity(e.target.value)}
-                                placeholder="e.g. 50"
-                                required
-                                className="premium-input"
-                            />
+                        <div className="form-row-pro">
+                            <div className="input-group">
+                                <label>Total Servings Required</label>
+                                <input
+                                    type="number"
+                                    value={quantityRequired}
+                                    onChange={(e) => setQuantityRequired(e.target.value)}
+                                    placeholder="e.g. 100"
+                                    required
+                                    className="premium-input"
+                                />
+                            </div>
+                            <div className="input-group">
+                                <label>Needed Before</label>
+                                <input
+                                    type="datetime-local"
+                                    value={expireTime}
+                                    onChange={(e) => setExpireTime(e.target.value)}
+                                    required
+                                    className="premium-input"
+                                />
+                            </div>
                         </div>
                     </div>
 
@@ -141,9 +157,9 @@ const CreateFoodPost = ({ setView }) => {
                     </div>
 
                     <div className="form-actions">
-                        <button type="button" className="secondary-btn-lg" style={{ width: 'auto', padding: '12px 24px' }}>Cancel</button>
+                        <button type="button" className="secondary-btn-lg" onClick={() => navigate('/')} style={{ width: 'auto', padding: '12px 24px' }}>Cancel</button>
                         <button type="submit" className="primary-btn-lg" disabled={loading}>
-                            {loading ? 'Sharing Mission...' : 'Share Surplus Food'}
+                            {loading ? 'Posting Requirement...' : 'Share Requirement'}
                         </button>
                     </div>
 
@@ -170,15 +186,18 @@ const CreateFoodPost = ({ setView }) => {
                         <div className="card-details">
                             <div className="card-header-row">
                                 <h3 className="dish-name">{name || 'Mission Name'}</h3>
-                                <div className="rating-badge">Mission ★</div>
+                                <div className="rating-badge mission">Mission</div>
                             </div>
                             <div className="card-meta-row">
-                                <span className="cuisine-tag">{description ? description.substring(0, 20) : 'Mission details...'}</span>
-                                <span className="price-estimate">Serves {quantity || 0} needy</span>
+                                <span className="cuisine-tag">{requirement ? requirement.substring(0, 20) : 'Need details...'}</span>
+                                <span className="price-estimate">Goal: {quantityRequired || 0} Servings</span>
                             </div>
                             <div className="card-divider"></div>
                             <div className="card-footer-row">
-                                <span className="trend-text">Ready for immediate pickup</span>
+                                <div className="progress-mini-bar">
+                                    <div className="progress-fill" style={{ width: '0%' }}></div>
+                                </div>
+                                <span className="trend-text">0 / {quantityRequired || 0} Collected</span>
                             </div>
                         </div>
                     </div>

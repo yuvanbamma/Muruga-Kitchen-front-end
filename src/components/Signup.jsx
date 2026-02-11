@@ -6,7 +6,7 @@ import './Signup.css';
 const Signup = () => {
     const navigate = useNavigate();
     const { signup } = useAuth();
-    const [role, setRole] = useState('FOOD_DONATOR'); // 'FOOD_DONATOR' or 'FOOD_DELIVERY_BOY'
+    const [role, setRole] = useState('MISSION_HERO'); // 'MISSION_HERO' or 'ORPHANAGE'
     const [formData, setFormData] = useState({
         email: '',
         password: '',
@@ -35,7 +35,7 @@ const Signup = () => {
 
         if (result.success) {
             setIsSuccess(true);
-            setTimeout(() => navigate('/login'), 2000);
+            setTimeout(() => navigate('/login'), 2000); // Keep login redirect for now since signup doesn't auto-login
         } else {
             setError(result.message);
             setIsLoading(false);
@@ -72,16 +72,16 @@ const Signup = () => {
 
                     <div className="role-selector">
                         <button
-                            className={`role-btn ${role === 'FOOD_DONATOR' ? 'active' : ''}`}
-                            onClick={() => setRole('FOOD_DONATOR')}
-                        >
-                            Donation Partner
-                        </button>
-                        <button
-                            className={`role-btn ${role === 'FOOD_DELIVERY_BOY' ? 'active' : ''}`}
-                            onClick={() => setRole('FOOD_DELIVERY_BOY')}
+                            className={`role-btn ${role === 'MISSION_HERO' ? 'active' : ''}`}
+                            onClick={() => setRole('MISSION_HERO')}
                         >
                             Mission Hero
+                        </button>
+                        <button
+                            className={`role-btn ${role === 'ORPHANAGE' ? 'active' : ''}`}
+                            onClick={() => setRole('ORPHANAGE')}
+                        >
+                            Authorized Orphanage
                         </button>
                     </div>
 
@@ -133,7 +133,7 @@ const Signup = () => {
                                 className={`auth-submit-btn ${isLoading ? 'loading' : ''}`}
                                 disabled={isLoading}
                             >
-                                {isLoading ? 'Joining Mission...' : `Register as ${role === 'FOOD_DONATOR' ? 'Donation Partner' : 'Mission Hero'}`}
+                                {isLoading ? 'Joining Mission...' : `Register as ${role === 'MISSION_HERO' ? 'Mission Hero' : 'Orphanage'}`}
                             </button>
                         </div>
                     </form>

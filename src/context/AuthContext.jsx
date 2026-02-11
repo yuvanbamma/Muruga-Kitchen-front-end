@@ -43,9 +43,9 @@ export const AuthProvider = ({ children }) => {
     };
 
     const signup = async (userData, role) => {
-        const endpoint = role === 'FOOD_DONATOR'
+        const endpoint = role === 'MISSION_HERO'
             ? '/auth/registry/food-donor'
-            : '/auth/registry/food-delivery-boy';
+            : '/auth/registry/food-delivery-boy'; // Backend maps this to Roles.ORPHANAGE
 
         try {
             await api.post(endpoint, userData);
@@ -69,8 +69,8 @@ export const AuthProvider = ({ children }) => {
         signup,
         logout,
         isAuthenticated: !!user,
-        isDonor: user?.role === 'FOOD_DONATOR',
-        isDeliveryBoy: user?.role === 'FOOD_DELIVERY_BOY'
+        isHero: user?.role === 'FOOD_DONATOR',
+        isOrphanage: user?.role === 'ORPHANAGE'
     };
 
     return (

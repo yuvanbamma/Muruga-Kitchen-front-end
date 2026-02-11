@@ -86,7 +86,7 @@ const FoodPostList = () => {
             </div>
 
             <div className="list-content-area">
-                <h2 className="feed-title">{loading ? 'Searching for donations...' : 'Available for Pick-up'}</h2>
+                <h2 className="feed-title">{loading ? 'Searching for active needs...' : 'Orphanage Requirements'}</h2>
 
                 {error && <div className="error-message-modern">⚠️ {error}</div>}
 
@@ -95,13 +95,13 @@ const FoodPostList = () => {
                         Array(8).fill(0).map((_, i) => <SkeletonCard key={i} />)
                     ) : (
                         posts.map(post => {
-                            // Helper to find the ID if the field name varies
                             const postId = post.id || post.uuid || post.foodPostId || post.postId;
+                            const progress = Math.min(100, Math.round((post.collectedQuantity || 0) / (post.quantityRequired || 1) * 100));
 
                             return (
                                 <div
                                     key={postId || Math.random()}
-                                    className="food-card-pro"
+                                    className="food-card-pro orphanage-requirement"
                                     onClick={() => postId && navigate(`/post/${postId}`)}
                                 >
                                     <div className="card-media">
@@ -112,40 +112,41 @@ const FoodPostList = () => {
                                                 className="card-img"
                                                 onError={(e) => {
                                                     e.target.onerror = null;
-                                                    e.target.src = 'https://placehold.co/300x200?text=Delicious';
+                                                    e.target.src = 'https://placehold.co/400x300?text=Support+Need';
                                                 }}
                                             />
                                         ) : (
-                                            <div className="no-image-placeholder">🍽️</div>
+                                            <div className="no-image-placeholder">🏫</div>
                                         )}
 
-                                        {/* Management Overlay */}
-                                        <div className="card-management-tools">
-                                            <button className="tool-btn edit" onClick={(e) => handleEditClick(e, post)} title="Edit Dish">✎</button>
-                                            <button className="tool-btn delete" onClick={(e) => handleDelete(e, postId)} title="Delete Dish">🗑</button>
-                                        </div>
-
-                                        <div className="promoted-badge">Surplus</div>
-                                        <div className="time-badge">Fresh</div>
+                                        <div className="promoted-badge">Urgent</div>
+                                        <div className="time-badge">Goal: {post.quantityRequired || 0}</div>
                                     </div>
                                     <div className="card-details">
                                         <div className="card-header-row">
                                             <h3 className="dish-name">{post.name}</h3>
-                                            <div className="rating-badge mission">
-                                                Mission
-                                            </div>
+                                            <div className="rating-badge mission">Mission</div>
                                         </div>
 
                                         <div className="card-meta-row">
-                                            <span className="cuisine-tag">{post.description ? post.description.substring(0, 30) + '...' : 'Available for needy...'}</span>
-                                            <span className="price-estimate">Serves {post.quantity || 0} People</span>
+                                            <span className="cuisine-tag">{post.requirement ? post.requirement.substring(0, 45) + '...' : 'Supporting local children...'}</span>
+                                        </div>
+
+                                        <div className="mission-progress-container">
+                                            <div className="progress-label-row">
+                                                <span>{post.collectedQuantity || 0} Collected</span>
+                                                <span>{progress}%</span>
+                                            </div>
+                                            <div className="progress-bar-pro">
+                                                <div className="progress-fill" style={{ width: `${progress}%` }}></div>
+                                            </div>
                                         </div>
 
                                         <div className="card-divider"></div>
 
                                         <div className="card-footer-row">
                                             <span className="trend-icon">📍</span>
-                                            <span className="trend-text">Ready for Pickup</span>
+                                            <span className="trend-text">Connect to Support</span>
                                         </div>
                                     </div>
                                 </div>
@@ -157,8 +158,8 @@ const FoodPostList = () => {
                 {!loading && posts.length === 0 && (
                     <div className="empty-state">
                         <div className="empty-icon">🙏</div>
-                        <h3>No active missions</h3>
-                        <p>All surplus food has been picked up! Check back later.</p>
+                        <h3>No active requirements</h3>
+                        <p>All orphanage needs are currently met. You are wonderful!</p>
                     </div>
                 )}
 

@@ -63,15 +63,15 @@ const FoodPostDetails = ({ postId, onBack }) => {
                 <div className="details-content">
                     <div className="info-header">
                         <h1>{post.name}</h1>
-                        <p className="cuisine-type">{post.description ? 'Indian • Traditional • Homemade' : 'Fast Food'}</p>
+                        <p className="cuisine-type">{post.requirement ? 'Orphanage Support • Goverment Authorized • Urgent' : 'Mission Need'}</p>
                         <div className="meta-stats">
                             <span className="rating-pill">
-                                <span className="star">★</span> 4.5
+                                <span className="star">★</span> Mission
                             </span>
                             <span className="meta-dot">•</span>
-                            <span>35 mins</span>
+                            <span>Needed by: {post.expireTime ? new Date(post.expireTime).toLocaleDateString() : 'ASAP'}</span>
                             <span className="meta-dot">•</span>
-                            <span>₹{(post.quantity || 1) * 150} for two</span>
+                            <span>Goal: {post.quantityRequired || 0} Servings</span>
                         </div>
                     </div>
 
@@ -88,8 +88,26 @@ const FoodPostDetails = ({ postId, onBack }) => {
                     </div>
 
                     <div className="description-box">
-                        <h3>About this item</h3>
-                        <p>{post.description || 'No description provided for this delicious item.'}</p>
+                        <h3>Requirement Details</h3>
+                        <p>{post.requirement || post.description || 'No specific details provided.'}</p>
+
+                        <div className="mission-fulfillment-tracker">
+                            <div className="tracker-header">
+                                <h3>Fulfillment Progress</h3>
+                                <span className="progress-percent">
+                                    {Math.min(100, Math.round((post.collectedQuantity || 0) / (post.quantityRequired || 1) * 100))}%
+                                </span>
+                            </div>
+                            <div className="detailed-progress-bar">
+                                <div
+                                    className="detailed-progress-fill"
+                                    style={{ width: `${Math.min(100, (post.collectedQuantity || 0) / (post.quantityRequired || 1) * 100)}%` }}
+                                ></div>
+                            </div>
+                            <p className="tracker-footer">
+                                <strong>{post.collectedQuantity || 0}</strong> servings collected out of <strong>{post.quantityRequired || 0}</strong> needed.
+                            </p>
+                        </div>
                     </div>
 
                     {/* Placeholder Reviews */}
@@ -114,20 +132,20 @@ const FoodPostDetails = ({ postId, onBack }) => {
                         </div>
 
                         <div className="action-buttons">
-                            <button className="primary-btn-lg">Request Item</button>
-                            <button className="secondary-btn-lg">Contact</button>
+                            <button className="primary-btn-lg">Fulfill Requirement</button>
+                            <button className="secondary-btn-lg">Connect with Orphanage</button>
                         </div>
 
                         {/* Management Actions */}
                         <div className="management-actions-detail">
-                            <p className="mgmt-label">Owner Tools</p>
+                            <p className="mgmt-label">Orphanage Tools</p>
                             <div className="mgmt-buttons">
-                                <button className="mgmt-btn edit" onClick={() => setIsEditing(true)}>Edit Dish</button>
-                                <button className="mgmt-btn delete" onClick={handleDelete}>Delete Dish</button>
+                                <button className="mgmt-btn edit" onClick={() => setIsEditing(true)}>Edit Requirement</button>
+                                <button className="mgmt-btn delete" onClick={handleDelete}>Remove Post</button>
                             </div>
                         </div>
 
-                        <p className="safety-note">Safe & Hygienic | No Contact Delivery</p>
+                        <p className="safety-note">Mission Hero honors will be awarded upon completion.</p>
                     </div>
                 </div>
             </div>

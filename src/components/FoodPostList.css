@@ -169,6 +169,33 @@
     background: var(--bg-tertiary);
 }
 
+.mission-progress-container {
+    margin: 15px 0 10px;
+}
+
+.progress-label-row {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-bottom: 6px;
+    font-weight: 500;
+}
+
+.progress-bar-pro {
+    height: 8px;
+    background: rgba(0, 0, 0, 0.05);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, #ff6b6b, #f06595);
+    border-radius: 4px;
+    transition: width 1s ease-out;
+}
+
 /* Management Tools */
 .card-management-tools {
     position: absolute;
@@ -185,6 +212,15 @@
 .card-media:hover .card-management-tools {
     opacity: 1;
     transform: translateY(0);
+}
+
+.orphanage-requirement:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.12);
+}
+
+.orphanage-requirement:hover .progress-fill {
+    filter: brightness(1.1);
 }
 
 .tool-btn {

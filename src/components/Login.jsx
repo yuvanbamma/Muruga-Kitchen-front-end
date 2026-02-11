@@ -21,7 +21,7 @@ const Login = () => {
 
         const result = await login(credentials);
         if (result.success) {
-            navigate('/');
+            navigate('/donations'); // Redirect to food list instead of dashboard
         } else {
             setError(result.message || 'Login failed');
             setLoading(false);

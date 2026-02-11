@@ -1,7 +1,7 @@
 import React, { Suspense, lazy } from 'react'
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-dom'
 import { ThemeProvider } from './context/ThemeContext'
-import { AuthProvider } from './context/AuthContext'
+import { AuthProvider, useAuth } from './context/AuthContext'
 import ErrorBoundary from './components/ErrorBoundary'
 import Header from './components/Header'
 import './App.css'
@@ -14,6 +14,7 @@ const CreateFoodPost = lazy(() => import('./components/CreateFoodPost'))
 const FoodPostDetails = lazy(() => import('./components/FoodPostDetails'))
 const Login = lazy(() => import('./components/Login'))
 const Signup = lazy(() => import('./components/Signup'))
+const HeroAwards = lazy(() => import('./components/HeroAwards'))
 
 // Loading Fallback Component
 const PageLoader = () => (
@@ -22,8 +23,12 @@ const PageLoader = () => (
     <p>Loading Muruga Kitchen Mission...</p>
   </div>
 );
-import './App.css'
-import './styles/animations.css'
+
+// Smart Home Route - redirects authenticated users to food list
+const SmartHome = () => {
+  const { isAuthenticated } = useAuth();
+  return isAuthenticated ? <Navigate to="/donations" replace /> : <Dashboard />;
+}
 
 function App() {
   return (
@@ -36,12 +41,13 @@ function App() {
               <main className="content">
                 <Suspense fallback={<PageLoader />}>
                   <Routes>
-                    <Route path="/" element={<Dashboard />} />
+                    <Route path="/" element={<SmartHome />} />
                     <Route path="/donations" element={<FoodPostList />} />
                     <Route path="/create" element={<CreateFoodPost />} />
                     <Route path="/post/:postId" element={<FoodPostDetailsWrapper />} />
                     <Route path="/login" element={<Login />} />
                     <Route path="/signup" element={<Signup />} />
+                    <Route path="/awards" element={<HeroAwards />} />
                     <Route path="*" element={<Navigate to="/" replace />} />
                   </Routes>
                 </Suspense>

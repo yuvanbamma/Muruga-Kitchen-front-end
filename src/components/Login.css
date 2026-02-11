@@ -1,8 +1,9 @@
 .login-portal {
     display: flex;
-    min-height: 100vh;
+    min-height: calc(100vh - 80px);
     width: 100%;
     background: var(--bg-primary);
+    margin-top: 0;
 }
 
 .login-visual-section {

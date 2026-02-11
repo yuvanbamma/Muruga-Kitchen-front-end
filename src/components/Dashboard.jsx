@@ -5,7 +5,7 @@ import './Dashboard.css';
 
 const Dashboard = () => {
     const navigate = useNavigate();
-    const { isAuthenticated, isDonor, isDeliveryBoy } = useAuth();
+    const { isAuthenticated, isHero, isOrphanage } = useAuth();
 
     return (
         <div className="home-container">
@@ -21,31 +21,24 @@ const Dashboard = () => {
                 </div>
 
                 <div className="hero-content">
-                    <div className="hero-badge fade-in">🙏 Serving Humanity Through Your Generosity</div>
-                    <h1 className="hero-title fade-in">Share Surplus, <br /><span>Feed Every Soul</span></h1>
-                    <p className="hero-subtitle slide-up">Don't let good food go to waste. Connect surplus from weddings and events directly to orphanages and those in need.</p>
+                    <div className="hero-badge fade-in">🏛️ Supporting Authorized Orphanages</div>
+                    <h1 className="hero-title fade-in">Empower Dreams, <br /><span>Become a Legend</span></h1>
+                    <p className="hero-subtitle slide-up">authorized orphanages post their food requirements. Join as a Mission Hero to fulfill needs and receive public honor.</p>
 
                     <div className="hero-actions slide-up delay-1">
-                        {isDonor ? (
+                        {isOrphanage ? (
                             <button
                                 className="cta-button primary-gradient"
                                 onClick={() => navigate('/create')}
                             >
-                                Post Surplus Food
-                            </button>
-                        ) : isDeliveryBoy ? (
-                            <button
-                                className="cta-button primary-gradient"
-                                onClick={() => navigate('/donations')}
-                            >
-                                Start Delivering Love
+                                Post Requirement
                             </button>
                         ) : (
                             <button
                                 className="cta-button primary-gradient"
                                 onClick={() => navigate('/donations')}
                             >
-                                View Available Food
+                                Explore Needs
                             </button>
                         )}
 
@@ -54,7 +47,7 @@ const Dashboard = () => {
                                 className="cta-button secondary-glass"
                                 onClick={() => navigate('/signup')}
                             >
-                                Join as Partner
+                                Start Your Hero's Journey
                             </button>
                         )}
                     </div>
@@ -68,29 +61,29 @@ const Dashboard = () => {
                         <div className="feature-icon-wrapper" style={{ backgroundColor: 'rgba(59, 130, 246, 0.1)', color: '#3b82f6' }}>
                             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z" /></svg>
                         </div>
-                        <h3>Event Surplus</h3>
-                        <p>Perfectly safe, untouched food from weddings and parties redirected to those who need it.</p>
+                        <h3>Authorized Needs</h3>
+                        <p>Only verified orphanages can post requirements, ensuring your help reaches the right children.</p>
                     </div>
                     <div className="feature-card">
-                        <div className="feature-icon-wrapper" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2" /><circle cx="9" cy="7" r="4" /><path d="M23 21v-2a4 4 0 0 0-3-3.87" /><path d="M16 3.13a4 4 0 0 1 0 7.75" /></svg>
+                        <div className="feature-icon-wrapper" style={{ backgroundColor: '#fff0f3', color: '#ff3366' }}>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
                         </div>
-                        <h3>Orphanage Support</h3>
-                        <p>Dedicated portal for orphanages to host their needs and receive daily nutritious meals.</p>
+                        <h3>Hero Fulfillment</h3>
+                        <p>Individuals can step up to fulfill specific requirements for birthdays or special moments of joy.</p>
                     </div>
                     <div className="feature-card">
                         <div className="feature-icon-wrapper" style={{ backgroundColor: 'rgba(245, 158, 11, 0.1)', color: '#f59e0b' }}>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 15l-2 5l9-11h-7l2-5l-9 11h7z" /></svg>
                         </div>
-                        <h3>Mission Heroes</h3>
-                        <p>Our delivery partners aren't just workers; they're heroes bridging the gap between waste and hunger.</p>
+                        <h3>Public Awards</h3>
+                        <p>Every contribution is recognized. Get honored in our hall of heroes and share your legacy.</p>
                     </div>
                     <div className="feature-card">
-                        <div className="feature-icon-wrapper" style={{ backgroundColor: 'rgba(239, 68, 68, 0.1)', color: '#ef4444' }}>
-                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z" /></svg>
+                        <div className="feature-icon-wrapper" style={{ backgroundColor: 'rgba(16, 185, 129, 0.1)', color: '#10b981' }}>
+                            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14" /><polyline points="22 4 12 14.01 9 11.01" /></svg>
                         </div>
-                        <h3>Zero Waste</h3>
-                        <p className="poem-text">"If even a single person has no food, we shall destroy this world."</p>
+                        <h3>Social Glory</h3>
+                        <p>Share your "Honor Award" page directly to Instagram or Facebook and inspire others to follow.</p>
                     </div>
                 </div>
             </section>
@@ -133,7 +126,7 @@ const Dashboard = () => {
                                 {/* Detail Pillars */}
                                 <path d="M-30,-5 L-30,25 M-10,-5 L-10,25 M10,-5 L10,25 M30,-5 L30,25" className="charcoal-master" strokeWidth="1" />
                             </g>
-                            <text x="0" y="65" className="sketch-label">The Surplus Source</text>
+                            <text x="0" y="65" className="sketch-label">Requirement Posted</text>
                         </g>
 
                         {/* Journey Arrow 1 */}
@@ -163,7 +156,7 @@ const Dashboard = () => {
                                 <path d="M-25,25 L0,-15 L25,25 M0,-15 L-15,-35 M-25,-35 L-5,-35" className="charcoal-master" />
                                 <path d="M-2,-15 Q10,-40 25,-20" className="charcoal-master" strokeWidth="2.5" /> {/* Hero Gesture */}
                             </g>
-                            <text x="0" y="75" className="sketch-label">The Hero's Devotion</text>
+                            <text x="0" y="75" className="sketch-label">Hero Connects</text>
                         </g>
 
                         {/* Journey Arrow 2 */}
@@ -191,14 +184,14 @@ const Dashboard = () => {
                                 <path d="M45,-20 Q55,-40 65,-25" className="charcoal-smudge" strokeWidth="0.8" /> {/* Smoke */}
                                 <path d="M50,-15 Q60,-30 70,-18" className="charcoal-smudge" strokeWidth="0.6" />
                             </g>
-                            <text x="0" y="75" className="sketch-label">Love Shared</text>
+                            <text x="0" y="75" className="sketch-label">Public Honor Award</text>
                         </g>
                     </svg>
 
                     <div className="sketch-text-overlay">
-                        <div className="sketch-step">1. Food Shared</div>
-                        <div className="sketch-step">2. Hero Connects</div>
-                        <div className="sketch-step">3. Hunger Solved</div>
+                        <div className="sketch-step">1. Post Need</div>
+                        <div className="sketch-step">2. Hero Support</div>
+                        <div className="sketch-step">3. Public Glory</div>
                     </div>
                 </div>
             </section>
@@ -250,15 +243,15 @@ const Dashboard = () => {
                 <div className="impact-grid">
                     <div className="impact-card">
                         <span className="impact-num">10k+</span>
-                        <span className="impact-label">Meals Shared</span>
+                        <span className="impact-label">Needs Fulfilled</span>
                     </div>
                     <div className="impact-card">
                         <span className="impact-num">500+</span>
-                        <span className="impact-label">Donors Involved</span>
+                        <span className="impact-label">Heroes Registered</span>
                     </div>
                     <div className="impact-card">
                         <span className="impact-num">50+</span>
-                        <span className="impact-label">Active Heroes</span>
+                        <span className="impact-label">Authorized Orphs</span>
                     </div>
                 </div>
             </section>

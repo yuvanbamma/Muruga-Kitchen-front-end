@@ -5,7 +5,7 @@ import ThemeToggle from './ThemeToggle';
 import './Header.css';
 
 const Header = () => {
-    const { user, logout, isDonor, isAuthenticated } = useAuth();
+    const { user, logout, isHero, isOrphanage, isAuthenticated } = useAuth();
     const navigate = useNavigate();
     const location = useLocation();
     const [menuOpen, setMenuOpen] = useState(false);
@@ -72,7 +72,7 @@ const Header = () => {
                                 <span></span>
                             </div>
                             <span className="explore-label">
-                                {isAuthenticated ? (isDonor ? "Donation Hub" : "Mission Portal") : 'Explore'}
+                                {isAuthenticated ? (isOrphanage ? "Orphanage Portal" : "Hero Sanctuary") : 'Explore'}
                             </span>
                         </button>
 
@@ -90,15 +90,15 @@ const Header = () => {
                                         className={`compact-item ${isActive('/donations') ? 'active' : ''}`}
                                         onClick={() => handleNav('/donations')}
                                     >
-                                        <span className="icon">🍲</span> Available Food
+                                        <span className="icon">🍲</span> Requirement List
                                     </div>
 
-                                    {isDonor && (
+                                    {isOrphanage && (
                                         <div
                                             className={`compact-item ${isActive('/create') ? 'active' : ''}`}
                                             onClick={() => handleNav('/create')}
                                         >
-                                            <span className="icon">🎁</span> Post Surplus
+                                            <span className="icon">🎁</span> Post Requirement
                                         </div>
                                     )}
 
