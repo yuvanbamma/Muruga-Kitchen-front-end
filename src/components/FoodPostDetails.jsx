@@ -77,6 +77,7 @@ const FoodPostDetails = ({ postId, onBack }) => {
   if (!post) return null;
 
   const progress = Math.min(100, Math.round((post.collectedQuantity || 0) / (post.quantityRequired || 1) * 100));
+  const distanceKm = typeof post.distance === 'number' ? post.distance : null;
   const isOwner = user?.userId === post.userId;
 
   return (
@@ -95,6 +96,7 @@ const FoodPostDetails = ({ postId, onBack }) => {
             <div className="details-stat"><span className="val">{post.quantityRequired || 0}</span><span className="lbl">Goal</span></div>
             <div className="details-stat"><span className="val">{post.collectedQuantity || 0}</span><span className="lbl">Collected</span></div>
             <div className="details-stat"><span className="val">{post.expireTime ? new Date(post.expireTime).toLocaleDateString() : 'ASAP'}</span><span className="lbl">Deadline</span></div>
+            <div className="details-stat"><span className="val">{distanceKm != null ? distanceKm.toFixed(1) : '–'}</span><span className="lbl">Distance (km)</span></div>
           </div>
         </div>
         <div className="details-content">

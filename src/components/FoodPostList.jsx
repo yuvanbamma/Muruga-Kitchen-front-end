@@ -72,6 +72,7 @@ const FoodPostList = ({ isOrphanageView = false }) => {
           posts.map(post => {
             const postId = post.id || post.uuid || post.foodPostId || post.postId;
             const progress = Math.min(100, Math.round((post.collectedQuantity || 0) / (post.quantityRequired || 1) * 100));
+            const distanceKm = typeof post.distance === 'number' ? post.distance : null;
             return (
               <article
                 key={postId || Math.random()}
@@ -92,6 +93,11 @@ const FoodPostList = ({ isOrphanageView = false }) => {
                 </div>
                 <div className="post-card-body">
                   <h3>{post.name}</h3>
+                  {distanceKm != null && (
+                    <div className="post-card-distance">
+                      {distanceKm.toFixed(1)} km away
+                    </div>
+                  )}
                   <p>{post.requirement ? post.requirement.substring(0, 60) + (post.requirement.length > 60 ? '…' : '') : 'Support needed'}</p>
                   <div className="post-card-progress-wrap">
                     <div className="post-card-progress-bar"><div style={{ width: `${progress}%` }} /></div>
