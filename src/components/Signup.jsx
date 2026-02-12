@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
+import LocationPicker from './LocationPicker';
 import './Signup.css';
 
 const Signup = () => {
@@ -32,6 +33,10 @@ const Signup = () => {
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData(prev => ({ ...prev, [name]: value }));
+  };
+
+  const handleLocationChange = (lat, lng) => {
+    setFormData(prev => ({ ...prev, latitude: lat, longitude: lng }));
   };
 
   const handleSubmit = async (e) => {
@@ -83,31 +88,15 @@ const Signup = () => {
               <div className="form-group"><label>Phone</label><input type="text" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} required /></div>
               <div className="form-group"><label>Country</label><input type="text" name="country" value={formData.country} onChange={handleChange} required /></div>
             </div>
-            <div className="form-row">
-              <div className="form-group">
-                <label>Latitude (optional)</label>
-                <input
-                  type="number"
-                  name="latitude"
-                  value={formData.latitude}
-                  onChange={handleChange}
-                  step="0.000001"
-                />
-              </div>
-              <div className="form-group">
-                <label>Longitude (optional)</label>
-                <input
-                  type="number"
-                  name="longitude"
-                  value={formData.longitude}
-                  onChange={handleChange}
-                  step="0.000001"
-                />
-              </div>
-            </div>
-            <p className="location-hint">
-              For now you can paste coordinates from Google Maps. Later this can be replaced with a small map picker.
-            </p>
+
+            <section className="location-section">
+              <label className="section-label">Your Service Area</label>
+              <LocationPicker
+                lat={formData.latitude}
+                lng={formData.longitude}
+                onChange={handleLocationChange}
+              />
+            </section>
             {role === 'ORPHANAGE' && (
               <>
                 <div className="form-row">
