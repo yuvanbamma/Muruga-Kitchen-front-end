@@ -21,7 +21,12 @@ const Login = () => {
 
         const result = await login(credentials);
         if (result.success) {
-            navigate('/donations'); // Redirect to food list instead of dashboard
+            // Redirect based on role
+            if (result.role === 'ORPHANAGE') {
+                navigate('/my-requirements');
+            } else {
+                navigate('/donations');
+            }
         } else {
             setError(result.message || 'Login failed');
             setLoading(false);
@@ -41,7 +46,7 @@ const Login = () => {
                 <div className="login-card">
                     <div className="login-header">
                         <h2>Mission Sign In</h2>
-                        <p>Welcome back, humanity hero!</p>
+                        <p>Welcome back, humanity partner!</p>
                     </div>
 
                     {error && (

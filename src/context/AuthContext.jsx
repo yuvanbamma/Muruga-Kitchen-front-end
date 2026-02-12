@@ -20,8 +20,11 @@ export const AuthProvider = ({ children }) => {
         const role = localStorage.getItem('muruga-user-role');
         const email = localStorage.getItem('muruga-user-email');
 
+        const userId = localStorage.getItem('muruga-user-id');
+        const orphanageId = localStorage.getItem('muruga-user-orphanage-id');
+
         if (token && role) {
-            setUser({ token, role, email });
+            setUser({ token, role, email, userId, orphanageId });
         }
         setLoading(false);
     }, []);
@@ -29,14 +32,18 @@ export const AuthProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             const data = await api.post('/auth/login', credentials);
-            const { token, role } = data; // Backend returns token and role
+            const { token, roleName, userId, orphanageId } = data;
+            const role = roleName; // Backend returns roleName
 
             localStorage.setItem('muruga-auth-token', token);
             localStorage.setItem('muruga-user-role', role);
             localStorage.setItem('muruga-user-email', credentials.email);
 
-            setUser({ token, role, email: credentials.email });
-            return { success: true };
+            if (userId) localStorage.setItem('muruga-user-id', userId);
+            if (orphanageId) localStorage.setItem('muruga-user-orphanage-id', orphanageId);
+
+            setUser({ token, role, email: credentials.email, userId, orphanageId });
+            return { success: true, role };
         } catch (error) {
             return { success: false, message: error.message };
         }
@@ -45,7 +52,7 @@ export const AuthProvider = ({ children }) => {
     const signup = async (userData, role) => {
         const endpoint = role === 'MISSION_HERO'
             ? '/auth/registry/food-donor'
-            : '/auth/registry/food-delivery-boy'; // Backend maps this to Roles.ORPHANAGE
+            : '/auth/registry/orphanage';
 
         try {
             await api.post(endpoint, userData);
@@ -59,6 +66,8 @@ export const AuthProvider = ({ children }) => {
         localStorage.removeItem('muruga-auth-token');
         localStorage.removeItem('muruga-user-role');
         localStorage.removeItem('muruga-user-email');
+        localStorage.removeItem('muruga-user-id');
+        localStorage.removeItem('muruga-user-orphanage-id');
         setUser(null);
     };
 

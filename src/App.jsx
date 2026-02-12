@@ -43,9 +43,12 @@ function App() {
                   <Routes>
                     <Route path="/" element={<SmartHome />} />
                     <Route path="/donations" element={<FoodPostList />} />
+                    <Route path="/my-requirements" element={<FoodPostList isOrphanageView={true} />} />
                     <Route path="/create" element={<CreateFoodPost />} />
                     <Route path="/post/:postId" element={<FoodPostDetailsWrapper />} />
+
                     <Route path="/login" element={<Login />} />
+
                     <Route path="/signup" element={<Signup />} />
                     <Route path="/awards" element={<HeroAwards />} />
                     <Route path="*" element={<Navigate to="/" replace />} />

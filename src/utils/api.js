@@ -46,13 +46,22 @@ const api = {
                 headers,
                 body: formData,
             });
-            const data = await response.json();
 
             if (!response.ok) {
-                throw new Error(data.message || 'Something went wrong');
+                // Try to get error message from JSON, fallback to text
+                const text = await response.text();
+                try {
+                    const data = JSON.parse(text);
+                    throw new Error(data.message || 'Something went wrong');
+                } catch (e) {
+                    throw new Error(text || 'Something went wrong');
+                }
             }
 
-            return data;
+            // Handle successful empty response
+            const text = await response.text();
+            return text ? JSON.parse(text) : {};
+
         } catch (error) {
             console.error('API Error:', error);
             throw error;

@@ -13,8 +13,18 @@ const Signup = () => {
         phoneNumber: '',
         country: 'India',
         countryCode: '+91',
-        latitude: 13.0827, // Default to Chennai for demo
-        longitude: 80.2707
+        latitude: 13.0827,
+        longitude: 80.2707,
+        // Orphanage specific fields
+        officialName: '',
+        registeredNumber: '',
+        contactPersonContact: '',
+        totalChilders: '',
+        fullAddress: '',
+        landmark: '',
+        bio: '',
+        websiteUrl: '',
+        visitPolicy: 'Open for visitors'
     });
     const [error, setError] = useState(null);
     const [isLoading, setIsLoading] = useState(false);
@@ -31,11 +41,11 @@ const Signup = () => {
         setIsLoading(true);
 
         const result = await signup(formData, role);
-        setIsLoading(true); // Keep it true for success transition logic if needed
+        setIsLoading(true);
 
         if (result.success) {
             setIsSuccess(true);
-            setTimeout(() => navigate('/login'), 2000); // Keep login redirect for now since signup doesn't auto-login
+            setTimeout(() => navigate('/login'), 2000);
         } else {
             setError(result.message);
             setIsLoading(false);
@@ -93,6 +103,7 @@ const Signup = () => {
                     )}
 
                     <form onSubmit={handleSubmit} className="auth-form staggered">
+                        {/* Common Fields */}
                         <div className="form-row">
                             <div className="form-group-pro">
                                 <input type="email" name="email" value={formData.email} onChange={handleChange} placeholder=" " required />
@@ -118,6 +129,69 @@ const Signup = () => {
                                 <span className="focus-border"></span>
                             </div>
                         </div>
+
+                        {/* Condition Fields for Orphanage */}
+                        {role === 'ORPHANAGE' && (
+                            <>
+                                <div className="form-row">
+                                    <div className="form-group-pro">
+                                        <input type="text" name="officialName" value={formData.officialName} onChange={handleChange} placeholder=" " required />
+                                        <label>Orphanage Name</label>
+                                        <span className="focus-border"></span>
+                                    </div>
+                                    <div className="form-group-pro">
+                                        <input type="text" name="registeredNumber" value={formData.registeredNumber} onChange={handleChange} placeholder=" " required />
+                                        <label>Registration No.</label>
+                                        <span className="focus-border"></span>
+                                    </div>
+                                </div>
+
+                                <div className="form-row">
+                                    <div className="form-group-pro">
+                                        <input type="text" name="contactPersonContact" value={formData.contactPersonContact} onChange={handleChange} placeholder=" " required />
+                                        <label>Contact Person Phone</label>
+                                        <span className="focus-border"></span>
+                                    </div>
+                                    <div className="form-group-pro">
+                                        <input type="text" name="totalChilders" value={formData.totalChilders} onChange={handleChange} placeholder=" " required />
+                                        <label>Total Children</label>
+                                        <span className="focus-border"></span>
+                                    </div>
+                                </div>
+
+                                <div className="form-group-pro">
+                                    <input type="text" name="fullAddress" value={formData.fullAddress} onChange={handleChange} placeholder=" " required />
+                                    <label>Full Address</label>
+                                    <span className="focus-border"></span>
+                                </div>
+
+                                <div className="form-row">
+                                    <div className="form-group-pro">
+                                        <input type="text" name="landmark" value={formData.landmark} onChange={handleChange} placeholder=" " required />
+                                        <label>Landmark</label>
+                                        <span className="focus-border"></span>
+                                    </div>
+                                    <div className="form-group-pro">
+                                        <input type="text" name="visitPolicy" value={formData.visitPolicy} onChange={handleChange} placeholder=" " required />
+                                        <label>Visit Policy</label>
+                                        <span className="focus-border"></span>
+                                    </div>
+                                </div>
+
+                                <div className="form-group-pro">
+                                    <input type="text" name="websiteUrl" value={formData.websiteUrl} onChange={handleChange} placeholder=" " />
+                                    <label>Website URL (Optional)</label>
+                                    <span className="focus-border"></span>
+                                </div>
+
+                                <div className="form-group-pro">
+                                    <textarea name="bio" value={formData.bio} onChange={handleChange} placeholder=" " required style={{ minHeight: '80px', paddingTop: '10px' }}></textarea>
+                                    <label>About Orphanage (Bio)</label>
+                                    <span className="focus-border"></span>
+                                </div>
+                            </>
+                        )}
+
 
                         <div className="geo-mockup">
                             <div className="geo-icon">📍</div>

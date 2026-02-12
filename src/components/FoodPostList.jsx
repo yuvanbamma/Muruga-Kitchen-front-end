@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useNavigate } from 'react-router-dom';
 import api from '../utils/api';
+import { useAuth } from '../context/AuthContext';
 import './FoodPostList.css';
 import EditFoodModal from './EditFoodModal';
 
-const FoodPostList = () => {
+const FoodPostList = ({ isOrphanageView = false }) => {
     const navigate = useNavigate();
     const [posts, setPosts] = useState([]);
     const [page, setPage] = useState(0);
@@ -16,13 +17,19 @@ const FoodPostList = () => {
     // Management State
     const [editingPost, setEditingPost] = useState(null);
 
-    const pageSize = 12; // Grid view needs more items
+    const pageSize = 12;
+
+    // Title based on view
+    const pageTitle = isOrphanageView ? "My Posted Requirements" : "Orphanage Requirements";
+    const { user } = useAuth(); // Get user to access userId
 
     const fetchPosts = useCallback(async () => {
         setLoading(true);
         try {
-            // Corrected to POST method as clarified by the user
-            const data = await api.post(`/food-posts/getFoodPostList?page=${page}&size=${pageSize}`, {});
+            // Logic to pass orphanageId if it's the Orphanage View and we have the ID.
+            const body = isOrphanageView && user?.orphanageId ? { orphanageId: user.orphanageId } : {};
+
+            const data = await api.post(`/food-posts/getFoodPostList?page=${page}&size=${pageSize}`, body);
             setPosts(data.content);
             setTotalPages(data.totalPages);
             setLast(data.last);
@@ -33,7 +40,7 @@ const FoodPostList = () => {
         } finally {
             setLoading(false);
         }
-    }, [page]);
+    }, [page, isOrphanageView, user]);
 
     useEffect(() => {
         fetchPosts();
@@ -86,7 +93,14 @@ const FoodPostList = () => {
             </div>
 
             <div className="list-content-area">
-                <h2 className="feed-title">{loading ? 'Searching for active needs...' : 'Orphanage Requirements'}</h2>
+                <div className="feed-header-flex">
+                    <h2 className="feed-title">{loading ? 'Searching for active needs...' : pageTitle}</h2>
+                    {isOrphanageView && (
+                        <button className="primary-btn" onClick={() => navigate('/create')} style={{ padding: '10px 20px', fontSize: '0.9rem' }}>
+                            + Post New Requirement
+                        </button>
+                    )}
+                </div>
 
                 {error && <div className="error-message-modern">⚠️ {error}</div>}
 

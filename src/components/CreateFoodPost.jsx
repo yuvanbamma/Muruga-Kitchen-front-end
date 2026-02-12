@@ -4,7 +4,7 @@ import api from '../utils/api';
 import './CreateFoodPost.css';
 
 const CreateFoodPost = ({ setView }) => {
-    const { isOrphanage, isAuthenticated } = useAuth();
+    const { isOrphanage, isAuthenticated, user } = useAuth();
     const [name, setName] = useState('');
     const [requirement, setRequirement] = useState('');
     const [quantityRequired, setQuantityRequired] = useState('');
@@ -40,12 +40,24 @@ const CreateFoodPost = ({ setView }) => {
         setLoading(true);
         setMessage('');
 
+
+
+        if (!user?.userId) {
+            setMessage("Error: User Identity missing. Please logout and login again.");
+            setLoading(false);
+            return;
+        }
+
         const foodPostData = {
             name: name,
-            requirement: requirement,
+            description: requirement,
+            quantity: parseInt(quantityRequired, 10),
             quantityRequired: parseInt(quantityRequired, 10),
+            orphaneId: user.orphanageId, // Use specific orphanageId
+            userId: user.userId,         // Use specific userId
+            requirement: requirement,
             expireTime: expireTime ? new Date(expireTime).toISOString() : null,
-            collectedQuantity: 0 // New requirements start at 0
+            collectedQuantity: 0
         };
 
         const formData = new FormData();
