@@ -1,229 +1,70 @@
-.hero-awards-container {
-    max-width: 1200px;
-    margin: 120px auto 60px;
-    padding: 0 24px;
-    animation: fadeIn 0.8s ease-out;
+.awards-page { max-width: 900px; margin: 0 auto; padding: 2rem 1.25rem; }
+.awards-unauth {
+  max-width: 400px;
+  margin: 4rem auto;
+  padding: 2rem;
+  text-align: center;
 }
-
+.awards-unauth h1 { margin-bottom: 0.5rem; }
+.awards-unauth p { color: var(--text-secondary); font-size: 0.9375rem; }
 .awards-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    padding: 40px;
-    background: var(--bg-elevated);
-    border-radius: var(--radius-xl);
-    border: 1px solid var(--border-light);
-    box-shadow: var(--shadow-xl);
-    margin-bottom: 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 1.5rem;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-lg);
+  margin-bottom: 2rem;
 }
-
-.hero-profile-snippet {
-    display: flex;
-    align-items: center;
-    gap: 24px;
+.awards-profile { display: flex; align-items: center; gap: 1rem; }
+.awards-avatar {
+  width: 56px;
+  height: 56px;
+  background: var(--primary);
+  color: white;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.5rem;
+  font-weight: 600;
 }
-
-.hero-avatar {
-    width: 80px;
-    height: 80px;
-    background: var(--gradient-primary);
-    border-radius: 50%;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 2.5rem;
-    font-weight: 800;
-    color: white;
-    box-shadow: var(--shadow-glow);
-}
-
-.hero-info h1 {
-    font-size: 2rem;
-    margin-bottom: 4px;
-    color: var(--text-primary);
-}
-
-.hero-rank {
-    color: var(--primary);
-    font-weight: 700;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-    font-size: 0.875rem;
-}
-
-.header-stats {
-    display: flex;
-    gap: 16px;
-}
-
-.stat-pill {
-    background: var(--bg-secondary);
-    padding: 12px 24px;
-    border-radius: var(--radius-full);
-    font-size: 1rem;
-    border: 1px solid var(--border-light);
-}
-
-.stat-pill strong {
-    color: var(--primary);
-}
-
-.section-title {
-    font-size: 1.75rem;
-    margin-bottom: 24px;
-    display: flex;
-    align-items: center;
-    gap: 12px;
-}
-
-.awards-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
-    gap: 24px;
-    margin-bottom: 60px;
-}
-
+.awards-profile h1 { font-size: 1.25rem; }
+.awards-rank { font-size: 0.8125rem; color: var(--primary); font-weight: 500; }
+.awards-stats { display: flex; gap: 1.5rem; font-size: 0.875rem; color: var(--text-secondary); }
+.awards-stats strong { color: var(--text); }
+.awards-list h2 { font-size: 1.125rem; margin-bottom: 1rem; }
+.awards-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 1rem; }
 .award-card {
-    background: var(--bg-elevated);
-    padding: 32px;
-    border-radius: var(--radius-lg);
-    border: 1px solid var(--border-light);
-    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    position: relative;
-    overflow: hidden;
+  padding: 1.25rem;
+  background: var(--bg-elevated);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
+  transition: border-color var(--duration) var(--ease);
 }
-
-.award-card:hover {
-    transform: translateY(-8px);
-    box-shadow: var(--shadow-2xl);
-    border-color: var(--primary);
+.award-card:hover { border-color: var(--primary); }
+.award-icon { font-size: 1.5rem; display: block; margin-bottom: 0.5rem; }
+.award-card h3 { font-size: 1rem; margin-bottom: 0.25rem; }
+.award-card p { font-size: 0.8125rem; color: var(--text-muted); margin-bottom: 0.5rem; }
+.award-date { font-size: 0.75rem; color: var(--text-muted); }
+.awards-share {
+  margin-top: 2rem;
+  padding: 1.5rem;
+  background: var(--bg-subtle);
+  border-radius: var(--radius-md);
 }
-
-.award-icon {
-    font-size: 3rem;
-    margin-bottom: 20px;
+.awards-share h3 { font-size: 0.9375rem; margin-bottom: 0.75rem; }
+.share-link {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--radius-md);
 }
-
-.rarity-badge {
-    display: inline-block;
-    padding: 4px 12px;
-    border-radius: var(--radius-full);
-    font-size: 0.75rem;
-    font-weight: 800;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-}
-
-.legendary .rarity-badge {
-    background: #fef3c7;
-    color: #92400e;
-}
-
-.epic .rarity-badge {
-    background: #fae8ff;
-    color: #86198f;
-}
-
-.legendary::before {
-    content: '';
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 4px;
-    background: linear-gradient(90deg, #fbbf24, #f59e0b);
-}
-
-.award-details h3 {
-    font-size: 1.5rem;
-    margin-bottom: 8px;
-}
-
-.award-details p {
-    color: var(--text-secondary);
-    margin-bottom: 16px;
-}
-
-.issue-date {
-    font-size: 0.875rem;
-    color: var(--text-tertiary);
-}
-
-.award-actions {
-    display: flex;
-    gap: 12px;
-    margin-top: 24px;
-}
-
-.share-btn,
-.cert-btn {
-    flex: 1;
-    padding: 10px;
-    border-radius: var(--radius-md);
-    font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-}
-
-.share-btn {
-    background: var(--gradient-primary);
-    color: white;
-    border: none;
-}
-
-.cert-btn {
-    background: transparent;
-    border: 2px solid var(--border-light);
-    color: var(--text-primary);
-}
-
-.public-profile-link {
-    background: var(--bg-tertiary);
-    padding: 40px;
-    border-radius: var(--radius-xl);
-    text-align: center;
-}
-
-.link-copy-box {
-    display: flex;
-    align-items: center;
-    background: var(--bg-primary);
-    padding: 12px 24px;
-    border-radius: var(--radius-md);
-    border: 1px solid var(--border-light);
-    max-width: 600px;
-    margin: 20px auto 0;
-}
-
-.link-copy-box code {
-    flex: 1;
-    text-align: left;
-    font-family: 'JetBrains Mono', monospace;
-    color: var(--primary);
-}
-
-.copy-btn {
-    background: var(--primary);
-    color: white;
-    border: none;
-    padding: 6px 16px;
-    border-radius: var(--radius-sm);
-    cursor: pointer;
-}
-
-@media (max-width: 768px) {
-    .awards-header {
-        flex-direction: column;
-        gap: 24px;
-        text-align: center;
-    }
-
-    .hero-profile-snippet {
-        flex-direction: column;
-    }
-
-    .header-stats {
-        width: 100%;
-        justify-content: center;
-    }
-}
+.share-link code { flex: 1; font-size: 0.8125rem; color: var(--primary); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.btn-sm { padding: 0.375rem 0.75rem; font-size: 0.8125rem; }
+@media (max-width: 640px) { .awards-header { flex-direction: column; align-items: flex-start; } }

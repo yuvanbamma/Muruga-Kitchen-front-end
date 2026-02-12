@@ -1,90 +1,60 @@
-import React from 'react';
 import { useAuth } from '../context/AuthContext';
 import './HeroAwards.css';
 
 const HeroAwards = () => {
-    const { user, isHero } = useAuth();
+  const { user, isHero } = useAuth();
 
-    // Mock awards for demonstration
-    const awards = [
-        {
-            id: 'award-1',
-            title: 'Sustenance Guardian',
-            criteria: 'Fulfilled 5 orphanage requirements',
-            issuedDate: '2026-03-15',
-            icon: '🛡️',
-            rarity: 'Legendary'
-        },
-        {
-            id: 'award-2',
-            title: 'Childhood Dreamer',
-            criteria: 'Fulfilled a birthday requirement',
-            issuedDate: '2026-04-02',
-            icon: '🎈',
-            rarity: 'Epic'
-        }
-    ];
+  const awards = [
+    { id: '1', title: 'Sustenance Guardian', criteria: 'Fulfilled 5 requirements', date: '2026-03-15', icon: '🛡' },
+    { id: '2', title: 'Childhood Dreamer', criteria: 'Fulfilled a birthday need', date: '2026-04-02', icon: '🎈' },
+  ];
 
-    if (!isHero) {
-        return (
-            <div className="hero-awards-container unauthorized">
-                <div className="unauth-content">
-                    <h1>Hero Status Required</h1>
-                    <p>Only registered Mission Heroes can access the Hall of Honor. Step up to serve and earn your place here.</p>
-                </div>
-            </div>
-        );
-    }
-
+  if (!isHero) {
     return (
-        <div className="hero-awards-container">
-            <header className="awards-header">
-                <div className="hero-profile-snippet">
-                    <div className="hero-avatar">{user?.name?.charAt(0) || 'H'}</div>
-                    <div className="hero-info">
-                        <h1>{user?.name}'s Sanctuary</h1>
-                        <p className="hero-rank">Rank: Master Guardian • Level 12</p>
-                    </div>
-                </div>
-                <div className="header-stats">
-                    <div className="stat-pill"><strong>12</strong> Lives Impacted</div>
-                    <div className="stat-pill"><strong>450</strong> Servings Shared</div>
-                </div>
-            </header>
-
-            <section className="awards-showcase">
-                <h2 className="section-title">Your Honor Medals</h2>
-                <div className="awards-grid">
-                    {awards.map(award => (
-                        <div key={award.id} className={`award-card ${award.rarity.toLowerCase()}`}>
-                            <div className="award-icon">{award.icon}</div>
-                            <div className="award-details">
-                                <span className="rarity-badge">{award.rarity}</span>
-                                <h3>{award.title}</h3>
-                                <p>{award.criteria}</p>
-                                <span className="issue-date">Issued on {new Date(award.issuedDate).toLocaleDateString()}</span>
-                            </div>
-                            <div className="award-actions">
-                                <button className="share-btn">Share to Story</button>
-                                <button className="cert-btn">View Certificate</button>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            </section>
-
-            <section className="public-profile-link">
-                <div className="profile-link-card">
-                    <h3>Your Legacy Page</h3>
-                    <p>This public link showcases your contributions to the world. Share it in your bio.</p>
-                    <div className="link-copy-box">
-                        <code>murugakitchen.com/hero/{user?.name?.toLowerCase().replace(/\s+/g, '-')}</code>
-                        <button className="copy-btn">Copy Link</button>
-                    </div>
-                </div>
-            </section>
-        </div>
+      <div className="awards-unauth">
+        <h1>Hero only</h1>
+        <p>Sign up as a Mission Hero to earn awards and access the Hall of Honor.</p>
+      </div>
     );
+  }
+
+  return (
+    <div className="awards-page">
+      <header className="awards-header">
+        <div className="awards-profile">
+          <div className="awards-avatar">{user?.name?.charAt(0) || user?.email?.charAt(0) || 'H'}</div>
+          <div>
+            <h1>{user?.name || user?.email}'s Sanctuary</h1>
+            <span className="awards-rank">Master Guardian</span>
+          </div>
+        </div>
+        <div className="awards-stats">
+          <span><strong>12</strong> lives impacted</span>
+          <span><strong>450</strong> servings</span>
+        </div>
+      </header>
+      <section className="awards-list">
+        <h2>Your medals</h2>
+        <div className="awards-grid">
+          {awards.map(a => (
+            <div key={a.id} className="award-card">
+              <span className="award-icon">{a.icon}</span>
+              <h3>{a.title}</h3>
+              <p>{a.criteria}</p>
+              <span className="award-date">{new Date(a.date).toLocaleDateString()}</span>
+            </div>
+          ))}
+        </div>
+      </section>
+      <section className="awards-share">
+        <h3>Your legacy page</h3>
+        <div className="share-link">
+          <code>murugakitchen.com/hero/{user?.name?.toLowerCase().replace(/\s+/g, '-') || 'you'}</code>
+          <button className="btn-secondary btn-sm">Copy</button>
+        </div>
+      </section>
+    </div>
+  );
 };
 
 export default HeroAwards;

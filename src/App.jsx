@@ -20,7 +20,7 @@ const HeroAwards = lazy(() => import('./components/HeroAwards'))
 const PageLoader = () => (
   <div className="page-loader">
     <div className="loader-spinner"></div>
-    <p>Loading Muruga Kitchen Mission...</p>
+    <p>Loading...</p>
   </div>
 );
 

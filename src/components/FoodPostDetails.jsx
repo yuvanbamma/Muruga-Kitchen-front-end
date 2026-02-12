@@ -5,328 +5,167 @@ import EditFoodModal from './EditFoodModal';
 import { useAuth } from '../context/AuthContext';
 
 const FoodPostDetails = ({ postId, onBack }) => {
-    const { user, isOrphanage } = useAuth();
-    const [post, setPost] = useState(null);
-    const [orphanageDetails, setOrphanageDetails] = useState(null);
-    const [loading, setLoading] = useState(true);
-    const [error, setError] = useState(null);
-    const [isEditing, setIsEditing] = useState(false);
-    const [showContact, setShowContact] = useState(false);
+  const { user, isOrphanage } = useAuth();
+  const [post, setPost] = useState(null);
+  const [orphanageDetails, setOrphanageDetails] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
+  const [showContact, setShowContact] = useState(false);
+  const [contactLoading, setContactLoading] = useState(false);
 
-    const [orphanageLoading, setOrphanageLoading] = useState(false);
+  useEffect(() => {
+    if (!postId) return;
+    const fetch = async () => {
+      setLoading(true);
+      try {
+        const data = await api.get(`/food-posts/${postId}`);
+        setPost(data);
+        setError(null);
+      } catch (err) {
+        setError(err.message);
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetch();
+  }, [postId]);
 
-    useEffect(() => {
-        if (!postId) return;
-        const fetchPostDetails = async () => {
-            setLoading(true);
-            try {
-                const data = await api.get(`/food-posts/${postId}`);
-                setPost(data);
-                setError(null);
-            } catch (err) {
-                setError(err.message);
-                console.error("Details error:", err);
-            } finally {
-                setLoading(false);
-            }
-        };
-        fetchPostDetails();
-    }, [postId]);
-
-    const fetchContactDetails = async () => {
-        if (!post?.orphaneId) return;
-        setOrphanageLoading(true);
+  const fetchContact = async () => {
+    if (!post?.orphaneId) return;
+    setContactLoading(true);
+    try {
+      const org = await api.get(`/orphanage?orphanageId=${post.orphaneId}`);
+      let userData = { email: 'N/A', phoneNumber: 'N/A' };
+      if (org.userIdentity) {
         try {
-            // 1. Fetch Orphanage Details first
-            const orgData = await api.get(`/orphanage?orphanageId=${post.orphaneId}`);
+          userData = await api.get(`/users?userId=${org.userIdentity}`);
+        } catch (_) {}
+      }
+      setOrphanageDetails({ ...org, ...userData });
+      setShowContact(true);
+    } catch (_) {
+      alert('Could not load contact details.');
+    } finally {
+      setContactLoading(false);
+    }
+  };
 
-            // 2. Use userIdentity from orphanage to fetch User details
-            let userData = { email: 'N/A', phoneNumber: 'N/A' };
-            if (orgData.userIdentity) {
-                try {
-                    userData = await api.get(`/users?userId=${orgData.userIdentity}`);
-                } catch (userErr) {
-                    console.error("User fetch error:", userErr);
-                }
-            }
+  const handleDelete = async () => {
+    if (!window.confirm('Delete this requirement?')) return;
+    try {
+      await api.delete(`/food-posts?id=${postId}`);
+      onBack();
+    } catch (err) {
+      alert(err.message || 'Delete failed.');
+    }
+  };
 
-            // Combine data for display
-            setOrphanageDetails({
-                ...orgData,
-                userEmail: userData.email,
-                userPhone: userData.phoneNumber,
-                userCountry: userData.country
-            });
-            setShowContact(true);
-        } catch (err) {
-            console.error("Contact fetch error:", err);
-            alert("Unable to fetch complete contact details.");
-        } finally {
-            setOrphanageLoading(false);
-        }
-    };
+  if (loading) return (
+    <div className="details-loading">
+      <div className="loader-spinner" />
+      <p>Loading...</p>
+    </div>
+  );
+  if (error) return (
+    <div className="details-error">
+      <h2>Unable to load</h2>
+      <p>{error}</p>
+      <button className="btn-secondary" onClick={onBack}>Back</button>
+    </div>
+  );
+  if (!post) return null;
 
-    const handleDelete = async () => {
-        if (!window.confirm("Are you sure you want to delete this item?")) return;
+  const progress = Math.min(100, Math.round((post.collectedQuantity || 0) / (post.quantityRequired || 1) * 100));
+  const isOwner = user?.userId === post.userId;
 
-        try {
-            await api.delete(`/food-posts?id=${postId}`);
-            onBack();
-        } catch (err) {
-            console.error("Delete error:", err);
-            alert(err.message || "Failed to delete item.");
-        }
-    };
-
-    const handleUpdateComplete = (updatedPost) => {
-        setPost(updatedPost);
-        setIsEditing(false);
-    };
-
-    if (loading) return (
-        <div className="details-loader">
-            <div className="loader-spinner"></div>
-            <p>Gathering mission details...</p>
+  return (
+    <div className="details">
+      <div className="details-nav">
+        <button className="details-back" onClick={onBack}>← Back</button>
+      </div>
+      <div className="details-main">
+        <div className="details-media">
+          <img
+            src={post.imageUrl ? (post.imageUrl.startsWith('http') ? post.imageUrl : `${import.meta.env.VITE_API_URL}${post.imageUrl}`) : 'https://placehold.co/800x480?text=Need'}
+            alt={post.name}
+            onError={e => { e.target.onerror = null; e.target.src = 'https://placehold.co/800x480?text=Need'; }}
+          />
+          <div className="details-stats">
+            <div className="details-stat"><span className="val">{post.quantityRequired || 0}</span><span className="lbl">Goal</span></div>
+            <div className="details-stat"><span className="val">{post.collectedQuantity || 0}</span><span className="lbl">Collected</span></div>
+            <div className="details-stat"><span className="val">{post.expireTime ? new Date(post.expireTime).toLocaleDateString() : 'ASAP'}</span><span className="lbl">Deadline</span></div>
+          </div>
         </div>
-    );
-
-    if (error) return (
-        <div className="error-container">
-            <div className="error-icon">⚠️</div>
-            <h2>Unable to load mission</h2>
-            <p>{error}</p>
-            <button onClick={onBack} className="secondary-btn">Go Back</button>
-        </div>
-    );
-
-    if (!post) return null;
-
-    const progress = Math.min(100, Math.round((post.collectedQuantity || 0) / (post.quantityRequired || 1) * 100));
-
-    // Simplified Owner Check: Direct ID comparison only
-    const isOwner = user?.userId === post.userId;
-
-    return (
-        <div className="details-page-premium">
-            {/* Global Backdrop Blur */}
-            <div className="backdrop-blur"></div>
-
-            {/* Navigation Header */}
-            <div className="details-nav">
-                <button onClick={onBack} className="nav-back-btn">
-                    <span className="icon">←</span> Back to Missions
-                </button>
-                <div className="nav-actions">
-                    <button className="share-btn-icon" title="Share Mission">🔗</button>
-                </div>
+        <div className="details-content">
+          <h1>{post.name}</h1>
+          <div className="details-org">
+            <div className="details-org-avatar">{orphanageDetails?.officialName?.charAt(0) || 'O'}</div>
+            <div>
+              <strong>{orphanageDetails?.officialName || 'Orphanage'}</strong>
+              <span>{orphanageDetails?.landmark || 'Verified'}</span>
             </div>
-
-            <div className="details-container">
-                {/* Left Column: Visuals & Key Stats */}
-                <div className="details-left">
-                    <div className="image-gallery-card">
-                        <img
-                            src={post.imageUrl ? (post.imageUrl.startsWith('http') ? post.imageUrl : `${import.meta.env.VITE_API_URL}${post.imageUrl}`) : 'https://placehold.co/800x600?text=Mission+Visual'}
-                            alt={post.name}
-                            className="main-hero-image"
-                            onError={(e) => {
-                                e.target.onerror = null;
-                                e.target.src = 'https://placehold.co/800x600?text=Mission+Visual';
-                            }}
-                        />
-                        <div className="image-overlay-gradient"></div>
-                        <div className="status-badges">
-                            <span className="badge urgent">Urgent Need</span>
-                            <span className="badge verified">Verified Orphanage</span>
-                        </div>
-                    </div>
-
-                    <div className="quick-stats-grid">
-                        <div className="stat-box">
-                            <span className="stat-label">Goal</span>
-                            <span className="stat-value">{post.quantityRequired || 0}</span>
-                            <span className="stat-unit">Servings</span>
-                        </div>
-                        <div className="stat-box">
-                            <span className="stat-label">Collected</span>
-                            <span className="stat-value">{post.collectedQuantity || 0}</span>
-                            <span className="stat-unit">Servings</span>
-                        </div>
-                        <div className="stat-box">
-                            <span className="stat-label">Deadline</span>
-                            <span className="stat-value highlight">{post.expireTime ? new Date(post.expireTime).toLocaleDateString() : 'ASAP'}</span>
-                            <span className="stat-unit">Date</span>
-                        </div>
-                    </div>
-                </div>
-
-                {/* Right Column: Narrative & Action */}
-                <div className="details-right">
-                    <div className="content-wrapper">
-                        <h1 className="mission-title">{post.name}</h1>
-
-                        <div className="organization-mini-card">
-                            <div className="org-avatar">{orphanageDetails?.officialName?.charAt(0) || 'O'}</div>
-                            <div className="org-info">
-                                <h3>{orphanageDetails?.officialName || 'Orphanage Request'}</h3>
-                                <p>{orphanageDetails?.landmark || 'Verified Organization'}</p>
-                            </div>
-                        </div>
-
-                        <div className="description-section">
-                            <h3>About the Mission</h3>
-                            <p className="mission-text">
-                                {post.requirement || post.description || 'This orphanage needs your support to provide healthy meals for children. Your contribution makes a direct impact.'}
-                            </p>
-                        </div>
-
-                        <div className="progress-section">
-                            <div className="progress-header">
-                                <span>Mission Progress</span>
-                                <strong>{progress}%</strong>
-                            </div>
-                            <div className="progress-track">
-                                <div className="progress-fill-animated" style={{ width: `${progress}%` }}></div>
-                            </div>
-                            <p className="impact-note">
-                                <span className="heart-icon">❤️</span> Only <strong>{(post.quantityRequired || 0) - (post.collectedQuantity || 0)}</strong> more servings needed to complete this goal.
-                            </p>
-                        </div>
-
-                        <div className="action-dock">
-                            {isOwner ? (
-                                <div className="owner-controls">
-                                    <button className="action-btn secondary" onClick={() => setIsEditing(true)}>Edit Mission</button>
-                                    <button className="action-btn danger" onClick={handleDelete}>Delete</button>
-                                </div>
-                            ) : (
-                                <div className="donor-controls">
-                                    <button
-                                        className="action-btn primary"
-                                        onClick={fetchContactDetails}
-                                        disabled={orphanageLoading}
-                                    >
-                                        {orphanageLoading ? 'Connecting...' : 'Connect & Donate'}
-                                    </button>
-                                    <p className="trust-note">Directly contacts the orphanage admin</p>
-                                </div>
-                            )}
-                        </div>
-                    </div>
-                </div>
-            </div>
-
-            {/* Premium Contact Modal */}
-            {showContact && orphanageDetails && (
-                <div className="modal-overlay reveal">
-                    <div className="modal-card premium-contact-modal">
-                        <div className="modal-top-bar">
-                            <span className="mission-tag">Connect with Organization</span>
-                            <button className="close-btn-minimal" onClick={() => setShowContact(false)}>×</button>
-                        </div>
-
-                        <div className="modal-header-hero">
-                            <div className="hero-content">
-                                <div className="org-avatar-xl">
-                                    {orphanageDetails.officialName?.charAt(0) || 'O'}
-                                    <div className="online-indicator"></div>
-                                </div>
-                                <div className="header-text-main">
-                                    <h2>{orphanageDetails.officialName}</h2>
-                                    <div className="trust-badges">
-                                        <span className="trust-pill verified">
-                                            <i className="check-icon">✓</i> Government Verified
-                                        </span>
-                                        {orphanageDetails.registeredNumber && (
-                                            <span className="trust-pill reg">#{orphanageDetails.registeredNumber}</span>
-                                        )}
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div className="modal-body-scrollable">
-                            <div className="contact-info-grid">
-                                <div className="info-tile">
-                                    <div className="tile-icon phone">📞</div>
-                                    <div className="tile-content">
-                                        <label>Direct Contact</label>
-                                        <a href={`tel:${orphanageDetails.userPhone}`} className="tile-value highlight">
-                                            {orphanageDetails.userPhone || orphanageDetails.contactPersonContact || 'N/A'}
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div className="info-tile">
-                                    <div className="tile-icon email">✉️</div>
-                                    <div className="tile-content">
-                                        <label>Official Email</label>
-                                        <a href={`mailto:${orphanageDetails.userEmail}`} className="tile-value">
-                                            {orphanageDetails.userEmail || orphanageDetails.email || 'N/A'}
-                                        </a>
-                                    </div>
-                                </div>
-
-                                <div className="info-tile full-width">
-                                    <div className="tile-icon location">📍</div>
-                                    <div className="tile-content">
-                                        <label>Reach us at</label>
-                                        <p className="tile-value address">
-                                            {orphanageDetails.fullAddress}
-                                            {orphanageDetails.landmark && (
-                                                <span className="landmark-tag">
-                                                    Near {orphanageDetails.landmark}
-                                                </span>
-                                            )}
-                                        </p>
-                                        <span className="location-context">{orphanageDetails.userCountry || 'India'}</span>
-                                    </div>
-                                </div>
-
-                                {orphanageDetails.bio && (
-                                    <div className="info-tile full-width bio-tile">
-                                        <div className="tile-content">
-                                            <label>Organization Story</label>
-                                            <p className="bio-desc">{orphanageDetails.bio}</p>
-                                        </div>
-                                    </div>
-                                )}
-                            </div>
-                        </div>
-
-                        <div className="modal-footer-actions">
-                            <button className="glow-btn primary" onClick={() => window.open(`tel:${orphanageDetails.userPhone || orphanageDetails.contactPersonContact}`)}>
-                                <span className="icon">📞</span> Call Orphanage
-                            </button>
-                            <button className="minimal-btn" onClick={() => setShowContact(false)}>
-                                Back to Details
-                            </button>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div className="details-desc">
+            <h3>About</h3>
+            <p>{post.requirement || post.description || 'This organization needs your support for meals.'}</p>
+          </div>
+          <div className="details-progress">
+            <div className="details-progress-header"><span>Progress</span><strong>{progress}%</strong></div>
+            <div className="details-progress-bar"><div style={{ width: `${progress}%` }} /></div>
+            <p className="details-progress-note">{(post.quantityRequired || 0) - (post.collectedQuantity || 0)} servings still needed.</p>
+          </div>
+          <div className="details-actions">
+            {isOwner ? (
+              <>
+                <button className="btn-primary" onClick={() => setIsEditing(true)}>Edit</button>
+                <button className="btn-secondary" onClick={handleDelete} style={{ color: 'var(--error)' }}>Delete</button>
+              </>
+            ) : (
+              <button className="btn-primary" onClick={fetchContact} disabled={contactLoading}>
+                {contactLoading ? 'Loading...' : 'Connect & Donate'}
+              </button>
             )}
-
-            {/* Fallback Contact Modal if details missing */}
-            {showContact && !orphanageDetails && (
-                <div className="modal-overlay reveal">
-                    <div className="modal-card">
-                        <button className="close-btn" onClick={() => setShowContact(false)}>×</button>
-                        <h2>Contact Details Unavailable</h2>
-                        <p>We couldn't fetch the specific contact details right now. Please try again later.</p>
-                        <button className="secondary-btn-lg" onClick={() => setShowContact(false)}>Close</button>
-                    </div>
-                </div>
-            )}
-
-            {isEditing && (
-                <EditFoodModal
-                    post={post}
-                    onSave={handleUpdateComplete}
-                    onClose={() => setIsEditing(false)}
-                />
-            )}
+          </div>
         </div>
-    );
+      </div>
+
+      {showContact && orphanageDetails && (
+        <div className="modal-overlay" onClick={() => setShowContact(false)}>
+          <div className="modal-panel" onClick={e => e.stopPropagation()}>
+            <div className="modal-header">
+              <h2>{orphanageDetails.officialName}</h2>
+              <button className="modal-close" onClick={() => setShowContact(false)}>×</button>
+            </div>
+            <div className="modal-body">
+              <div className="contact-row">
+                <span>Phone</span>
+                <a href={`tel:${orphanageDetails.userPhone || orphanageDetails.contactPersonContact}`}>{orphanageDetails.userPhone || orphanageDetails.contactPersonContact || 'N/A'}</a>
+              </div>
+              <div className="contact-row">
+                <span>Email</span>
+                <a href={`mailto:${orphanageDetails.userEmail || orphanageDetails.email}`}>{orphanageDetails.userEmail || orphanageDetails.email || 'N/A'}</a>
+              </div>
+              {orphanageDetails.fullAddress && (
+                <div className="contact-row">
+                  <span>Address</span>
+                  <p>{orphanageDetails.fullAddress}{orphanageDetails.landmark ? ` (${orphanageDetails.landmark})` : ''}</p>
+                </div>
+              )}
+            </div>
+            <div className="modal-footer">
+              <button className="btn-primary" onClick={() => window.open(`tel:${orphanageDetails.userPhone || orphanageDetails.contactPersonContact}`)}>Call</button>
+              <button className="btn-secondary" onClick={() => setShowContact(false)}>Close</button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {isEditing && (
+        <EditFoodModal post={post} onSave={p => { setPost(p); setIsEditing(false); }} onClose={() => setIsEditing(false)} />
+      )}
+    </div>
+  );
 };
 
 export default FoodPostDetails;
