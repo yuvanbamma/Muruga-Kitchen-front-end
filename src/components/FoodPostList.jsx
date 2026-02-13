@@ -14,7 +14,7 @@ const FoodPostList = ({ isOrphanageView = false }) => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
   const pageSize = 12;
-  const pageTitle = isOrphanageView ? 'My requirements' : 'Requirements';
+  const pageTitle = isOrphanageView ? 'My Posts' : 'Active Needs';
 
   const fetchPosts = useCallback(async () => {
     setLoading(true);
@@ -89,7 +89,7 @@ const FoodPostList = ({ isOrphanageView = false }) => {
                   ) : (
                     <div className="post-card-placeholder">Need</div>
                   )}
-                  <span className="post-card-badge">Goal: {post.quantityRequired || 0}</span>
+                  <span className="post-card-badge">{post.quantityRequired || 0} needed</span>
                 </div>
                 <div className="post-card-body">
                   <h3>{post.name}</h3>
@@ -98,10 +98,10 @@ const FoodPostList = ({ isOrphanageView = false }) => {
                       {distanceKm.toFixed(1)} km away
                     </div>
                   )}
-                  <p>{post.requirement ? post.requirement.substring(0, 60) + (post.requirement.length > 60 ? '…' : '') : 'Support needed'}</p>
+                  <p>{post.requirement ? post.requirement.substring(0, 80) + (post.requirement.length > 80 ? '...' : '') : 'Help needed for this cause'}</p>
                   <div className="post-card-progress-wrap">
                     <div className="post-card-progress-bar"><div style={{ width: `${progress}%` }} /></div>
-                    <span className="post-card-progress-text">{post.collectedQuantity || 0} / {post.quantityRequired || 0}</span>
+                    <span className="post-card-progress-text">{post.collectedQuantity || 0} of {post.quantityRequired || 0} fulfilled</span>
                   </div>
                 </div>
               </article>
@@ -111,7 +111,7 @@ const FoodPostList = ({ isOrphanageView = false }) => {
       </div>
       {!loading && posts.length === 0 && (
         <div className="post-list-empty">
-          <p>No requirements yet.</p>
+          <p>No active needs at the moment. Check back soon!</p>
         </div>
       )}
       {!loading && posts.length > 0 && (
