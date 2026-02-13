@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import './Login.css';
 
@@ -26,32 +26,45 @@ const Login = () => {
   };
 
   return (
-    <div className="auth-page">
-      <div className="auth-visual">
-        <div className="auth-visual-overlay">
+    <div className="auth-container">
+      <div className="auth-card">
+        <div className="auth-header">
           <h1>Welcome back</h1>
-          <p>Sign in to continue your mission.</p>
+          <p>Sign in to continue making a difference</p>
         </div>
-      </div>
-      <div className="auth-form-wrap">
-        <div className="auth-card">
-          <h2>Sign in</h2>
-          {error && <div className="auth-error">{error}</div>}
-          <form onSubmit={handleSubmit}>
-            <div className="form-group">
-              <label>Email</label>
-              <input type="email" name="email" value={credentials.email} onChange={handleChange} required />
-            </div>
-            <div className="form-group">
-              <label>Password</label>
-              <input type="password" name="password" value={credentials.password} onChange={handleChange} required />
-            </div>
-            <button type="submit" className="btn-primary auth-submit" disabled={loading}>
-              {loading ? 'Signing in...' : 'Sign in'}
-            </button>
-          </form>
-          <p className="auth-footer">
-            New? <button type="button" className="auth-link" onClick={() => navigate('/signup')}>Sign up</button>
+        {error && <div className="form-error">{error}</div>}
+        <form onSubmit={handleSubmit} className="auth-form">
+          <div className="form-group">
+            <label htmlFor="email">Email address</label>
+            <input 
+              id="email"
+              type="email" 
+              name="email" 
+              value={credentials.email} 
+              onChange={handleChange} 
+              placeholder="you@example.com"
+              required 
+            />
+          </div>
+          <div className="form-group">
+            <label htmlFor="password">Password</label>
+            <input 
+              id="password"
+              type="password" 
+              name="password" 
+              value={credentials.password} 
+              onChange={handleChange} 
+              placeholder="Enter your password"
+              required 
+            />
+          </div>
+          <button type="submit" className="auth-submit" disabled={loading}>
+            {loading ? 'Signing in...' : 'Sign In'}
+          </button>
+        </form>
+        <div className="auth-footer">
+          <p>
+            New to Hopeful Hands? <Link to="/signup">Create an account</Link>
           </p>
         </div>
       </div>

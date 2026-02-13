@@ -27,16 +27,13 @@ const Header = () => {
     <header className="header">
       <div className="header-inner">
         <Link to="/" className="header-logo">
-          <span className="header-logo-icon">🍽</span>
-          <span className="header-logo-text">Muruga Kitchen</span>
+          <span className="header-logo-text">Hopeful Hands</span>
         </Link>
 
         <div className="header-search">
-          <span className="header-location">📍 Bangalore</span>
-          <span className="header-search-divider" />
           <input
             type="search"
-            placeholder="Search requirements..."
+            placeholder="Search for needs, organizations, or locations..."
             className="header-search-input"
             aria-label="Search"
           />
@@ -65,24 +62,24 @@ const Header = () => {
                 <div className="header-overlay" onClick={() => setMenuOpen(false)} aria-hidden="true" />
                 <nav className="header-nav" role="navigation">
                   <button className={`header-nav-item ${isActive('/') ? 'active' : ''}`} onClick={() => handleNav('/')}>Home</button>
-                  <button className={`header-nav-item ${isActive('/donations') ? 'active' : ''}`} onClick={() => handleNav('/donations')}>Requirements</button>
+                  <button className={`header-nav-item ${isActive('/donations') ? 'active' : ''}`} onClick={() => handleNav('/donations')}>Browse Needs</button>
                   {isOrphanage && (
                     <>
-                      <button className={`header-nav-item ${isActive('/my-requirements') ? 'active' : ''}`} onClick={() => handleNav('/my-requirements')}>My posts</button>
-                      <button className={`header-nav-item ${isActive('/create') ? 'active' : ''}`} onClick={() => handleNav('/create')}>Post</button>
+                      <button className={`header-nav-item ${isActive('/my-requirements') ? 'active' : ''}`} onClick={() => handleNav('/my-requirements')}>My Posts</button>
+                      <button className={`header-nav-item ${isActive('/create') ? 'active' : ''}`} onClick={() => handleNav('/create')}>Create Post</button>
                     </>
                   )}
                   <span className="header-nav-divider" />
                   {isAuthenticated ? (
                     <>
                       <button className="header-nav-item" onClick={() => handleNav('/')}>Dashboard</button>
-                      {isHero && <button className={`header-nav-item ${isActive('/awards') ? 'active' : ''}`} onClick={() => handleNav('/awards')}>Awards</button>}
-                      <button className="header-nav-item header-nav-item-logout" onClick={handleLogout}>Sign out</button>
+                      {isHero && <button className={`header-nav-item ${isActive('/awards') ? 'active' : ''}`} onClick={() => handleNav('/awards')}>Recognition</button>}
+                      <button className="header-nav-item header-nav-item-logout" onClick={handleLogout}>Sign Out</button>
                     </>
                   ) : (
                     <>
-                      <button className="header-nav-item" onClick={() => handleNav('/login')}>Sign in</button>
-                      <button className="header-nav-item" onClick={() => handleNav('/signup')}>Sign up</button>
+                      <button className="header-nav-item" onClick={() => handleNav('/login')}>Sign In</button>
+                      <button className="header-nav-item" onClick={() => handleNav('/signup')}>Get Started</button>
                     </>
                   )}
                 </nav>
