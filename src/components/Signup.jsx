@@ -1,7 +1,8 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../context/AuthContext';
 import LocationPicker from './LocationPicker';
+import api from '../utils/api';
 import './Signup.css';
 
 const Signup = () => {
@@ -16,6 +17,8 @@ const Signup = () => {
     countryCode: '+91',
     latitude: 13.0827,
     longitude: 80.2707,
+    stateId: '',
+    cityId: '',
     officialName: '',
     registeredNumber: '',
     contactPersonContact: '',
@@ -29,6 +32,48 @@ const Signup = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [states, setStates] = useState([]);
+  const [cities, setCities] = useState([]);
+  const [loadingStates, setLoadingStates] = useState(false);
+  const [loadingCities, setLoadingCities] = useState(false);
+
+  useEffect(() => {
+    fetchStates();
+  }, []);
+
+  useEffect(() => {
+    if (formData.stateId) {
+      fetchCities(formData.stateId);
+    } else {
+      setCities([]);
+      setFormData(prev => ({ ...prev, cityId: '' }));
+    }
+  }, [formData.stateId]);
+
+  const fetchStates = async () => {
+    setLoadingStates(true);
+    try {
+      const response = await api.get('/states');
+      setStates(response.stateResponseList || []);
+    } catch (err) {
+      console.error('Failed to fetch states:', err);
+    } finally {
+      setLoadingStates(false);
+    }
+  };
+
+  const fetchCities = async (stateId) => {
+    setLoadingCities(true);
+    try {
+      const response = await api.get(`/cities?StateId=${stateId}`);
+      setCities(response.cityResponseList || []);
+    } catch (err) {
+      console.error('Failed to fetch cities:', err);
+      setCities([]);
+    } finally {
+      setLoadingCities(false);
+    }
+  };
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -109,6 +154,39 @@ const Signup = () => {
             <label htmlFor="phoneNumber">Phone number</label>
             <input id="phoneNumber" type="tel" name="phoneNumber" value={formData.phoneNumber} onChange={handleChange} placeholder="+91 98765 43210" required />
           </div>
+          <div className="form-group">
+            <label htmlFor="stateId">State *</label>
+            <select 
+              id="stateId" 
+              name="stateId" 
+              value={formData.stateId} 
+              onChange={handleChange} 
+              required
+              disabled={loadingStates}
+            >
+              <option value="">Select State</option>
+              {states.map(state => (
+                <option key={state.id} value={state.id}>{state.name}</option>
+              ))}
+            </select>
+          </div>
+          <div className="form-group">
+            <label htmlFor="cityId">City *</label>
+            <select 
+              id="cityId" 
+              name="cityId" 
+              value={formData.cityId} 
+              onChange={handleChange} 
+              required
+              disabled={!formData.stateId || loadingCities}
+            >
+              <option value="">Select City</option>
+              {cities.map(city => (
+                <option key={city.id} value={city.id}>{city.cityName}</option>
+              ))}
+            </select>
+          </div>
+
           <div className="form-group">
             <label htmlFor="country">Country</label>
             <input id="country" type="text" name="country" value={formData.country} onChange={handleChange} required />

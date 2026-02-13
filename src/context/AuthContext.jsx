@@ -19,12 +19,17 @@ export const AuthProvider = ({ children }) => {
         const token = localStorage.getItem('muruga-auth-token');
         const role = localStorage.getItem('muruga-user-role');
         const email = localStorage.getItem('muruga-user-email');
-
         const userId = localStorage.getItem('muruga-user-id');
         const orphanageId = localStorage.getItem('muruga-user-orphanage-id');
 
         if (token && role) {
-            setUser({ token, role, email, userId, orphanageId });
+            setUser({ 
+                token, 
+                role, 
+                email, 
+                userId: userId || null, 
+                orphanageId: orphanageId || null 
+            });
         }
         setLoading(false);
     }, []);
@@ -33,16 +38,20 @@ export const AuthProvider = ({ children }) => {
         try {
             const data = await api.post('/auth/login', credentials);
             const { token, roleName, userId, orphanageId } = data;
-            const role = roleName; // Backend returns roleName
+            const role = roleName;
 
             localStorage.setItem('muruga-auth-token', token);
             localStorage.setItem('muruga-user-role', role);
             localStorage.setItem('muruga-user-email', credentials.email);
+            
+            if (userId) {
+                localStorage.setItem('muruga-user-id', userId);
+            }
+            if (orphanageId) {
+                localStorage.setItem('muruga-user-orphanage-id', orphanageId);
+            }
 
-            if (userId) localStorage.setItem('muruga-user-id', userId);
-            if (orphanageId) localStorage.setItem('muruga-user-orphanage-id', orphanageId);
-
-            setUser({ token, role, email: credentials.email, userId, orphanageId });
+            setUser({ token, role, email: credentials.email, userId: userId || null, orphanageId: orphanageId || null });
             return { success: true, role };
         } catch (error) {
             return { success: false, message: error.message };

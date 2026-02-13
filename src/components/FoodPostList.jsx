@@ -6,7 +6,7 @@ import './FoodPostList.css';
 
 const FoodPostList = ({ isOrphanageView = false }) => {
   const navigate = useNavigate();
-  const { user } = useAuth();
+  const { user, loading: authLoading, isOrphanage } = useAuth();
   const [posts, setPosts] = useState([]);
   const [page, setPage] = useState(0);
   const [totalPages, setTotalPages] = useState(0);
@@ -17,10 +17,14 @@ const FoodPostList = ({ isOrphanageView = false }) => {
   const pageTitle = isOrphanageView ? 'My Posts' : 'Active Needs';
 
   const fetchPosts = useCallback(async () => {
+    if (authLoading) return;
     setLoading(true);
     try {
-      const body = isOrphanageView && user?.orphanageId ? { orphanageId: user.orphanageId } : {};
-      const data = await api.post(`/food-posts/getFoodPostList?page=${page}&size=${pageSize}`, body);
+      let url = `/food-posts/getFoodPostList?page=${page}&size=${pageSize}`;
+      if (isOrphanage && user?.orphanageId) {
+        url += `&orphanageId=${user.orphanageId}`;
+      }
+      const data = await api.post(url, {});
       setPosts(data.content);
       setTotalPages(data.totalPages);
       setLast(data.last);
@@ -30,7 +34,7 @@ const FoodPostList = ({ isOrphanageView = false }) => {
     } finally {
       setLoading(false);
     }
-  }, [page, isOrphanageView, user]);
+  }, [page, isOrphanage, user, authLoading]);
 
   useEffect(() => { fetchPosts(); }, [fetchPosts]);
 
